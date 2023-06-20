@@ -1,0 +1,206 @@
+// #include "freertos/timers.h"
+// #include "freertos/event_groups.h"
+TimerHandle_t xTimers[2];
+EventGroupHandle_t xEventGroup;
+
+#define BIT_EVENT_BUTTON_PRESS (1 << 0)
+#define BIT_BIT_EVENT_UART_RECV (1 << 1)
+
+void input_event_callback(int pin)
+{
+    if (pin == GPIO_NUM_0)
+    {
+        // static int level = 0;
+        // gpio_set_level(BLINK_GPIO, level);
+        // level = 1 - level;
+        output_io_toggle(BLINK_GPIO);
+    }
+}
+
+void vTaskBlink(void *pvParameters)
+{
+    for (;;)
+    {
+        printf("run in task Blink\n");
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+
+    // output_io_toggle(BLINK_GPIO);
+}
+void vTask1(void *pvParameters)
+{
+    for (;;)
+    {
+        EventBits_t uxBits = xEventGroupWaitBits(
+            xEventGroup,                                      /* The event group being tested. */
+            BIT_EVENT_BUTTON_PRESS | BIT_BIT_EVENT_UART_RECV, /* The bits within the event group to wait for. */
+            pdTRUE,                                           /* BIT_EVENT_BUTTON_PRESS & BIT_BIT_EVENT_UART_RECV should be cleared before returning. */
+            pdFALSE,                                          /* Don't wait for both bits, either bit will do. */
+            portMAX_DELAY);
+        if (uxBits & BIT_EVENT_BUTTON_PRESS)
+        {
+            printf("Button press\n");
+            output_io_toggle(BLINK_GPIO);
+        }
+        else if (uxBits & BIT_BIT_EVENT_UART_RECV)
+        {
+            printf("uart data\n");
+        } /* Wait a maximum of 100ms for either bit to be set. */
+    }
+}
+
+void vTimerCallback(TimerHandle_t xTimer)
+{
+    uint32_t ulCount;
+
+    /* Optionally do something if the pxTimer parameter is NULL. */
+    configASSERT(xTimer);
+
+    /* The number of times this timer has expired is saved as the
+    timer's ID.  Obtain the count. */
+    ulCount = (uint32_t)pvTimerGetTimerID(xTimer);
+
+    /* If the timer has expired 10 times then stop it from running. */
+    if (ulCount == 0) // Timer 0
+    {
+        // printf("Blink\n");
+        output_io_toggle(BLINK_GPIO);
+    }
+    else if (ulCount == 1) // Timer 1
+    {
+        printf("Hello\n");
+    }
+}
+
+void button_callback(int pin)
+{
+    if (pin == GPIO_NUM_12)
+    {
+        xEventGroupSetBits(xEventGroup, BIT_EVENT_BUTTON_PRESS);
+    }
+}
+void uart_event_task(void *pvParameters)
+{
+    // uart_event_t event;
+    // size_t buffered_size;
+    // uint8_t *dtmp = (uint8_t *)malloc(RD_BUF_SIZE);
+    for (;;)
+    {
+        uart_write_bytes(EX_UART_NUM, "Chuan cmnr", 10);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTask
+        // Waiting for UART event.
+        //     if (xQueueReceive(uart0_queue, (void *)&event, (TickType_t)portMAX_DELAY))
+        //     {
+        //         bzero(dtmp, RD_BUF_SIZE);
+        //         // ESP_LOGI(TAG, "uart[%d] event:", EX_UART_NUM);
+        //         switch (event.type)
+        //         {
+        //         // Event of UART receving data
+        //         /*We'd better handler data event fast, there would be much more data events than
+        //         other types of events. If we take too much time on data event, the queue might
+        //         be full.*/
+        //         case UART_DATA:
+        //             // ESP_LOGI(TAG, "[UART DATA]: %d", event.size);
+        //             uart_read_bytes(EX_UART_NUM, dtmp, event.size, portMAX_DELAY);
+        //             if (strcmp((const char *)dtmp, "TOGGLE") == 0)
+        //                 output_io_toggle(2);
+        //             //  ESP_LOGI(TAG, "[DATA EVT]:");
+        //             //    uart_write_bytes(EX_UART_NUM, (const char *)dtmp, event.size);
+        //             uart_write_bytes(EX_UART_NUM, "Chuan cmnr", 10);
+        //             break;
+        //         // Event of HW FIFO overflow detected
+        //         case UART_FIFO_OVF:
+        //             ESP_LOGI(TAG, "hw fifo overflow");
+        //             // If fifo overflow happened, you should consider adding flow control for your application.
+        //             // The ISR has already reset the rx FIFO,
+        //             // As an example, we directly flush the rx buffer here in order to read more data.
+        //             uart_flush_input(EX_UART_NUM);
+        //             xQueueReset(uart0_queue);
+        //             break;
+        //         // Event of UART ring buffer full
+        //         case UART_BUFFER_FULL:
+        //             ESP_LOGI(TAG, "ring buffer full");
+        //             // If buffer full happened, you should consider encreasing your buffer size
+        //             // As an example, we directly flush the rx buffer here in order to read more data.
+        //             uart_flush_input(EX_UART_NUM);
+        //             xQueueReset(uart0_queue);
+        //             break;
+        //         // Event of UART RX break detected
+        //         case UART_BREAK:
+        //             ESP_LOGI(TAG, "uart rx break");
+        //             break;
+        //         // Event of UART parity check error
+        //         case UART_PARITY_ERR:
+        //             ESP_LOGI(TAG, "uart parity error");
+        //             break;
+        //         // Event of UART frame error
+        //         case UART_FRAME_ERR:
+        //             ESP_LOGI(TAG, "uart frame error");
+        //             break;
+        //         // UART_PATTERN_DET
+        //         case UART_PATTERN_DET:
+        //             uart_get_buffered_data_len(EX_UART_NUM, &buffered_size);
+        //             int pos = uart_pattern_pop_pos(EX_UART_NUM);
+        //             ESP_LOGI(TAG, "[UART PATTERN DETECTED] pos: %d, buffered size: %d", pos, buffered_size);
+        //             if (pos == -1)
+        //             {
+        //                 // There used to be a UART_PATTERN_DET event, but the pattern position queue is full so that it can not
+        //                 // record the position. We should set a larger queue size.
+        //                 // As an example, we directly flush the rx buffer here.
+        //                 uart_flush_input(EX_UART_NUM);
+        //             }
+        //             else
+        //             {
+        //                 uart_read_bytes(EX_UART_NUM, dtmp, pos, 100 / portTICK_PERIOD_MS);
+        //                 uint8_t pat[PATTERN_CHR_NUM + 1];
+        //                 memset(pat, 0, sizeof(pat));
+        //                 uart_read_bytes(EX_UART_NUM, pat, PATTERN_CHR_NUM, 100 / portTICK_PERIOD_MS);
+        //                 ESP_LOGI(TAG, "read data: %s", dtmp);
+        //                 ESP_LOGI(TAG, "read pat : %s", pat);
+        //             }
+        //             break;
+        //         // Others
+        //         default:
+        //             ESP_LOGI(TAG, "uart event type: %d", event.type);
+        //             break;
+        //         }
+        //     }
+    }
+    // free(dtmp);
+    // dtmp = NULL;
+    // vTaskDelete(NULL);
+}
+#if (0)
+xTimers[0] = xTimerCreate("TimerBlink", pdMS_TO_TICKS(500), pdTRUE, (void *)0, vTimerCallback);
+xTimers[1] = xTimerCreate("TimerPrint", pdMS_TO_TICKS(1000), pdTRUE, (void *)1, vTimerCallback);
+
+output_io_create(BLINK_GPIO);
+input_io_create(GPIO_NUM_12, HIGH_TO_LOW);
+input_set_callback(button_callback);
+
+xTimerStart(xTimers[0], 0);
+xTimerStart(xTimers[1], 0);
+
+xEventGroup = xEventGroupCreate();
+#endif
+
+/* Create the task, storing the handle. */
+#if (0)
+xTaskCreate(
+    vTask1,  /* Function that implements the task. */
+    "task1", /* Text name for the task. */
+    1024,    /* Stack size in words, not bytes. */
+    NULL,    /* Parameter passed into the task. */
+    4,       /* Priority at which the task is created. */
+    NULL);   /* Used to pass out the created task's handle. */
+#endif
+#if (0)
+xTaskCreate(
+    vTaskBlink,   /* Function that implements the task. */
+    "vTaskBlink", /* Text name for the task. */
+    1024,         /* Stack size in words, not bytes. */
+    NULL,         /* Parameter passed into the task. */
+    4,            /* Priority at which the task is created. */
+    NULL);        /* Used to pass out the created task's handle. */
+#endif
