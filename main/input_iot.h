@@ -1,7 +1,7 @@
 #ifndef INPUT_IOT_H
 #define INPUT_IOT_H
-#define BUTTON_1 GPIO_NUM_0
-#define BUTTON_2 GPIO_NUM_13
+#define BUTTON_2 GPIO_NUM_0
+#define BUTTON_1 GPIO_NUM_13
 #include "esp_err.h"
 #include "hal/gpio_types.h"
 

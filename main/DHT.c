@@ -155,5 +155,5 @@ void convertString(int data, char *chuoi)
     }
     for (uint8_t index = 0; index < length; index++)
         chuoi[index] = chuoi_luu[length - index - 1];
-    chuoi_luu[++length] = '\n';
+    // chuoi_luu[++length] = '\n';
 }

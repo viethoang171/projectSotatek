@@ -1,7 +1,7 @@
 #ifndef UART_H
 #define UART_H
-#define UART_TX 17
-#define UART_RX 16
+#define UART_TX GPIO_NUM_17
+#define UART_RX GPIO_NUM_16
 /**
  * This example shows how to use the UART driver to handle special UART events.
  *

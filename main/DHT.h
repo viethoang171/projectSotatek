@@ -24,6 +24,7 @@
 
 #ifndef DHT_H_
 #define DHT_H_
+#define DHT_DATA GPIO_NUM_4
 #define LEVEL_TEMPERATURE 27
 #define LEVEL_HUMIDITY 80
 #include "driver/gpio.h"

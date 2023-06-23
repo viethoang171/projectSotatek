@@ -23,24 +23,23 @@ void flash_open(esp_err_t *err, nvs_handle_t *my_handle)
 uint8_t flash_read_u8(esp_err_t *err, nvs_handle_t *my_handle, uint8_t *value)
 {
     *err = nvs_get_u8(*my_handle, "gia tri", value);
+    uint8_t gia_tri = *value;
 
     switch (*err)
     {
     case ESP_OK:
-        if (*value == 0)
-            // printf("Read successfully!\n");
-            return 0;
-        else
-            return 1;
+        return (gia_tri);
         break;
     case ESP_ERR_NVS_NOT_FOUND:
-        return 2;
+        return 6;
         // printf("The value is not initialized yet!\n");
         break;
     default:
-        return 3;
+        return 7;
+        break;
         // printf("Error (%s) reading!\n", esp_err_to_name(*err));
     }
+    return 6;
 }
 uint8_t flash_write_u8(esp_err_t *err, nvs_handle_t *my_handle, uint8_t *value)
 {
