@@ -1,11 +1,9 @@
-/* UART Events Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
+/**
+ * @file uart.c
+ * @author nguyen__viet_hoang
+ * @date 25 June 2023
+ * @brief module uart, API create for others functions
+ */
 #include <stdio.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -14,14 +12,12 @@
 #include "driver/uart.h"
 #include "esp_log.h"
 #include "uart.h"
-#include "output_iot.h"
+#include "output_gpio.h"
 
 extern QueueHandle_t uart0_queue;
 extern char *TAG;
-//  extern TaskHandle_t xHandle;
-//  extern bool flag_run;
-//  extern int flag_delay;
-void uart_create()
+
+void uart_vCreate()
 {
    uart_config_t uart_config = {
        .baud_rate = 115200,

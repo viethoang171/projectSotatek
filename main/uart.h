@@ -1,19 +1,13 @@
+/**
+ * @file uart.h
+ * @author nguyen__viet_hoang
+ * @date 25 June 2023
+ * @brief module uart, API create for others functions, config Pins for UART
+ */
 #ifndef UART_H
 #define UART_H
 #define UART_TX GPIO_NUM_17
 #define UART_RX GPIO_NUM_16
-/**
- * This example shows how to use the UART driver to handle special UART events.
- *
- * It also reads data from UART0 directly, and echoes it to console.
- *
- * - Port: UART0
- * - Receive (Rx) buffer: on
- * - Transmit (Tx) buffer: off
- * - Flow control: off
- * - Event queue: on
- * - Pin assignment: TxD (default), RxD (default)
- */
 
 #define EX_UART_NUM UART_NUM_0
 #define PATTERN_CHR_NUM (3) /*!< Set the number of consecutive and identical characters received by receiver which defines a UART pattern*/
@@ -21,6 +15,5 @@
 #define BUF_SIZE (1024)
 #define RD_BUF_SIZE (BUF_SIZE)
 
-void uart_create();
-void uart_receive_data_host_main(void *pvParameters);
+void uart_vCreate();
 #endif

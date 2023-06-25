@@ -1,5 +1,11 @@
-#ifndef INPUT_IOT_H
-#define INPUT_IOT_H
+/**
+ * @file button.h
+ * @author nguyen__viet_hoang
+ * @date 25 June 2023
+ * @brief module for input button with GPIO, API "create", "call back" for others functions
+ */
+#ifndef BUTTON_H
+#define BUTTON_H
 #define BUTTON_2 GPIO_NUM_0
 #define BUTTON_1 GPIO_NUM_13
 #include "esp_err.h"
@@ -21,6 +27,6 @@ typedef enum
 
 typedef void (*input_callback_t)(int);
 
-void input_io_create(gpio_num_t gpio_num, interrupt_type_edge_t type);
-void input_set_callback(void *callbackk);
+void button_vCreateInput(gpio_num_t gpio_num, interrupt_type_edge_t type);
+void button_vSetCallback(void *callbackk);
 #endif

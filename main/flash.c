@@ -1,34 +1,44 @@
+/**
+ * @file flash.c
+ * @author nguyen__viet_hoang
+ * @date 25 June 2023
+ * @brief module for process with flash memory, API "init", "open", "close", "read", "write" for others functions
+ */
 #include <stdio.h>
 #include "esp_system.h"
 #include "nvs_flash.h"
 #include "nvs.h"
 #include "esp_err.h"
 #include "flash.h"
-void flash_init(esp_err_t *err)
+void flash_vFlashInit(esp_err_t *pErr)
 {
-    (*err) = nvs_flash_init();
-    if ((*err) == ESP_ERR_NVS_NO_FREE_PAGES || (*err) == ESP_ERR_NVS_NEW_VERSION_FOUND)
+    (*pErr) = nvs_flash_init();
+    if ((*pErr) == ESP_ERR_NVS_NO_FREE_PAGES || (*pErr) == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
         // NVS partition was truncated and needs to be erased
         // Retry nvs_flash_init
         ESP_ERROR_CHECK(nvs_flash_erase());
-        *err = nvs_flash_init();
+        *pErr = nvs_flash_init();
     }
-    ESP_ERROR_CHECK(*err);
+    ESP_ERROR_CHECK(*pErr);
 }
-void flash_open(esp_err_t *err, nvs_handle_t *my_handle)
+void flash_vFlashOpen(esp_err_t *pErr, nvs_handle_t *p_myHandle)
 {
-    *err = nvs_open("storage", NVS_READWRITE, my_handle);
+    *pErr = nvs_open("storage", NVS_READWRITE, p_myHandle);
 }
-uint8_t flash_read_u8(esp_err_t *err, nvs_handle_t *my_handle, uint8_t *value)
+void flash_vFlashClose(nvs_handle_t *p_myHandle)
 {
-    *err = nvs_get_u8(*my_handle, "gia tri", value);
-    uint8_t gia_tri = *value;
+    nvs_close(p_myHandle);
+}
+uint8_t flash_u8FlashReadU8(esp_err_t *pErr, nvs_handle_t *p_myHandle, uint8_t *pu8_Value)
+{
+    *pErr = nvs_get_u8(*p_myHandle, "gia tri", pu8_Value);
+    uint8_t u8GiaTri = *pu8_Value;
 
-    switch (*err)
+    switch (*pErr)
     {
     case ESP_OK:
-        return (gia_tri);
+        return (u8GiaTri);
         break;
     case ESP_ERR_NVS_NOT_FOUND:
         return 6;
@@ -41,15 +51,15 @@ uint8_t flash_read_u8(esp_err_t *err, nvs_handle_t *my_handle, uint8_t *value)
     }
     return 6;
 }
-uint8_t flash_write_u8(esp_err_t *err, nvs_handle_t *my_handle, uint8_t *value)
+uint8_t flash_u8FlashWriteU8(esp_err_t *pErr, nvs_handle_t *p_myHandle, uint8_t *pu8_Value)
 {
-    *err = nvs_set_u8(*my_handle, "gia tri", *value);
-    uint8_t gia_tri = 0;
-    if (*err == ESP_OK)
-        gia_tri = 1;
-    // printf((*err != ESP_OK) ? "Update Failed!\n" : "Update Success\n");
-    *err = nvs_commit(*my_handle);
-    // printf((*err != ESP_OK) ? "Commit Failed!\n" : "Commit Success\n");
-    nvs_close(&my_handle);
-    return gia_tri;
+    *pErr = nvs_set_u8(*p_myHandle, "gia tri", *pu8_Value);
+    uint8_t u8GiaTri = 0;
+    if (*pErr == ESP_OK)
+        u8GiaTri = 1;
+    // printf((*pErr != ESP_OK) ? "Update Failed!\n" : "Update Success\n");
+    *pErr = nvs_commit(*p_myHandle);
+    // printf((*pErr != ESP_OK) ? "Commit Failed!\n" : "Commit Success\n");
+    nvs_close(&p_myHandle);
+    return u8GiaTri;
 }

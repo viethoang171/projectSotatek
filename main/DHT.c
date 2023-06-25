@@ -1,25 +1,8 @@
-/*
- * MIT License
- *
- * Copyright (c) 2018 Michele Biondi
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+/**
+ * @file DHT.c
+ * @author nguyen__viet_hoang
+ * @date 25 June 2023
+ * @brief module for read signal DHT11, API "init", "read", "convert format signal" for others functions
  */
 
 #include "esp_timer.h"
@@ -27,25 +10,26 @@
 #include "rom/ets_sys.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/portmacro.h"
 #include "DHT.h"
 
 static gpio_num_t dht_gpio;
-static int64_t last_read_time = -2000000;
-static struct dht11_reading last_read;
+static int64_t i64Last_read_time = -2000000;
+static struct dht11_reading sLast_read;
 
-static int _waitOrTimeout(uint16_t microSeconds, int level)
+static uint32_t DHT_u32WaitOrTimeOut(uint16_t u16MicroSeconds, uint8_t u8Level)
 {
-    int micros_ticks = 0;
-    while (gpio_get_level(dht_gpio) == level)
+    uint32_t u32Micros_ticks = 0;
+    while (gpio_get_level(dht_gpio) == u8Level)
     {
-        if (micros_ticks++ > microSeconds)
+        if (u32Micros_ticks++ > u16MicroSeconds)
             return DHT11_TIMEOUT_ERROR;
         ets_delay_us(1);
     }
-    return micros_ticks;
+    return u32Micros_ticks;
 }
 
-static int _checkCRC(uint8_t data[])
+static int DHT_i32CheckCRC(uint8_t data[])
 {
     if (data[4] == (data[0] + data[1] + data[2] + data[3]))
         return DHT11_OK;
@@ -53,7 +37,7 @@ static int _checkCRC(uint8_t data[])
         return DHT11_CRC_ERROR;
 }
 
-static void _sendStartSignal()
+static void DHT_vSendStartSignal()
 {
     gpio_set_direction(dht_gpio, GPIO_MODE_OUTPUT);
     gpio_set_level(dht_gpio, 0);
@@ -63,97 +47,96 @@ static void _sendStartSignal()
     gpio_set_direction(dht_gpio, GPIO_MODE_INPUT);
 }
 
-static int _checkResponse()
+static int DHT_i32CheckResponse()
 {
     /* Wait for next step ~80us*/
-    if (_waitOrTimeout(80, 0) == DHT11_TIMEOUT_ERROR)
+    if (DHT_u32WaitOrTimeOut(80, 0) == DHT11_TIMEOUT_ERROR)
         return DHT11_TIMEOUT_ERROR;
 
     /* Wait for next step ~80us*/
-    if (_waitOrTimeout(80, 1) == DHT11_TIMEOUT_ERROR)
+    if (DHT_u32WaitOrTimeOut(80, 1) == DHT11_TIMEOUT_ERROR)
         return DHT11_TIMEOUT_ERROR;
 
     return DHT11_OK;
 }
 
-static struct dht11_reading _timeoutError()
+static struct dht11_reading DHT_sTimeOutError()
 {
     struct dht11_reading timeoutError = {DHT11_TIMEOUT_ERROR, -1, -1};
     return timeoutError;
 }
 
-static struct dht11_reading _crcError()
+static struct dht11_reading DHT_sCrcError()
 {
     struct dht11_reading crcError = {DHT11_CRC_ERROR, -1, -1};
     return crcError;
 }
 
-void DHT11_init(gpio_num_t gpio_num)
+void DHT11_vInit(gpio_num_t gpio_num)
 {
     /* Wait 1 seconds to make the device pass its initial unstable status */
     vTaskDelay(1000 / portTICK_PERIOD_MS);
     dht_gpio = gpio_num;
 }
 
-struct dht11_reading DHT11_read()
+struct dht11_reading DHT11_sRead()
 {
     /* Tried to sense too son since last read (dht11 needs ~2 seconds to make a new read) */
-    if (esp_timer_get_time() - 2000000 < last_read_time)
+    if (esp_timer_get_time() - 2000000 < i64Last_read_time)
     {
-        return last_read;
+        return sLast_read;
     }
 
-    last_read_time = esp_timer_get_time();
+    i64Last_read_time = esp_timer_get_time();
 
     uint8_t data[5] = {0, 0, 0, 0, 0};
 
-    _sendStartSignal();
+    DHT_vSendStartSignal();
 
-    if (_checkResponse() == DHT11_TIMEOUT_ERROR)
-        return last_read = _timeoutError();
+    if (DHT_i32CheckResponse() == DHT11_TIMEOUT_ERROR)
+        return sLast_read = DHT_sTimeOutError();
 
     /* Read response */
-    for (int i = 0; i < 40; i++)
+    for (uint8_t i = 0; i < 40; i++)
     {
         /* Initial data */
-        if (_waitOrTimeout(50, 0) == DHT11_TIMEOUT_ERROR)
-            return last_read = _timeoutError();
+        if (DHT_u32WaitOrTimeOut(50, 0) == DHT11_TIMEOUT_ERROR)
+            return sLast_read = DHT_sTimeOutError();
 
-        if (_waitOrTimeout(70, 1) > 28)
+        if (DHT_u32WaitOrTimeOut(70, 1) > 28)
         {
             /* Bit received was a 1 */
             data[i / 8] |= (1 << (7 - (i % 8)));
         }
     }
 
-    if (_checkCRC(data) != DHT11_CRC_ERROR)
+    if (DHT_i32CheckCRC(data) != DHT11_CRC_ERROR)
     {
-        last_read.status = DHT11_OK;
-        last_read.temperature = data[2];
-        last_read.humidity = data[0];
-        return last_read;
+        sLast_read.status = DHT11_OK;
+        sLast_read.temperature = data[2];
+        sLast_read.humidity = data[0];
+        return sLast_read;
     }
     else
     {
-        return last_read = _crcError();
+        return sLast_read = DHT_sCrcError();
     }
 }
 
-void convertString(int data, char *chuoi)
+void DHT_vConvertString(uint8_t u8Data, char *chuoi)
 {
-    uint8_t length = 0;
+    uint8_t u8Length_string = 0;
     char chuoi_luu[5];
-    if (data == 0)
+    if (u8Data == 0)
     {
-        chuoi[++length] = '0';
+        chuoi[++u8Length_string] = '0';
         return;
     }
-    while (data != 0)
+    while (u8Data != 0)
     {
-        chuoi_luu[length++] = (char)(data % 10 + 48);
-        data /= 10;
+        chuoi_luu[u8Length_string++] = (char)(u8Data % 10 + 48);
+        u8Data /= 10;
     }
-    for (uint8_t index = 0; index < length; index++)
-        chuoi[index] = chuoi_luu[length - index - 1];
-    // chuoi_luu[++length] = '\n';
+    for (uint8_t u8Index = 0; u8Index < u8Length_string; u8Index++)
+        chuoi[u8Index] = chuoi_luu[u8Length_string - u8Index - 1];
 }
