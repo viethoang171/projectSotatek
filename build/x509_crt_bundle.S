@@ -1,4 +1,4 @@
-/* * Data converted from D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from D:/Sotatek/sample_project/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded

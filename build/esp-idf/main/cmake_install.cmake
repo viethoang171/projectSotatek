@@ -1,4 +1,4 @@
-# Install script for directory: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/main
+# Install script for directory: D:/Sotatek/sample_project/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

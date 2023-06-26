@@ -1321,10 +1321,105 @@ rule C_STATIC_LIBRARY_LINKER____idf_main_
 
 
 #############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_DHT11_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_DHT11_
+  command = cmd.exe /C "$PRE_LINK && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -E rm -f $TARGET_FILE && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_button_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_button_
+  command = cmd.exe /C "$PRE_LINK && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -E rm -f $TARGET_FILE && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_flash_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_flash_
+  command = cmd.exe /C "$PRE_LINK && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -E rm -f $TARGET_FILE && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_output_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_output_
+  command = cmd.exe /C "$PRE_LINK && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -E rm -f $TARGET_FILE && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_uart_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_uart_
+  command = cmd.exe /C "$PRE_LINK && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -E rm -f $TARGET_FILE && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe --regenerate-during-build -SD:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project -BD:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build
+  command = D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe --regenerate-during-build -SD:\Sotatek\sample_project -BD:\Sotatek\sample_project\build
   description = Re-running CMake...
   generator = 1
 

@@ -13,7 +13,6 @@
 #include <driver/uart.h>
 #include "string.h"
 #include "esp_log.h"
-#include "driver/gpio.h"
 #include "sdkconfig.h"
 #include "button.h"
 #include "output_gpio.h"
@@ -22,9 +21,6 @@
 #include "nvs_flash.h"
 #include "flash.h"
 
-#define COMMAND_A "A"
-#define COMMAND_B "B"
-#define COMMAND_C "C"
 QueueHandle_t uart0_queue;
 char *TAG = "uart_events";
 
@@ -58,17 +54,6 @@ void app_main(void)
     output_vCreate(LED_RED);
 
     DHT11_vInit(DHT_DATA);
-
-    printf("Init\n");
-
-    flash_vFlashOpen(&err_flash, &my_handle_flash);
-    u8Flag_run = flash_u8FlashReadU8(&err_flash, &my_handle_flash, &u8Flash_data);
-    u8Flag_delay = u8Flag_run % 10;
-    u8Flag_run /= 10;
-    printf("u8Flash_data: %d\n", u8Flash_data);
-    printf("u8Flag_run: %d\n", u8Flag_run);
-    printf("u8Flag_delay: %d\n", u8Flag_delay);
-    flash_vFlashClose(&my_handle_flash);
 
     //    Create a task to handler UART event from ISR
     xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 2048, NULL, 5, NULL);
@@ -163,21 +148,24 @@ void dht11_vReadDataDht11_task(void *pvParameters)
 void uart_vUpDataHostMain_task(void *pvParameters)
 {
     // printf("run in uart_vUpDataHostMain_task\n");
-    char chuoi_temp[13] = {'N', 'h', 'i', 'e', 't', ' ', 'd', 'o', ':', ' '};
-    chuoi_temp[12] = '\n';
-    char chuoi_hum[11] = {'D', 'o', ' ', 'a', 'm', ':', ' '};
-    chuoi_hum[10] = '\n';
+    char chuoi_temp[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_TEMP, 0x00, 0x02};
+    char chuoi_hum[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_HUMI, 0x00, 0x02};
     for (;;)
     {
         if (u8Flag_run == 0)
         {
-            printf("\n");
-            DHT_vConvertString(u8Temperature, chuoi_temp + 10);
-            DHT_vConvertString(u8Humidity, chuoi_hum + 7);
+            // printf("\n");
+            DHT_vConvertString(u8Temperature, chuoi_temp + 6);
+            DHT_vCreateCheckSum(chuoi_temp);
+            DHT_vConvertString(u8Humidity, chuoi_hum + 6);
+            DHT_vCreateCheckSum(chuoi_hum);
 
-            uart_write_bytes(EX_UART_NUM, chuoi_temp, 13);
-            uart_write_bytes(EX_UART_NUM, chuoi_hum, 11);
+            uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
+            uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
             // printf("Printed\n");
+        }
+        else
+        {
         }
         // printf("task2\n");
 
@@ -212,9 +200,8 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
         // printf("run in UART event\n");
         if (xQueueReceive(uart0_queue, (void *)&event, (TickType_t)portMAX_DELAY))
         {
-            printf("run in xQueueReceive\n");
+            // printf("run in xQueueReceive\n");
             bzero(dtmp, RD_BUF_SIZE);
-            // ESP_LOGI(TAG, "uart[%d] event:", EX_UART_NUM);
             switch (event.type)
             {
             // Event of UART receving data
@@ -222,7 +209,6 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
             other types of events. If we take too much time on data event, the queue might
             be full.*/
             case UART_DATA:
-                // ESP_LOGI(TAG, "[UART DATA]: %d", event.size);
                 uart_read_bytes(EX_UART_NUM, dtmp, event.size, portMAX_DELAY);
                 if (strcmp((char *)dtmp, COMMAND_A) == 0)
                 {
@@ -252,7 +238,6 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                 break;
             // Others
             default:
-                // ESP_LOGI(TAG, "uart event type: %d", event.type);
                 break;
             }
         }
