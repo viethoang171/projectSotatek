@@ -116,8 +116,6 @@ void button_vEventCallback(int pin)
 
 void dht11_vReadDataDht11_task(void *pvParameters)
 {
-
-    // printf("run in dht11_vReadDataDht11_task\n");
     for (;;)
     {
         if (DHT11_sRead().status == DHT11_OK)
@@ -144,23 +142,19 @@ void dht11_vReadDataDht11_task(void *pvParameters)
             {
                 output_vSetLevel(LED_RED, HIGH_LEVEL);
             }
-            // printf("Measured\n");
         }
-        // printf("task1\n");
         vTaskDelay(FREQUENCY_1S / portTICK_PERIOD_MS);
     }
 }
 
 void uart_vUpDataHostMain_task(void *pvParameters)
 {
-    // printf("run in uart_vUpDataHostMain_task\n");
     char chuoi_temp[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_TEMP, 0x00, 0x02};
     char chuoi_hum[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_HUMI, 0x00, 0x02};
     for (;;)
     {
         if (u8Flag_run == 0)
         {
-            // printf("\n");
             DHT_vConvertString(u8Temperature, chuoi_temp + 6);
             DHT_vCreateCheckSum(chuoi_temp);
             DHT_vConvertString(u8Humidity, chuoi_hum + 6);
@@ -168,12 +162,10 @@ void uart_vUpDataHostMain_task(void *pvParameters)
 
             uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
             uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
-            // printf("Printed\n");
         }
         else
         {
         }
-        // printf("task2\n");
 
         if (u8Flag_delay == TIME_DELAY_1S)
         {
@@ -203,10 +195,8 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
     for (;;)
     {
         // Waiting for UART event.
-        // printf("run in UART event\n");
         if (xQueueReceive(uart0_queue, (void *)&event, (TickType_t)portMAX_DELAY))
         {
-            // printf("run in xQueueReceive\n");
             bzero(dtmp, RD_BUF_SIZE);
             switch (event.type)
             {
@@ -216,30 +206,60 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
             be full.*/
             case UART_DATA:
                 uart_read_bytes(EX_UART_NUM, dtmp, event.size, portMAX_DELAY);
-                if (strcmp((char *)dtmp, COMMAND_A) == 0)
+                uint8_t u8Check_sum = 0;
+                for (uint8_t u8Index = 0; u8Index < FRAME_DATA_LENGTH - 1; u8Index++)
+                    u8Check_sum = u8Check_sum + dtmp[u8Index];
+                if (dtmp[2] == COMMAND_HOST_MAIN && u8Check_sum == dtmp[FRAME_DATA_LENGTH - 1])
                 {
-                    flash_vFlashOpen(&err_flash, &my_handle_flash);
-                    u8Flash_data = u8Flash_data % 10 + 10;
-                    u8Flag_run = 1;
-                    flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
-                    vTaskSuspend(xHandle);
+                    if (dtmp[4] == COMMAND_A)
+                    {
+                        flash_vFlashOpen(&err_flash, &my_handle_flash);
+                        u8Flash_data = u8Flash_data % 10 + 10;
+                        u8Flag_run = 1;
+                        flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
+                        vTaskSuspend(xHandle);
+                    }
+                    else if (dtmp[4] == COMMAND_B)
+                    {
+                        flash_vFlashOpen(&err_flash, &my_handle_flash);
+                        u8Flash_data = u8Flash_data % 10;
+                        u8Flag_run = 0;
+                        flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
+                        vTaskResume(xHandle);
+                    }
+                    else if (dtmp[4] == COMMAND_C)
+                    {
+                        uint8_t u8Time_delay_command = dtmp[7];
+                        if (u8Time_delay_command == 0x01 || u8Time_delay_command == 0x05 || u8Time_delay_command == 0x0A || u8Time_delay_command == 0X0F)
+                            output_vToggle(BLINK_GPIO);
+                        else
+                        {
+                            break;
+                        }
+                        flash_vFlashOpen(&err_flash, &my_handle_flash);
+                        switch (u8Time_delay_command)
+                        {
+                        case (FREQUENCY_1S / 1000):
+                            u8Flag_delay = TIME_DELAY_1S;
+                            break;
+                        case (FREQUENCY_5S / 1000):
+                            u8Flag_delay = TIME_DELAY_5S;
+                            break;
+                        case (FREQUENCY_10S / 1000):
+                            u8Flag_delay = TIME_DELAY_10S;
+                            break;
+                        case (FREQUENCY_15S / 1000):
+                            u8Flag_delay = TIME_DELAY_15S;
+                        default:
+                            break;
+                        }
+                        u8Flash_data /= 10;
+                        u8Flash_data = u8Flash_data * 10 + u8Flag_delay;
+                        flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
+                    }
                 }
-                else if (strcmp((char *)dtmp, COMMAND_B) == 0)
+                else
                 {
-                    flash_vFlashOpen(&err_flash, &my_handle_flash);
-                    u8Flash_data = u8Flash_data % 10;
-                    u8Flag_run = 0;
-                    flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
-                    vTaskResume(xHandle);
-                }
-                else if (strcmp((char *)dtmp, COMMAND_C) == 0)
-                {
-                    flash_vFlashOpen(&err_flash, &my_handle_flash);
-                    u8Flag_delay = u8Flash_data % 10;
-                    u8Flag_delay = (u8Flag_delay + 1) % 4;
-                    u8Flash_data /= 10;
-                    u8Flash_data = u8Flash_data * 10 + u8Flag_delay;
-                    flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
                 }
                 break;
             // Others
