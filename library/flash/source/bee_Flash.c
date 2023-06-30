@@ -1,5 +1,5 @@
 /**
- * @file flash.c
+ * @file bee_FLash.c
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for process with flash memory, API "init", "open", "close", "read", "write" for others functions
@@ -9,7 +9,7 @@
 #include "nvs_flash.h"
 #include "nvs.h"
 #include "esp_err.h"
-#include "flash.h"
+#include "bee_FLash.h"
 void flash_vFlashInit(esp_err_t *pErr)
 {
     (*pErr) = nvs_flash_init();

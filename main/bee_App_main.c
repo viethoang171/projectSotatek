@@ -1,5 +1,5 @@
 /**
- * @file app_main.c
+ * @file bee_App_main.c
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for project read signal DHT11, up data to host main, receive signal from host main
@@ -14,12 +14,12 @@
 #include "string.h"
 #include "esp_log.h"
 #include "sdkconfig.h"
-#include "button.h"
-#include "output_gpio.h"
-#include "uart.h"
-#include "DHT.h"
+#include "bee_Button.h"
+#include "bee_Led.h"
+#include "bee_Uart.h"
+#include "bee_DHT.h"
 #include "nvs_flash.h"
-#include "flash.h"
+#include "bee_FLash.h"
 
 QueueHandle_t uart0_queue;
 char *TAG = "uart_events";

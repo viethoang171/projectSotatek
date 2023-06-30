@@ -1,5 +1,5 @@
 /**
- * @file output_gpio.c
+ * @file bee_Led.c
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for output with GPIO, API "create", "set level", "toggle" for others functions
@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <esp_log.h>
 #include <driver/gpio.h>
-#include "output_gpio.h"
+#include "bee_Led.h"
 
 void output_vCreate(gpio_num_t gpio_num)
 {

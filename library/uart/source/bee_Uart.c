@@ -1,5 +1,5 @@
 /**
- * @file uart.c
+ * @file bee_Uart.c
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module uart, API create for others functions
@@ -11,8 +11,8 @@
 #include "freertos/queue.h"
 #include "driver/uart.h"
 #include "esp_log.h"
-#include "uart.h"
-#include "output_gpio.h"
+#include "bee_Led.h"
+#include "bee_Uart.h"
 
 extern QueueHandle_t uart0_queue;
 extern char *TAG;

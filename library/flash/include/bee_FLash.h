@@ -1,11 +1,11 @@
 /**
- * @file flash.h
+ * @file bee_Flash.h
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for process with flash memory, API "init", "open", "close", "read", "write" for others functions and some macro for flag
  */
-#ifndef FLASH_H
-#define FLASH_H
+#ifndef BEE_FLASH_H
+#define BEE_FLASH_H
 #define TIME_DELAY_1S 0
 #define TIME_DELAY_5S 1
 #define TIME_DELAY_10S 2

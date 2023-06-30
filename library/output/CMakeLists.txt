@@ -1,4 +1,4 @@
-set(component_srcs "source/output_gpio.c")
+set(component_srcs "source/bee_Led.c")
 
 idf_component_register(SRCS "${component_srcs}"
                        INCLUDE_DIRS "include"

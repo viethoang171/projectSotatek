@@ -1,11 +1,11 @@
 /**
- * @file button.h
+ * @file bee_Button.h
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for input button with GPIO, API "create", "call back" for others functions
  */
-#ifndef BUTTON_H
-#define BUTTON_H
+#ifndef BEE_BUTTON_H
+#define BEE_BUTTON_H
 #define BUTTON_2 GPIO_NUM_0
 #define BUTTON_1 GPIO_NUM_13
 #include "esp_err.h"

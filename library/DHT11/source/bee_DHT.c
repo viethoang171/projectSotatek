@@ -1,5 +1,5 @@
 /**
- * @file DHT.c
+ * @file bee_DHT.c
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for read signal DHT11, API "init", "read", "convert format signal" for others functions
@@ -11,7 +11,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/portmacro.h"
-#include "DHT.h"
+#include "bee_DHT.h"
 
 static gpio_num_t dht_gpio;
 static int64_t i64Last_read_time = -2000000;
@@ -129,17 +129,15 @@ void DHT_vConvertString(uint8_t u8Data, char *chuoi)
     char chuoi_luu[5];
     if (u8Data == 0)
     {
-        chuoi[u8Length_string++] = '0';
-        chuoi[u8Length_string] = '0';
+        chuoi[u8Length_string++] = 0;
+        chuoi[u8Length_string] = 0;
         return;
     }
-    while (u8Data != 0)
-    {
-        chuoi_luu[u8Length_string++] = (char)(u8Data % 10 + 48);
-        u8Data /= 10;
-    }
-    for (uint8_t u8Index = 0; u8Index < u8Length_string; u8Index++)
-        chuoi[u8Index] = chuoi_luu[u8Length_string - u8Index - 1];
+
+    chuoi_luu[u8Length_string++] = u8Data;
+    chuoi_luu[u8Length_string] = 0;
+    for (uint8_t u8Index = 0; u8Index <= u8Length_string; u8Index++)
+        chuoi[u8Index] = chuoi_luu[u8Length_string - u8Index];
 }
 
 void DHT_vCreateCheckSum(char *chuoi)

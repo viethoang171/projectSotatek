@@ -1,12 +1,12 @@
 /**
- * @file DHT.h
+ * @file bee_DHT.h
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for read signal DHT11, API "init", "read", "convert format signal" for others functions and some macro config Pins, level temperature and humidity
  */
 
-#ifndef DHT_H_
-#define DHT_H_
+#ifndef BEE_DHT_H_
+#define BEE_DHT_H_
 
 #define DHT_DATA GPIO_NUM_4
 #define LEVEL_TEMPERATURE 27

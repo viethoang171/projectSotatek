@@ -1,5 +1,5 @@
 /**
- * @file button.c
+ * @file bee_Button.c
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for input button with GPIO, API "create", "call back" for others functions
@@ -8,7 +8,7 @@
 #include <esp_log.h>
 #include <driver/gpio.h>
 #include "esp_attr.h"
-#include "button.h"
+#include "bee_Button.h"
 
 input_callback_t input_callback = NULL;
 

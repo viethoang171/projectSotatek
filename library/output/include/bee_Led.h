@@ -1,11 +1,11 @@
 /**
- * @file output_gpio.h
+ * @file bee_Led.h
  * @author nguyen__viet_hoang
  * @date 25 June 2023
  * @brief module for output with GPIO, API "create", "set level", "toggle" for others functions
  */
-#ifndef OUTPUT_GPIO_H
-#define OUTPUT_GPIO_H
+#ifndef BEE_LED_H
+#define BEE_LED_H
 #define BLINK_GPIO GPIO_NUM_2
 #define LED_GREEN GPIO_NUM_26
 #define LED_BLUE GPIO_NUM_25
