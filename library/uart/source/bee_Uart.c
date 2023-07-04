@@ -31,15 +31,10 @@ void uart_vCreate()
 
     // Install UART driver, and get the queue.
     uart_driver_install(EX_UART_NUM, BUF_SIZE * 2, BUF_SIZE * 2, 20, &uart0_queue, 0);
-    uart_param_config(EX_UART_NUM, &uart_config);
+    uart_param_config(GPIO_NUM_2, &uart_config);
 
     // Set UART log level
     esp_log_level_set(TAG, ESP_LOG_INFO);
     // Set UART pins (using UART0 default pins ie no changes.)
-    uart_set_pin(UART_NUM_2, UART_TX, UART_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-
-    // Set uart pattern detect function.
-    uart_enable_pattern_det_baud_intr(EX_UART_NUM, '+', PATTERN_CHR_NUM, 9, 0, 0);
-    // Reset the pattern queue length to record at most 20 pattern positions.
-    uart_pattern_queue_reset(EX_UART_NUM, 20);
+    uart_set_pin(GPIO_NUM_2, UART_TX, UART_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 }

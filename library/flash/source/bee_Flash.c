@@ -40,26 +40,18 @@ uint8_t flash_u8FlashReadU8(esp_err_t *pErr, nvs_handle_t *p_myHandle, uint8_t *
     case ESP_OK:
         return (u8GiaTri);
         break;
-    case ESP_ERR_NVS_NOT_FOUND:
-        return 6;
-        // printf("The value is not initialized yet!\n");
-        break;
     default:
-        return 7;
         break;
-        // printf("Error (%s) reading!\n", esp_err_to_name(*err));
     }
-    return 6;
+    return ERROR_FLASH;
 }
 uint8_t flash_u8FlashWriteU8(esp_err_t *pErr, nvs_handle_t *p_myHandle, uint8_t *pu8_Value)
 {
     *pErr = nvs_set_u8(*p_myHandle, "gia tri", *pu8_Value);
-    uint8_t u8GiaTri = 0;
+    uint8_t u8GiaTri = ERROR_WRITE;
     if (*pErr == ESP_OK)
-        u8GiaTri = 1;
-    // printf((*pErr != ESP_OK) ? "Update Failed!\n" : "Update Success\n");
+        u8GiaTri = WRITE_SUCCESS;
     *pErr = nvs_commit(*p_myHandle);
-    // printf((*pErr != ESP_OK) ? "Commit Failed!\n" : "Commit Success\n");
     nvs_close(&p_myHandle);
     return u8GiaTri;
 }

@@ -63,13 +63,10 @@ void app_main(void)
     flash_vFlashClose(&my_handle_flash);
 
     xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 2048, NULL, 5, NULL);
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     uart_vCreate();
     xTaskCreate(uart_vUpDataHostMain_task, "uart_vUpDataHostMain_task", 2048, NULL, 4, &xHandle);
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
 
-    uart_vCreate();
     xTaskCreate(uart_vReceiveDataHostMain_task, "uart_vReceiveDataHostMain_task", 2048, NULL, 3, NULL);
 }
 

@@ -6,12 +6,18 @@
  */
 #ifndef BEE_FLASH_H
 #define BEE_FLASH_H
+
+#define ERROR_FLASH 6
+#define ERROR_WRITE 0
+#define WRITE_SUCCESS 1
+
 #define TIME_DELAY_1S 0
 #define TIME_DELAY_5S 1
 #define TIME_DELAY_10S 2
 #define TIME_DELAY_15S 3
 #define SEND_UP_DATA_STATUS 0
 #define PAUSE_UP_DATA_STATUS 1
+
 void flash_vFlashInit(esp_err_t *pErr);
 void flash_vFlashOpen(esp_err_t *pErr, nvs_handle_t *p_myHandle);
 void flash_vFlashClose(nvs_handle_t *p_myHandle);
