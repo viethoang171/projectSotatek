@@ -20,5 +20,15 @@
 #define COMMAND_C 0x0C
 #define COMMAND_HOST_MAIN 0x03
 
+extern uint8_t u8Temperature;
+extern uint8_t u8Humidity;
+
+extern uint8_t u8Flag_delay;
+extern uint8_t u8Flag_run;
+extern uint8_t u8Flash_data;
+
 void uart_vCreate();
+void uart_vUpDataHostMain_task(void *pvParameters);
+void uart_vReceiveDataHostMain_task(void *pvParameters);
+
 #endif

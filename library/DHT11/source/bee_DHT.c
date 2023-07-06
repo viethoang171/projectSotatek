@@ -11,6 +11,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/portmacro.h"
+#include "bee_Led.h"
 #include "bee_DHT.h"
 
 static gpio_num_t dht_gpio;
@@ -72,7 +73,7 @@ static struct dht11_reading DHT_sCrcError()
     return crcError;
 }
 
-void DHT11_vInit(gpio_num_t gpio_num)
+void DHT11_vInit(uint8_t gpio_num)
 {
     /* Wait 1 seconds to make the device pass its initial unstable status */
     vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -123,7 +124,7 @@ struct dht11_reading DHT11_sRead()
     }
 }
 
-void DHT_vConvertString(uint8_t u8Data, char *chuoi)
+void DHT_vTransferFrameData(uint8_t u8Data, char *chuoi)
 {
     uint8_t u8Length_string = 0;
     char chuoi_luu[5];
@@ -139,6 +140,24 @@ void DHT_vConvertString(uint8_t u8Data, char *chuoi)
     for (uint8_t u8Index = 0; u8Index <= u8Length_string; u8Index++)
         chuoi[u8Index] = chuoi_luu[u8Length_string - u8Index];
 }
+void DHT_vConvertString(uint8_t u8Data, char *chuoi)
+{
+    uint8_t u8Length_string = 0;
+    char chuoi_luu[5];
+    if (u8Data == 0)
+    {
+        chuoi[u8Length_string++] = '0';
+        chuoi[u8Length_string] = '0';
+        return;
+    }
+    while (u8Data != 0)
+    {
+        chuoi_luu[u8Length_string++] = (char)(u8Data % 10 + 48);
+        u8Data /= 10;
+    }
+    for (uint8_t u8Index = 0; u8Index <= u8Length_string; u8Index++)
+        chuoi[u8Index] = chuoi_luu[u8Length_string - u8Index];
+}
 
 void DHT_vCreateCheckSum(char *chuoi)
 {
@@ -146,4 +165,38 @@ void DHT_vCreateCheckSum(char *chuoi)
     for (uint8_t i = 0; i < FRAME_DATA_LENGTH - 1; i++)
         u8CheckSum = (u8CheckSum + chuoi[i] % 256) % 256;
     chuoi[FRAME_DATA_LENGTH - 1] = u8CheckSum;
+}
+
+void dht11_vReadDataDht11_task(void *pvParameters)
+{
+    for (;;)
+    {
+        if (DHT11_sRead().status == DHT11_OK)
+        {
+
+            u8Temperature = DHT11_sRead().temperature;
+            u8Humidity = DHT11_sRead().humidity;
+
+            if ((u8Temperature < LEVEL_TEMPERATURE) && (u8Humidity < LEVEL_HUMIDITY))
+            {
+                output_vSetLevel(LED_GREEN, LOW_LEVEL);
+                output_vSetLevel(LED_BLUE, HIGH_LEVEL);
+            }
+            else if ((u8Temperature < LEVEL_TEMPERATURE) && (u8Humidity >= LEVEL_HUMIDITY))
+            {
+                output_vSetLevel(LED_BLUE, HIGH_LEVEL);
+                output_vSetLevel(LED_GREEN, HIGH_LEVEL);
+            }
+            else if ((u8Temperature >= LEVEL_TEMPERATURE) && (u8Humidity < LEVEL_HUMIDITY))
+            {
+                output_vSetLevel(LED_BLUE, LOW_LEVEL);
+                output_vSetLevel(LED_GREEN, HIGH_LEVEL);
+            }
+            else
+            {
+                output_vSetLevel(LED_RED, HIGH_LEVEL);
+            }
+        }
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
 }
