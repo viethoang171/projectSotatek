@@ -7,10 +7,10 @@
 #ifndef BEE_WIFI_H
 #define BEE_WIFI_H
 
-#define EXAMPLE_ESP_WIFI_SSID "BEE 2.4G"
-#define EXAMPLE_ESP_WIFI_PASS "0988182139"
+#define EXAMPLE_ESP_WIFI_SSID "Hoang Tang 1"
+#define EXAMPLE_ESP_WIFI_PASS "123456789"
 #define MAX_RETRY 10
 
-void wifi_init();
+void wifi_vInit();
 
 #endif

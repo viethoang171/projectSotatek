@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "freertos/queue.h"
+#include "freertos/semphr.h"
 #include "freertos/portmacro.h"
 #include <driver/uart.h>
 #include "string.h"
@@ -16,6 +16,7 @@
 #include "sdkconfig.h"
 #include "nvs_flash.h"
 #include "mqtt_client.h"
+// #include "esp_wifi.h"
 
 #include "bee_Button.h"
 #include "bee_Led.h"
@@ -24,6 +25,8 @@
 #include "bee_FLash.h"
 #include "bee_Wifi.h"
 #include "bee_Mqtt.h"
+
+SemaphoreHandle_t xSemaphore;
 
 TaskHandle_t xHandle;
 
@@ -42,13 +45,15 @@ void button_vEventCallback(int pin);
 
 void app_main(void)
 {
+    xSemaphore = xSemaphoreCreateBinary();
+    xSemaphoreGive(xSemaphore);
+
     flash_vFlashInit(&err_flash);
 
     button_vCreateInput(BUTTON_1, HIGH_TO_LOW);
     button_vCreateInput(BUTTON_2, HIGH_TO_LOW);
     button_vSetCallback(button_vEventCallback);
 
-    output_vCreate(BLINK_GPIO);
     output_vCreate(LED_BLUE);
     output_vCreate(LED_GREEN);
     output_vCreate(LED_RED);
@@ -56,7 +61,14 @@ void app_main(void)
     DHT11_vInit(DHT_DATA);
 
     flash_vFlashInit(&ret);
-    wifi_init();
+    wifi_vInit();
+#if (0)
+    esp_wifi_get_mac(ESP_IF_WIFI_STA, u8Mac_address);
+    printf("Dia chi mac: ");
+    for (uint8_t i = 0; i < 6; i++)
+        printf("%02x", u8Mac_address[i]);
+    printf("\n");
+#endif
 
     // Back up flash data
     flash_vFlashOpen(&err_flash, &my_handle_flash);
@@ -65,9 +77,9 @@ void app_main(void)
     u8Flag_run /= 10;
     flash_vFlashClose(&my_handle_flash);
 
-    xTaskCreate(Publisher_Task, "Publisher_Task", 1024 * 5, NULL, 2, NULL);
+    xTaskCreate(mqtt_vPublish_data_task, "mqtt_vPublish_data_task", 1024 * 5, NULL, 5, NULL);
 
-    xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 2048, NULL, 6, NULL);
+    xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 2048, NULL, 2, NULL);
 
     uart_vCreate();
     xTaskCreate(uart_vUpDataHostMain_task, "uart_vUpDataHostMain_task", 2048, NULL, 4, &xHandle);
@@ -79,6 +91,7 @@ void button_vEventCallback(int pin)
 {
     if (pin == BUTTON_1)
     {
+        // Get flag run/pause value
         flash_vFlashOpen(&err_flash, &my_handle_flash);
         while (err_flash != ESP_OK)
             flash_vFlashOpen(&err_flash, &my_handle_flash);
@@ -86,6 +99,7 @@ void button_vEventCallback(int pin)
         flash_vFlashClose(&my_handle_flash);
         u8Flag /= 10;
 
+        // kiem tra flag run/pause
         if (u8Flag == SEND_UP_DATA_STATUS)
         {
             vTaskSuspend(xHandle);
@@ -95,6 +109,7 @@ void button_vEventCallback(int pin)
             vTaskResume(xHandle);
         }
 
+        // Write flash cho flag luu run/pause up data status value
         flash_vFlashOpen(&err_flash, &my_handle_flash);
         while (err_flash != ESP_OK)
             flash_vFlashOpen(&err_flash, &my_handle_flash);
@@ -106,8 +121,8 @@ void button_vEventCallback(int pin)
     }
     else if (pin == BUTTON_2)
     {
-        output_vToggle(BLINK_GPIO);
 
+        // Write flash cho flag luu time_delay up value for data status
         flash_vFlashOpen(&err_flash, &my_handle_flash);
         while ((err_flash != ESP_OK))
             flash_vFlashOpen(&err_flash, &my_handle_flash);

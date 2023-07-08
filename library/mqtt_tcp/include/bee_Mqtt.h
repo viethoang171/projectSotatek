@@ -7,6 +7,9 @@
 #ifndef BEE_MQTT_H
 #define BEE_MQTT_H
 
+#define MQTT_CONNECTED 1
+#define MQTT_DISCONNECTED 0
+
 #define BEE_PORT 1993
 #define BEE_MQTT_BROKER "mqtt://61.28.238.97"
 #define BEE_USER_NAME "VBeeHome"
@@ -18,8 +21,10 @@
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
 
-void mqtt_app_start();
+// char string_mac_address[50];
 
-void Publisher_Task(void *params);
+void mqtt_vApp_start();
+
+void mqtt_vPublish_data_task(void *params);
 
 #endif

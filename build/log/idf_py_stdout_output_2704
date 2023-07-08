@@ -1,0 +1,20 @@
+[1/9] Performing build step for 'bootloader'
+[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
+Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
+[2/7] Building C object esp-idf/mqtt_tcp/CMakeFiles/__idf_mqtt_tcp.dir/source/bee_Mqtt.c.obj
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c: In function 'mqtt_vPublish_data_task':
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:83:13: warning: unused variable 'u8Trans_code' [-Wunused-variable]
+   83 |     uint8_t u8Trans_code = 0;
+      |             ^~~~~~~~~~~~
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:82:10: warning: unused variable 'data_hum' [-Wunused-variable]
+   82 |     char data_hum[100];
+      |          ^~~~~~~~
+[3/7] Linking C static library esp-idf\mqtt_tcp\libmqtt_tcp.a
+[4/7] Generating ld/sections.ld
+[5/7] Linking CXX executable main.elf
+FAILED: main.elf 
+cmd.exe /C "cd . && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-g++.exe -mlongcalls -Wno-frame-address  @CMakeFiles\main.elf.rsp -o main.elf  && cd ."
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/11.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/mqtt_tcp/libmqtt_tcp.a(bee_Mqtt.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: multiple definition of `u8Mac_address'; esp-idf/main/libmain.a(bee_App_main.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: first defined here
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/11.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/wifi/libwifi.a(bee_Wifi.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: multiple definition of `u8Mac_address'; esp-idf/main/libmain.a(bee_App_main.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: first defined here
+collect2.exe: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.

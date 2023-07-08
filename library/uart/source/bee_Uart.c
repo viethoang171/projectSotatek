@@ -7,7 +7,9 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/semphr.h"
 #include "freertos/queue.h"
+#include "freertos/portmacro.h"
 #include "driver/uart.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
@@ -20,9 +22,35 @@
 QueueHandle_t uart0_queue;
 char *TAG = "uart_event";
 
+static TickType_t last_time_up_data_host_main;
+
+extern SemaphoreHandle_t xSemaphore;
+
 extern esp_err_t err_flash;
 extern nvs_handle_t my_handle_flash;
 extern TaskHandle_t xHandle;
+
+static uint32_t uart_u32GetTimeDelayFromFlag(uint8_t u8Flag)
+{
+    uint32_t u32TimeDelay;
+    if (u8Flag == TIME_DELAY_1S)
+    {
+        u32TimeDelay = FREQUENCY_1S;
+    }
+    else if (u8Flag == TIME_DELAY_5S)
+    {
+        u32TimeDelay = FREQUENCY_5S;
+    }
+    else if (u8Flag == TIME_DELAY_10S)
+    {
+        u32TimeDelay = FREQUENCY_10S;
+    }
+    else
+    {
+        u32TimeDelay = FREQUENCY_15S;
+    }
+    return u32TimeDelay;
+}
 
 void uart_vCreate()
 {
@@ -48,39 +76,50 @@ void uart_vCreate()
 
 void uart_vUpDataHostMain_task(void *pvParameters)
 {
+    // last_time_up_data_host_main = xTaskGetTickCount();
     char chuoi_temp[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_TEMP, 0x00, 0x02};
     char chuoi_hum[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_HUMI, 0x00, 0x02};
     for (;;)
     {
-        if (u8Flag_run == 0)
+        if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
         {
-            DHT_vTransferFrameData(u8Temperature, chuoi_temp + 6);
-            DHT_vCreateCheckSum(chuoi_temp);
-            DHT_vTransferFrameData(u8Humidity, chuoi_hum + 6);
-            DHT_vCreateCheckSum(chuoi_hum);
+            // if (xTaskGetTickCount() - last_time_up_data_host_main >= pdMS_TO_TICKS(uart_u32GetTimeDelayFromFlag(u8Flag_delay)))
+            // {
+            //     last_time_up_data_host_main = xTaskGetTickCount();
 
-            uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
-            uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
-        }
-        else
-        {
-        }
+            if (u8Flag_run == 0)
+            {
+                printf("Nhiet do: %d\n", u8Temperature);
+                printf("Do am: %d\n", u8Humidity);
+                DHT_vTransferFrameData(u8Temperature, chuoi_temp + 6);
+                DHT_vCreateCheckSum(chuoi_temp);
+                DHT_vTransferFrameData(u8Humidity, chuoi_hum + 6);
+                DHT_vCreateCheckSum(chuoi_hum);
 
-        if (u8Flag_delay == TIME_DELAY_1S)
-        {
-            vTaskDelay(FREQUENCY_1S / portTICK_PERIOD_MS);
-        }
-        else if (u8Flag_delay == TIME_DELAY_5S)
-        {
-            vTaskDelay(FREQUENCY_5S / portTICK_PERIOD_MS);
-        }
-        else if (u8Flag_delay == TIME_DELAY_10S)
-        {
-            vTaskDelay(FREQUENCY_10S / portTICK_PERIOD_MS);
-        }
-        else
-        {
-            vTaskDelay(FREQUENCY_15S / portTICK_PERIOD_MS);
+                // uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
+                // uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
+            }
+            else
+            {
+            }
+            if (u8Flag_delay == TIME_DELAY_1S)
+            {
+                vTaskDelay(FREQUENCY_1S / portTICK_PERIOD_MS);
+            }
+            else if (u8Flag_delay == TIME_DELAY_5S)
+            {
+                vTaskDelay(FREQUENCY_5S / portTICK_PERIOD_MS);
+            }
+            else if (u8Flag_delay == TIME_DELAY_10S)
+            {
+                vTaskDelay(FREQUENCY_10S / portTICK_PERIOD_MS);
+            }
+            else
+            {
+                vTaskDelay(FREQUENCY_15S / portTICK_PERIOD_MS);
+            }
+            // vTaskDelay(10 / portTICK_PERIOD_MS);
+            // }
         }
     }
 }

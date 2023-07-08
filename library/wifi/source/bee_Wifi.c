@@ -15,8 +15,8 @@
 static int retry_cnt = 0;
 static const char *TAG = "WIFI";
 
-static esp_err_t wifi_event_handler(void *arg, esp_event_base_t event_base,
-                                    int32_t event_id, void *event_data)
+static esp_err_t wifi_espEvent_handler(void *arg, esp_event_base_t event_base,
+                                       int32_t event_id, void *event_data)
 {
     switch (event_id)
     {
@@ -31,7 +31,7 @@ static esp_err_t wifi_event_handler(void *arg, esp_event_base_t event_base,
 
     case IP_EVENT_STA_GOT_IP:
         ESP_LOGI(TAG, "got ip: starting MQTT Client\n");
-        mqtt_app_start();
+        mqtt_vApp_start();
         break;
 
     case WIFI_EVENT_STA_DISCONNECTED:
@@ -50,11 +50,11 @@ static esp_err_t wifi_event_handler(void *arg, esp_event_base_t event_base,
     return ESP_OK;
 }
 
-void wifi_init()
+void wifi_vInit()
 {
     esp_event_loop_create_default();
-    esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL);
-    esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL);
+    esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_espEvent_handler, NULL);
+    esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_espEvent_handler, NULL);
 
     wifi_config_t wifi_config = {
         .sta = {

@@ -7,12 +7,21 @@
 #include "esp_log.h"
 #include "esp_system.h"
 #include "mqtt_client.h"
+#include "freertos/semphr.h"
+#include "freertos/portmacro.h"
 #include "bee_DHT.h"
 #include "bee_Mqtt.h"
 
+uint8_t u8Mac_address[6] = {0xb8, 0xd6, 0x1a, 0x6b, 0x2d, 0xe8};
+char topic_subscribe[100];
+
+// static TickType_t last_time_send_keep_alive;
+extern SemaphoreHandle_t xSemaphore;
+extern uint8_t u8Count_error_dht_signal;
+
 static const char *TAG = "MQTT_EXAMPLE";
 static esp_mqtt_client_handle_t client = NULL;
-static uint32_t MQTT_CONNECTED = 0;
+static uint32_t u8Mqtt_status = MQTT_DISCONNECTED;
 
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
@@ -24,17 +33,14 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     {
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-        MQTT_CONNECTED = 1;
+        u8Mqtt_status = MQTT_CONNECTED;
 
-        msg_id = esp_mqtt_client_subscribe(client, "VB/DMP/VBEEON/CUSTOM/SMH/DeviceID/telemetry", 0);
-        ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
-
-        msg_id = esp_mqtt_client_subscribe(client, "/topic/test2", 1);
+        msg_id = esp_mqtt_client_subscribe(client, "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/telemetry", 0);
         ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
-        MQTT_CONNECTED = 0;
+        u8Mqtt_status = MQTT_DISCONNECTED;
         break;
 
     case MQTT_EVENT_SUBSCRIBED:
@@ -60,7 +66,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     }
 }
 
-void mqtt_app_start()
+void mqtt_vApp_start()
 {
     ESP_LOGI(TAG, "STARTING MQTT");
     esp_mqtt_client_config_t mqttConfig = {
@@ -75,27 +81,76 @@ void mqtt_app_start()
     esp_mqtt_client_start(client);
 }
 
-void Publisher_Task(void *params)
+void mqtt_vPublish_data_task(void *params)
 {
-    char chuoi_temp[12] = {'N', 'h', 'i', 'e', 't', ' ', 'd', 'o', ':', ' '};
-    char chuoi_hum[9] = {'D', 'o', ' ', 'a', 'm', ':', ' '};
+    // last_time_send_keep_alive = xTaskGetTickCount();
+    char data_temp[200];
+    char data_hum[200];
+    char message_keep_alive[200];
+    uint8_t u8Trans_code = 0;
 
+    snprintf(topic_subscribe, sizeof(topic_subscribe), "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/Command");
     for (;;)
     {
-        if (DHT11_sRead().status == DHT11_OK)
+        if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
         {
-            u8Temperature = DHT11_sRead().temperature;
-            u8Humidity = DHT11_sRead().humidity;
-        }
+            // if (xTaskGetTickCount() - last_time_send_keep_alive > pdMS_TO_TICKS(MQTT_PERIOD))
+            // {
+            // last_time_send_keep_alive = xTaskGetTickCount();
+            if (DHT11_sRead().status == DHT11_OK)
+            {
+                u8Temperature = DHT11_sRead().temperature;
+                u8Humidity = DHT11_sRead().humidity;
 
-        DHT_vConvertString(u8Temperature, chuoi_temp + 10);
-        DHT_vConvertString(u8Humidity, chuoi_hum + 7);
+                // Create message JSON keep alive
+                snprintf(message_keep_alive, sizeof(message_keep_alive),
+                         "{\"think_token\":\"b8d61a6b2de8\","
+                         "\"values\":{"
+                         "\"eventType\":\"refresh\","
+                         "\"status\":\"ONLINE\""
+                         "},"
+                         "\"trans_code:\"%d\""
+                         "}",
+                         u8Trans_code);
 
-        if (MQTT_CONNECTED)
-        {
-            esp_mqtt_client_publish(client, "VB/DMP/VBEEON/CUSTOM.SMH/DeviceID/Command", chuoi_temp, 0, 0, 0);
-            esp_mqtt_client_publish(client, "VB/DMP/VBEEON/CUSTOM.SMH/DeviceID/Command", chuoi_hum, 0, 0, 0);
+                // Create message JSON publish temperature
+                snprintf(data_temp, sizeof(data_temp),
+                         "{\"think_token\":\"%02x%02x%02x%02x%02x%02x\","
+                         "\"cmd_name\":\"Bee.data\","
+                         "\"object_type\":\"Bee.temperature\","
+                         "\"values\":\"%d\","
+                         "\"trans_code\":\"%d\"}",
+                         u8Mac_address[0], u8Mac_address[1], u8Mac_address[2], u8Mac_address[3], u8Mac_address[4], u8Mac_address[5], u8Temperature, u8Trans_code);
+
+                // Create message JSON publish humidity
+                snprintf(data_hum, sizeof(data_hum),
+                         "{\"think_token\":\"%02x%02x%02x%02x%02x%02x\","
+                         "\"cmd_name\":\"Bee.data\","
+                         "\"object_type\":\"Bee.humidity\","
+                         "\"values\":\"%d\","
+                         "\"trans_code\":\"%d\"}",
+                         u8Mac_address[0], u8Mac_address[1], u8Mac_address[2], u8Mac_address[3], u8Mac_address[4], u8Mac_address[5], u8Humidity, u8Trans_code);
+
+                if (u8Mqtt_status == MQTT_CONNECTED)
+                {
+                    u8Trans_code++;
+                    esp_mqtt_client_publish(client, topic_subscribe, data_temp, 0, 0, 0);
+                    u8Trans_code++;
+                    esp_mqtt_client_publish(client, topic_subscribe, data_hum, 0, 0, 0);
+                    u8Trans_code++;
+                    esp_mqtt_client_publish(client, topic_subscribe, message_keep_alive, 0, 0, 0);
+                }
+            }
+            else
+            {
+                if (u8Mqtt_status == MQTT_CONNECTED)
+                {
+                    if (u8Count_error_dht_signal >= 5)
+                        esp_mqtt_client_publish(client, topic_subscribe, "Measure error!", 0, 0, 0);
+                }
+            }
+            // }
+            vTaskDelay(MQTT_PERIOD / portTICK_PERIOD_MS);
         }
-        vTaskDelay(MQTT_PERIOD / portTICK_PERIOD_MS);
     }
 }

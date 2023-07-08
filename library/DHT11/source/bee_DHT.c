@@ -9,14 +9,20 @@
 #include "driver/gpio.h"
 #include "rom/ets_sys.h"
 #include "freertos/FreeRTOS.h"
+#include "freertos/semphr.h"
 #include "freertos/task.h"
 #include "freertos/portmacro.h"
 #include "bee_Led.h"
 #include "bee_DHT.h"
 
+extern SemaphoreHandle_t xSemaphore;
+static TickType_t last_time_send_keep_alive;
+
 static gpio_num_t dht_gpio;
 static int64_t i64Last_read_time = -2000000;
 static struct dht11_reading sLast_read;
+
+uint8_t u8Count_error_dht_signal = 0;
 
 static uint32_t DHT_u32WaitOrTimeOut(uint16_t u16MicroSeconds, uint8_t u8Level)
 {
@@ -163,7 +169,7 @@ void DHT_vCreateCheckSum(char *chuoi)
 {
     uint8_t u8CheckSum = 0;
     for (uint8_t i = 0; i < FRAME_DATA_LENGTH - 1; i++)
-        u8CheckSum = (u8CheckSum + chuoi[i] % 256) % 256;
+        u8CheckSum = u8CheckSum + chuoi[i];
     chuoi[FRAME_DATA_LENGTH - 1] = u8CheckSum;
 }
 
@@ -171,8 +177,10 @@ void dht11_vReadDataDht11_task(void *pvParameters)
 {
     for (;;)
     {
+        printf("--------------------------run in dht11\n");
         if (DHT11_sRead().status == DHT11_OK)
         {
+            u8Count_error_dht_signal = 0;
 
             u8Temperature = DHT11_sRead().temperature;
             u8Humidity = DHT11_sRead().humidity;
@@ -197,6 +205,12 @@ void dht11_vReadDataDht11_task(void *pvParameters)
                 output_vSetLevel(LED_RED, HIGH_LEVEL);
             }
         }
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        else
+        {
+            u8Count_error_dht_signal++;
+            printf("Read DHT signal error!\n");
+        }
+        xSemaphoreGive(xSemaphore);
+        vTaskDelay(TIME_READ_DHT / portTICK_PERIOD_MS);
     }
 }
