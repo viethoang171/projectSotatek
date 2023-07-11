@@ -20,6 +20,8 @@
 #define COMMAND_C 0x0C
 #define COMMAND_HOST_MAIN 0x03
 
+#define TIME_FOR_DELAY_TASK 10
+
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
 

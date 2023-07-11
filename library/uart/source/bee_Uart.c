@@ -76,50 +76,32 @@ void uart_vCreate()
 
 void uart_vUpDataHostMain_task(void *pvParameters)
 {
-    // last_time_up_data_host_main = xTaskGetTickCount();
+    last_time_up_data_host_main = xTaskGetTickCount();
     char chuoi_temp[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_TEMP, 0x00, 0x02};
     char chuoi_hum[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_HUMI, 0x00, 0x02};
     for (;;)
     {
         if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
         {
-            // if (xTaskGetTickCount() - last_time_up_data_host_main >= pdMS_TO_TICKS(uart_u32GetTimeDelayFromFlag(u8Flag_delay)))
-            // {
-            //     last_time_up_data_host_main = xTaskGetTickCount();
+            if (xTaskGetTickCount() - last_time_up_data_host_main >= pdMS_TO_TICKS(uart_u32GetTimeDelayFromFlag(u8Flag_delay)))
+            {
+                last_time_up_data_host_main = xTaskGetTickCount();
 
-            if (u8Flag_run == 0)
-            {
-                printf("Nhiet do: %d\n", u8Temperature);
-                printf("Do am: %d\n", u8Humidity);
-                DHT_vTransferFrameData(u8Temperature, chuoi_temp + 6);
-                DHT_vCreateCheckSum(chuoi_temp);
-                DHT_vTransferFrameData(u8Humidity, chuoi_hum + 6);
-                DHT_vCreateCheckSum(chuoi_hum);
+                if (u8Flag_run == 0)
+                {
+                    DHT_vTransferFrameData(u8Temperature, chuoi_temp + 6);
+                    DHT_vCreateCheckSum(chuoi_temp);
+                    DHT_vTransferFrameData(u8Humidity, chuoi_hum + 6);
+                    DHT_vCreateCheckSum(chuoi_hum);
 
-                // uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
-                // uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
+                    uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
+                    uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
+                }
+                else
+                {
+                }
+                vTaskDelay(TIME_FOR_DELAY_TASK / portTICK_PERIOD_MS);
             }
-            else
-            {
-            }
-            if (u8Flag_delay == TIME_DELAY_1S)
-            {
-                vTaskDelay(FREQUENCY_1S / portTICK_PERIOD_MS);
-            }
-            else if (u8Flag_delay == TIME_DELAY_5S)
-            {
-                vTaskDelay(FREQUENCY_5S / portTICK_PERIOD_MS);
-            }
-            else if (u8Flag_delay == TIME_DELAY_10S)
-            {
-                vTaskDelay(FREQUENCY_10S / portTICK_PERIOD_MS);
-            }
-            else
-            {
-                vTaskDelay(FREQUENCY_15S / portTICK_PERIOD_MS);
-            }
-            // vTaskDelay(10 / portTICK_PERIOD_MS);
-            // }
         }
     }
 }
@@ -165,12 +147,11 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                     else if (dtmp[4] == COMMAND_C)
                     {
                         uint8_t u8Time_delay_command = dtmp[7];
-                        if (u8Time_delay_command == 0x01 || u8Time_delay_command == 0x05 || u8Time_delay_command == 0x0A || u8Time_delay_command == 0X0F)
-                            output_vToggle(BLINK_GPIO);
-                        else
+                        if (u8Time_delay_command != 0x01 && u8Time_delay_command != 0x05 && u8Time_delay_command == 0x0A && u8Time_delay_command == 0X0F)
                         {
                             break;
                         }
+
                         flash_vFlashOpen(&err_flash, &my_handle_flash);
                         switch (u8Time_delay_command)
                         {

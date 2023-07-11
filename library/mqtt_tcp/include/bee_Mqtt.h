@@ -14,14 +14,16 @@
 #define BEE_MQTT_BROKER "mqtt://61.28.238.97"
 #define BEE_USER_NAME "VBeeHome"
 #define BEE_PASS_WORD "123abcA@!"
-#define BEE_TIME_KEEP_ALIVE 15
 
+#define LIMIT_TEMPERATURE 35
+
+#define BEE_TIME_KEEP_ALIVE 15000
 #define MQTT_PERIOD 30000
+
+#define TIME_FOR_DELAY_TASK 10
 
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
-
-// char string_mac_address[50];
 
 void mqtt_vApp_start();
 

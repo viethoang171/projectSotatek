@@ -9,13 +9,18 @@
 #define BEE_DHT_H_
 
 #define DHT_DATA GPIO_NUM_4
-#define LEVEL_TEMPERATURE 27
-#define LEVEL_HUMIDITY 80
+#define MAX_NUM_DATA 1001
+
 #define FRAME_DATA_LENGTH 9
 #define TIME_READ_DHT 1000
 
 #define COMMAND_WORD_TEMP 0x01
 #define COMMAND_WORD_HUMI 0X02
+
+#define TIME_FOR_READ_DHT 200
+#define VALUE_MEASURE_DHT_ERROR 255
+
+#define TIMES_CHECK_LEVEL 10
 
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;

@@ -16,13 +16,22 @@
 #include "bee_DHT.h"
 
 extern SemaphoreHandle_t xSemaphore;
-static TickType_t last_time_send_keep_alive;
+static TickType_t last_time_read_dht;
+static uint8_t u8Flag_first_time_read = 0;
 
 static gpio_num_t dht_gpio;
 static int64_t i64Last_read_time = -2000000;
 static struct dht11_reading sLast_read;
 
+uint8_t u8Amplitude_temperature;
+uint8_t u8Amplitude_humidity;
+
 uint8_t u8Count_error_dht_signal = 0;
+uint8_t u8Count_times_dht_data_change = 0;
+uint8_t u8String_temperature[MAX_NUM_DATA] = {0};
+uint8_t u8String_humidity[MAX_NUM_DATA] = {0};
+uint16_t u16Start_period_data = 1;
+uint16_t u16End_period_data = 1;
 
 static uint32_t DHT_u32WaitOrTimeOut(uint16_t u16MicroSeconds, uint8_t u8Level)
 {
@@ -130,6 +139,102 @@ struct dht11_reading DHT11_sRead()
     }
 }
 
+static uint8_t DHT_u8CaculateAmplitude(uint16_t u16Start, uint16_t u16End, uint8_t u8String_data[])
+{
+    uint8_t u8Amplitude;
+    uint16_t u8SumValueToCalculateAverage = 0;
+    if (u16Start < u16End && u16End < MAX_NUM_DATA)
+    {
+        printf("-------------");
+        for (uint16_t u16Index = u16Start + 1; u16Index < u16End; u16Index++)
+        {
+            printf("%d ", u8String_data[u16Index]);
+            u8SumValueToCalculateAverage += u8String_data[u16Index];
+        }
+        printf("---------\n");
+    }
+    else
+    {
+        printf("-------------");
+        for (uint16_t u16Index = u16Start + 1; u16Index < MAX_NUM_DATA; u16Index++)
+        {
+            printf("%d ", u8String_data[u16Index]);
+            u8SumValueToCalculateAverage += u8String_data[u16Index];
+        }
+
+        for (uint16_t u16Index = 1; u16Index < u16End; u16Index++)
+        {
+            printf("%d ", u8String_data[u16Index]);
+            u8SumValueToCalculateAverage += u8String_data[u16Index];
+        }
+        printf("---------\n");
+    }
+
+    if (u8SumValueToCalculateAverage > (TIMES_CHECK_LEVEL - 1) * u8String_data[u16End])
+    {
+        u8Amplitude = u8SumValueToCalculateAverage - (TIMES_CHECK_LEVEL - 1) * u8String_data[u16End];
+    }
+    else
+    {
+        u8Amplitude = (TIMES_CHECK_LEVEL - 1) * u8String_data[u16End] - u8SumValueToCalculateAverage;
+    }
+    return u8Amplitude;
+}
+static void DHT_vSaveData()
+{
+    // Neu doc lan dau
+    if (u8Flag_first_time_read == 0)
+    {
+        u8String_temperature[u16End_period_data] = u8Temperature;
+        u8String_humidity[u16End_period_data] = u8Humidity;
+        if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
+        {
+            u8Flag_first_time_read = 1;
+
+            u8Amplitude_temperature = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_temperature);
+            u8Amplitude_humidity = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_humidity);
+
+            u16Start_period_data++;
+            u8Count_times_dht_data_change = 1;
+        }
+        else
+        {
+            u8Count_times_dht_data_change++;
+        }
+        u16End_period_data++;
+    }
+    else
+    {
+        if (u16Start_period_data == MAX_NUM_DATA)
+        {
+            u16Start_period_data = 1;
+        }
+
+        if (u16End_period_data == MAX_NUM_DATA)
+        {
+            u16End_period_data = 1;
+        }
+
+        u8String_temperature[u16End_period_data] = u8Temperature;
+        u8String_humidity[u16End_period_data] = u8Humidity;
+
+        if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
+        {
+            u8Amplitude_temperature = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_temperature);
+            u8Amplitude_humidity = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_humidity);
+            u8Count_times_dht_data_change = 1;
+        }
+
+        else
+        {
+            u8Count_times_dht_data_change++;
+        }
+
+        u16Start_period_data++;
+        u16End_period_data++;
+    }
+}
+
 void DHT_vTransferFrameData(uint8_t u8Data, char *chuoi)
 {
     uint8_t u8Length_string = 0;
@@ -175,42 +280,30 @@ void DHT_vCreateCheckSum(char *chuoi)
 
 void dht11_vReadDataDht11_task(void *pvParameters)
 {
+    last_time_read_dht = xTaskGetTickCount();
     for (;;)
     {
-        printf("--------------------------run in dht11\n");
-        if (DHT11_sRead().status == DHT11_OK)
+        if (xTaskGetTickCount() - last_time_read_dht >= pdMS_TO_TICKS(TIME_READ_DHT))
         {
-            u8Count_error_dht_signal = 0;
+            last_time_read_dht = xTaskGetTickCount();
+            if (DHT11_sRead().status == DHT11_OK)
+            {
+                u8Count_error_dht_signal = 0;
+                u8Temperature = DHT11_sRead().temperature;
+                u8Humidity = DHT11_sRead().humidity;
+                output_vSetWarningLed(u8Temperature, u8Humidity);
 
-            u8Temperature = DHT11_sRead().temperature;
-            u8Humidity = DHT11_sRead().humidity;
-
-            if ((u8Temperature < LEVEL_TEMPERATURE) && (u8Humidity < LEVEL_HUMIDITY))
-            {
-                output_vSetLevel(LED_GREEN, LOW_LEVEL);
-                output_vSetLevel(LED_BLUE, HIGH_LEVEL);
-            }
-            else if ((u8Temperature < LEVEL_TEMPERATURE) && (u8Humidity >= LEVEL_HUMIDITY))
-            {
-                output_vSetLevel(LED_BLUE, HIGH_LEVEL);
-                output_vSetLevel(LED_GREEN, HIGH_LEVEL);
-            }
-            else if ((u8Temperature >= LEVEL_TEMPERATURE) && (u8Humidity < LEVEL_HUMIDITY))
-            {
-                output_vSetLevel(LED_BLUE, LOW_LEVEL);
-                output_vSetLevel(LED_GREEN, HIGH_LEVEL);
+                // Luu lai temperature and humidity
+                DHT_vSaveData();
             }
             else
             {
-                output_vSetLevel(LED_RED, HIGH_LEVEL);
+                u8Temperature = VALUE_MEASURE_DHT_ERROR;
+                u8Humidity = VALUE_MEASURE_DHT_ERROR;
+                u8Count_error_dht_signal++;
             }
         }
-        else
-        {
-            u8Count_error_dht_signal++;
-            printf("Read DHT signal error!\n");
-        }
         xSemaphoreGive(xSemaphore);
-        vTaskDelay(TIME_READ_DHT / portTICK_PERIOD_MS);
+        vTaskDelay(TIME_FOR_READ_DHT / portTICK_PERIOD_MS);
     }
 }
