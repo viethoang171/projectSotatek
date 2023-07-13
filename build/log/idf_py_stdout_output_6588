@@ -1,24 +1,74 @@
-[1/9] Performing build step for 'bootloader'
+[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
+main.bin binary size 0xdda20 bytes. Smallest app partition is 0x100000 bytes. 0x225e0 bytes (13%) free.
+[2/5] Performing build step for 'bootloader'
 [1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
 Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
-[2/7] Building C object esp-idf/mqtt_tcp/CMakeFiles/__idf_mqtt_tcp.dir/source/bee_Mqtt.c.obj
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c: In function 'mqtt_vPublish_data_task':
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:84:155: warning: excess elements in array initializer
-   84 |     char data_temp_hum[24] = {'{', '\"', 'N', 'h', 'i', 'e', 't', '_', 'd', 'o', '\"', ':', '0', '0', ',', '\"', 'D', 'o', '_', 'a', 'm', '\"', ':', '0', '0', '}'};
-      |                                                                                                                                                           ^~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:84:155: note: (near initialization for 'data_temp_hum')
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:84:160: warning: excess elements in array initializer
-   84 |     char data_temp_hum[24] = {'{', '\"', 'N', 'h', 'i', 'e', 't', '_', 'd', 'o', '\"', ':', '0', '0', ',', '\"', 'D', 'o', '_', 'a', 'm', '\"', ':', '0', '0', '}'};
-      |                                                                                                                                                                ^~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:84:160: note: (near initialization for 'data_temp_hum')
-[3/7] Linking C static library esp-idf\mqtt_tcp\libmqtt_tcp.a
-[4/7] Generating ld/sections.ld
-[5/7] Linking CXX executable main.elf
-[6/7] Generating binary image from built executable
+[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
+esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 4MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
 esptool.py v4.5.1
-Creating esp32 image...
-Merged 25 ELF sections
-Successfully created esp32 image.
-Generated D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin
-[7/7] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
-main.bin binary size 0xd4f80 bytes. Smallest app partition is 0x100000 bytes. 0x2b080 bytes (17%) free.
+Serial port COM7
+Connecting....
+Chip is ESP32-D0WD-V3 (revision v3.0)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: b8:d6:1a:6b:2d:e8
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x000edfff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26384 bytes to 16458...
+Writing at 0x00001000... (50 %)
+Writing at 0x000076ac... (100 %)
+Wrote 26384 bytes (16458 compressed) at 0x00001000 in 0.8 seconds (effective 272.3 kbit/s)...
+Hash of data verified.
+Compressed 907808 bytes to 580187...
+Writing at 0x00010000... (2 %)
+Writing at 0x0001c87c... (5 %)
+Writing at 0x00023a79... (8 %)
+Writing at 0x0002969c... (11 %)
+Writing at 0x00034e9e... (13 %)
+Writing at 0x0003d4df... (16 %)
+Writing at 0x00042f2d... (19 %)
+Writing at 0x00048a68... (22 %)
+Writing at 0x0004e589... (25 %)
+Writing at 0x0005413c... (27 %)
+Writing at 0x00059bae... (30 %)
+Writing at 0x0005f44b... (33 %)
+Writing at 0x00064ece... (36 %)
+Writing at 0x0006b468... (38 %)
+Writing at 0x00071084... (41 %)
+Writing at 0x0007694f... (44 %)
+Writing at 0x0007bc42... (47 %)
+Writing at 0x000811b6... (50 %)
+Writing at 0x00086425... (52 %)
+Writing at 0x0008bac2... (55 %)
+Writing at 0x0009108c... (58 %)
+Writing at 0x0009678f... (61 %)
+Writing at 0x0009c721... (63 %)
+Writing at 0x000a1dc0... (66 %)
+Writing at 0x000a7705... (69 %)
+Writing at 0x000ace51... (72 %)
+Writing at 0x000b269e... (75 %)
+Writing at 0x000b7fae... (77 %)
+Writing at 0x000bdb0e... (80 %)
+Writing at 0x000c33c4... (83 %)
+Writing at 0x000c9dda... (86 %)
+Writing at 0x000d2aaa... (88 %)
+Writing at 0x000da7a9... (91 %)
+Writing at 0x000e0541... (94 %)
+Writing at 0x000e61fc... (97 %)
+Writing at 0x000eb3b7... (100 %)
+Wrote 907808 bytes (580187 compressed) at 0x00010000 in 13.8 seconds (effective 527.2 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 103...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.1 seconds (effective 358.7 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

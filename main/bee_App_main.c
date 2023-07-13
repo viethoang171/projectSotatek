@@ -78,6 +78,7 @@ void app_main(void)
     flash_vFlashClose(&my_handle_flash);
 
     xTaskCreate(mqtt_vPublish_data_task, "mqtt_vPublish_data_task", 1024 * 5, NULL, 5, NULL);
+    xTaskCreate(mqtt_vSubscribe_data_task, "mqtt_vSubscribe_data_task", 1024 * 5, NULL, 6, NULL);
 
     xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 2048, NULL, 2, NULL);
 

@@ -15,12 +15,21 @@
 #define BEE_USER_NAME "VBeeHome"
 #define BEE_PASS_WORD "123abcA@!"
 
-#define LIMIT_TEMPERATURE 35
+#define LIMIT_TEMPERATURE 38
 
 #define BEE_TIME_KEEP_ALIVE 15000
 #define MQTT_PERIOD 30000
 
 #define TIME_FOR_DELAY_TASK 10
+
+#define FLAG_TEMPERATURE 1
+#define FLAG_HUMIDITY 0
+
+#define FLAG_WARNING 0
+#define FLAG_NOT_WARNING 1
+
+#define OBJECT_TYPE_TEMP "temperature"
+#define OBJECT_TYPE_HUM "humidity"
 
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
@@ -28,5 +37,6 @@ extern uint8_t u8Humidity;
 void mqtt_vApp_start();
 
 void mqtt_vPublish_data_task(void *params);
+void mqtt_vSubscribe_data_task(void *params);
 
 #endif

@@ -20,10 +20,11 @@
 #define TIME_FOR_READ_DHT 200
 #define VALUE_MEASURE_DHT_ERROR 255
 
-#define TIMES_CHECK_LEVEL 10
+#define TIMES_CHECK_LEVEL 50
 
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
+extern uint8_t u8Status;
 
 enum dht11_status
 {

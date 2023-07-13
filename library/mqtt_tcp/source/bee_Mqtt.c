@@ -9,10 +9,9 @@
 #include "mqtt_client.h"
 #include "freertos/semphr.h"
 #include "freertos/portmacro.h"
+#include "bee_cJSON.h"
 #include "bee_DHT.h"
 #include "bee_Mqtt.h"
-
-uint8_t u8Mac_address[6] = {0xb8, 0xd6, 0x1a, 0x6b, 0x2d, 0xe8};
 
 extern SemaphoreHandle_t xSemaphore;
 extern uint8_t u8Count_error_dht_signal;
@@ -20,6 +19,7 @@ extern uint8_t u8Amplitude_temperature;
 extern uint8_t u8Amplitude_humidity;
 extern uint8_t u8Count_times_dht_data_change;
 
+static uint8_t u8Mac_address[6] = {0xb8, 0xd6, 0x1a, 0x6b, 0x2d, 0xe8};
 static char topic_subscribe[100];
 static char mac_address[20];
 
@@ -29,66 +29,64 @@ static uint32_t u8Mqtt_status = MQTT_DISCONNECTED;
 
 static TickType_t last_time_send_keep_alive;
 static TickType_t last_time_send_data_sensor;
+
 static uint8_t u8Trans_code = 0;
+static char *data_temp;
+static char *data_hum;
+static char *message_keep_alive;
 
-static void mqtt_check_error_to_publish_warning()
+static uint8_t u8Warning_amplitude_temp = 0;
+static uint8_t u8Warning_amplitude_hum = 0;
+static uint8_t u8Warning_level = 0;
+static uint8_t u8Warning_not_read = 0;
+
+static uint8_t u8Respond_amplitude_temp = 0;
+static uint8_t u8Respond_amplitude_hum = 0;
+static uint8_t u8Respond_level = 0;
+static uint8_t u8Respond_not_read = 0;
+
+static uint8_t u8First_time_warning = 0;
+
+static void mqtt_vCreate_message_json_data(uint8_t u8Flag_temp_hum);
+static void mqtt_vCreate_message_json_keep_alive();
+static void mqtt_check_error_to_publish_warning();
+
+static QueueHandle_t queue;
+static char rxBuffer[500];
+
+void mqtt_vSubscribe_data_task(void *params)
 {
-    char message_error_read_signal[200];
-    char message_over_level_temp[200];
-    char message_limit_amplitude_warning[200];
-
-    if (u8Count_error_dht_signal >= 5)
+    queue = xQueueCreate(5, sizeof(rxBuffer));
+    for (;;)
     {
-        u8Trans_code++;
-        snprintf(message_error_read_signal, sizeof(message_error_read_signal),
-                 "{\"think_token\":\"%s\","
-                 "\"cmd_name\":\"Bee.data\","
-                 "\"object_type\":\"Bee_warning\","
-                 "\"values\":\"can't read DHT11 signal\","
-                 "\"trans_code\":\"%d\"}",
-                 mac_address, u8Trans_code);
-        esp_mqtt_client_publish(client, topic_subscribe, message_error_read_signal, 0, 0, 0);
-    }
-
-    if (u8Temperature > LIMIT_TEMPERATURE && u8Temperature != 255)
-    {
-        u8Trans_code++;
-        printf("----------Temperature: %d-----------\n", u8Temperature);
-        snprintf(message_over_level_temp, sizeof(message_over_level_temp),
-                 "{\"think_token\":\"%s\","
-                 "\"cmd_name\":\"Bee.data\","
-                 "\"object_type\":\"Bee_warning\","
-                 "\"values\":\"over 35*C\","
-                 "\"trans_code\":\"%d\"}",
-                 mac_address, u8Trans_code);
-        esp_mqtt_client_publish(client, topic_subscribe, message_over_level_temp, 0, 0, 0);
-    }
-
-    if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
-    {
-        if (u8Amplitude_temperature > TIMES_CHECK_LEVEL)
+        if (xQueueReceive(queue, &rxBuffer, (TickType_t)portMAX_DELAY))
         {
-            u8Trans_code++;
-            snprintf(message_limit_amplitude_warning, sizeof(message_limit_amplitude_warning),
-                     "{\"think_token\":\"%s\","
-                     "\"cmd_name\":\"Bee.data\","
-                     "\"object_type\":\"Bee_warning\","
-                     "\"values\":\"Temperature amplitude over 2*C\","
-                     "\"trans_code\":\"%d\"}",
-                     mac_address, u8Trans_code);
-            esp_mqtt_client_publish(client, topic_subscribe, message_limit_amplitude_warning, 0, 0, 0);
-        }
-        if (u8Amplitude_humidity > TIMES_CHECK_LEVEL)
-        {
-            u8Trans_code++;
-            snprintf(message_limit_amplitude_warning, sizeof(message_limit_amplitude_warning),
-                     "{\"think_token\":\"%s\","
-                     "\"cmd_name\":\"Bee.data\","
-                     "\"object_type\":\"Bee_warning\","
-                     "\"values\":\"Humidity amplitude over 2\","
-                     "\"trans_code\":\"%d\"}",
-                     mac_address, u8Trans_code);
-            esp_mqtt_client_publish(client, topic_subscribe, message_limit_amplitude_warning, 0, 0, 0);
+
+            cJSON *root = cJSON_Parse(rxBuffer);
+            char *device_id = cJSON_GetObjectItemCaseSensitive(root, "think_token")->valuestring;
+            char *cmd_name = cJSON_GetObjectItemCaseSensitive(root, "cmd_name")->valuestring;
+            char *object_type = cJSON_GetObjectItemCaseSensitive(root, "object_type")->valuestring;
+
+            if (strcmp(device_id, mac_address) == 0 && strcmp(cmd_name, "Bee.conf") == 0)
+            {
+                if (strcmp(object_type, OBJECT_TYPE_TEMP) == 0)
+                {
+                    data_temp = cJSON_Print(root);
+                    if (u8Mqtt_status == MQTT_CONNECTED)
+                    {
+                        esp_mqtt_client_publish(client, topic_subscribe, data_temp, 0, 0, 0);
+                    }
+                }
+                else
+                {
+                    data_hum = cJSON_Print(root);
+                    if (u8Mqtt_status == MQTT_CONNECTED)
+                    {
+                        esp_mqtt_client_publish(client, topic_subscribe, data_hum, 0, 0, 0);
+                    }
+                }
+            }
+            cJSON_Delete(root);
         }
     }
 }
@@ -124,8 +122,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         break;
     case MQTT_EVENT_DATA:
         ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-        printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-        printf("DATA=%.*s\r\n", event->data_len, event->data);
+
+        snprintf(rxBuffer, event->data_len + 1, event->data);
+        xQueueSend(queue, rxBuffer, (TickType_t)0);
         break;
     case MQTT_EVENT_ERROR:
         ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
@@ -155,9 +154,6 @@ void mqtt_vPublish_data_task(void *params)
 {
     last_time_send_keep_alive = xTaskGetTickCount();
     last_time_send_data_sensor = last_time_send_keep_alive;
-    char data_temp[200];
-    char data_hum[200];
-    char message_keep_alive[200];
 
     snprintf(mac_address, sizeof(mac_address), "%02x%02x%02x%02x%02x%02x", u8Mac_address[0], u8Mac_address[1], u8Mac_address[2], u8Mac_address[3], u8Mac_address[4], u8Mac_address[5]);
     snprintf(topic_subscribe, sizeof(topic_subscribe), "VB/DMP/VBEEON/CUSTOM/SMH/%s/Command", mac_address);
@@ -166,55 +162,38 @@ void mqtt_vPublish_data_task(void *params)
 
         if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
         {
+
+            // Xu ly warning len server
             if (u8Mqtt_status == MQTT_CONNECTED)
             {
                 mqtt_check_error_to_publish_warning();
             }
+
+            // publish message keep alive
             if (xTaskGetTickCount() - last_time_send_keep_alive > pdMS_TO_TICKS(BEE_TIME_KEEP_ALIVE))
             {
 
                 last_time_send_keep_alive = xTaskGetTickCount();
                 u8Trans_code++;
-                // Create message JSON keep alive
-                snprintf(message_keep_alive, sizeof(message_keep_alive),
-                         "{\"think_token\":\"%s\","
-                         "\"values\":{"
-                         "\"eventType\":\"refresh\","
-                         "\"status\":\"ONLINE\""
-                         "},"
-                         "\"trans_code\":\"%d\""
-                         "}",
-                         mac_address, u8Trans_code);
+
+                mqtt_vCreate_message_json_keep_alive(message_keep_alive);
                 esp_mqtt_client_publish(client, topic_subscribe, message_keep_alive, 0, 0, 0);
             }
 
+            // publish message data temp, hum to server
             if (xTaskGetTickCount() - last_time_send_data_sensor > pdMS_TO_TICKS(MQTT_PERIOD))
             {
+
                 last_time_send_data_sensor = xTaskGetTickCount();
                 if (DHT11_sRead().status == DHT11_OK)
                 {
                     u8Temperature = DHT11_sRead().temperature;
                     u8Humidity = DHT11_sRead().humidity;
 
-                    // Create message JSON publish temperature
                     u8Trans_code++;
-                    snprintf(data_temp, sizeof(data_temp),
-                             "{\"think_token\":\"%s\","
-                             "\"cmd_name\":\"Bee.data\","
-                             "\"object_type\":\"Bee.temperature\","
-                             "\"values\":\"%d\","
-                             "\"trans_code\":\"%d\"}",
-                             mac_address, u8Temperature, u8Trans_code);
-
-                    // Create message JSON publish humidity
+                    mqtt_vCreate_message_json_data(FLAG_TEMPERATURE);
                     u8Trans_code++;
-                    snprintf(data_hum, sizeof(data_hum),
-                             "{\"think_token\":\"%s\","
-                             "\"cmd_name\":\"Bee.data\","
-                             "\"object_type\":\"Bee.humidity\","
-                             "\"values\":\"%d\","
-                             "\"trans_code\":\"%d\"}",
-                             mac_address, u8Humidity, u8Trans_code);
+                    mqtt_vCreate_message_json_data(FLAG_HUMIDITY);
 
                     if (u8Mqtt_status == MQTT_CONNECTED)
                     {
@@ -233,4 +212,216 @@ void mqtt_vPublish_data_task(void *params)
             vTaskDelay(TIME_FOR_DELAY_TASK / portTICK_PERIOD_MS);
         }
     }
+}
+
+static void mqtt_vCreate_message_json_data(uint8_t u8Flag_temp_hum)
+{
+    cJSON *root;
+    root = cJSON_CreateObject();
+    cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+    cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+    if (u8Flag_temp_hum == FLAG_TEMPERATURE)
+    {
+        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee.temperature"));
+        cJSON_AddItemToObject(root, "values", cJSON_CreateNumber(u8Temperature));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        data_temp = cJSON_Print(root);
+    }
+
+    else
+    {
+        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee.humidity"));
+        cJSON_AddItemToObject(root, "values", cJSON_CreateNumber(u8Humidity));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        data_hum = cJSON_Print(root);
+    }
+    cJSON_Delete(root);
+}
+
+static void mqtt_vCreate_message_json_keep_alive()
+{
+    cJSON *root, *values;
+    root = cJSON_CreateObject();
+    cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+    cJSON_AddItemToObject(root, "values", values = cJSON_CreateObject());
+    cJSON_AddItemToObject(values, "eventType", cJSON_CreateString("refresh"));
+    cJSON_AddItemToObject(values, "status", cJSON_CreateString("ONLINE"));
+    cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+    message_keep_alive = cJSON_Print(root);
+    cJSON_Delete(root);
+}
+
+static void mqtt_check_error_to_publish_warning()
+{
+
+    char *message_error_read_signal;
+    char *message_over_level_temp;
+    char *message_limit_amplitude_warning;
+
+    if (u8Count_error_dht_signal >= 5 && u8Warning_not_read == FLAG_WARNING)
+    {
+
+        // Create message JSON read DHT signal error
+        u8Warning_not_read = FLAG_NOT_WARNING;
+        u8Respond_not_read = FLAG_WARNING;
+        u8Trans_code++;
+
+        cJSON *root;
+        root = cJSON_CreateObject();
+        cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+        cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+        cJSON_AddItemToObject(root, "values", cJSON_CreateString("can't read DHT11 signal"));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        message_error_read_signal = cJSON_Print(root);
+        cJSON_Delete(root);
+
+        esp_mqtt_client_publish(client, topic_subscribe, message_error_read_signal, 0, 0, 0);
+    }
+    if (u8Count_error_dht_signal == 1 && u8Respond_not_read == FLAG_WARNING)
+    {
+        u8Respond_not_read = FLAG_NOT_WARNING;
+        u8Warning_not_read = FLAG_WARNING;
+
+        u8Trans_code++;
+        cJSON *root;
+        root = cJSON_CreateObject();
+        cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+        cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+        cJSON_AddItemToObject(root, "values", cJSON_CreateString("timeout warning can't read DHT11"));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        message_error_read_signal = cJSON_Print(root);
+        cJSON_Delete(root);
+        if (u8First_time_warning == 1)
+            esp_mqtt_client_publish(client, topic_subscribe, message_error_read_signal, 0, 0, 0);
+    }
+
+    if (u8Temperature > LIMIT_TEMPERATURE && u8Temperature != VALUE_MEASURE_DHT_ERROR && u8Warning_level == FLAG_WARNING)
+    {
+        u8Warning_level = FLAG_NOT_WARNING;
+        u8Respond_not_read = FLAG_WARNING;
+        u8Trans_code++;
+        char string_warning_level_temp[100];
+        snprintf(string_warning_level_temp, sizeof(string_warning_level_temp), "%d over 38*C", u8Temperature);
+
+        // Create message JSON temperature over limit
+        cJSON *root;
+        root = cJSON_CreateObject();
+        cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+        cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+        cJSON_AddItemToObject(root, "values", cJSON_CreateString(string_warning_level_temp));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        message_over_level_temp = cJSON_Print(root);
+        cJSON_Delete(root);
+
+        esp_mqtt_client_publish(client, topic_subscribe, message_over_level_temp, 0, 0, 0);
+    }
+    if (u8Temperature <= LIMIT_TEMPERATURE && u8Temperature != VALUE_MEASURE_DHT_ERROR && u8Respond_level == FLAG_WARNING)
+    {
+        u8Respond_level = FLAG_NOT_WARNING;
+        u8Warning_level = FLAG_WARNING;
+
+        u8Trans_code++;
+        cJSON *root;
+        root = cJSON_CreateObject();
+        cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+        cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+        cJSON_AddItemToObject(root, "values", cJSON_CreateString("timeout warning over level temp"));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        message_over_level_temp = cJSON_Print(root);
+        cJSON_Delete(root);
+
+        if (u8First_time_warning == 1)
+            esp_mqtt_client_publish(client, topic_subscribe, message_over_level_temp, 0, 0, 0);
+    }
+
+    if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
+    {
+        if (u8Amplitude_temperature > TIMES_CHECK_LEVEL && u8Warning_amplitude_temp == FLAG_WARNING)
+        {
+            u8Warning_amplitude_temp = FLAG_NOT_WARNING;
+            u8Respond_amplitude_temp = FLAG_WARNING;
+
+            u8Trans_code++;
+            char string_warning_amplitude_temp[100];
+            snprintf(string_warning_amplitude_temp, sizeof(string_warning_amplitude_temp), "Temperature amplitude %f over 2*C", (float)(u8Amplitude_temperature / 49));
+
+            // Create message JSON temperature amplitude warning
+            cJSON *root;
+            root = cJSON_CreateObject();
+            cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+            cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+            cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+            cJSON_AddItemToObject(root, "values", cJSON_CreateString(string_warning_amplitude_temp));
+            cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+            message_limit_amplitude_warning = cJSON_Print(root);
+            cJSON_Delete(root);
+
+            esp_mqtt_client_publish(client, topic_subscribe, message_limit_amplitude_warning, 0, 0, 0);
+        }
+        if (u8Amplitude_temperature <= TIMES_CHECK_LEVEL && u8Respond_amplitude_temp == FLAG_WARNING)
+        {
+            u8Respond_amplitude_temp = FLAG_NOT_WARNING;
+            u8Warning_amplitude_temp = FLAG_WARNING;
+
+            u8Trans_code++;
+            cJSON *root;
+            root = cJSON_CreateObject();
+            cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+            cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+            cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+            cJSON_AddItemToObject(root, "values", cJSON_CreateString("timeout warning amplitude temperature"));
+            cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+            message_limit_amplitude_warning = cJSON_Print(root);
+            cJSON_Delete(root);
+
+            if (u8First_time_warning == 1)
+                esp_mqtt_client_publish(client, topic_subscribe, message_limit_amplitude_warning, 0, 0, 0);
+        }
+        if (u8Amplitude_humidity > TIMES_CHECK_LEVEL && u8Warning_amplitude_hum == FLAG_WARNING)
+        {
+            u8Warning_amplitude_hum = FLAG_NOT_WARNING;
+            u8Respond_amplitude_temp = FLAG_WARNING;
+
+            u8Trans_code++;
+            char string_warning_amplitude_hum[100];
+            snprintf(string_warning_amplitude_hum, sizeof(string_warning_amplitude_hum), "Humidity amplitude %f over 2", (float)(u8Amplitude_humidity / 49));
+
+            // Create message JSON humidity amplitude warning
+            cJSON *root;
+            root = cJSON_CreateObject();
+            cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+            cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+            cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+            cJSON_AddItemToObject(root, "values", cJSON_CreateString(string_warning_amplitude_hum));
+            cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+            message_limit_amplitude_warning = cJSON_Print(root);
+            cJSON_Delete(root);
+
+            esp_mqtt_client_publish(client, topic_subscribe, message_limit_amplitude_warning, 0, 0, 0);
+        }
+        if (u8Amplitude_humidity <= TIMES_CHECK_LEVEL && u8Respond_amplitude_hum == FLAG_WARNING)
+        {
+            u8Respond_amplitude_hum = FLAG_NOT_WARNING;
+            u8Warning_amplitude_hum = FLAG_WARNING;
+
+            u8Trans_code++;
+            cJSON *root;
+            root = cJSON_CreateObject();
+            cJSON_AddItemToObject(root, "think_token", cJSON_CreateString(mac_address));
+            cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+            cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+            cJSON_AddItemToObject(root, "values", cJSON_CreateString("timeout warning amplitude humidity"));
+            cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+            message_limit_amplitude_warning = cJSON_Print(root);
+            cJSON_Delete(root);
+
+            if (u8First_time_warning == 1)
+                esp_mqtt_client_publish(client, topic_subscribe, message_limit_amplitude_warning, 0, 0, 0);
+        }
+    }
+    u8First_time_warning = 1;
 }

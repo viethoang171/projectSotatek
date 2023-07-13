@@ -146,7 +146,7 @@ static uint8_t DHT_u8CaculateAmplitude(uint16_t u16Start, uint16_t u16End, uint8
     if (u16Start < u16End && u16End < MAX_NUM_DATA)
     {
         printf("-------------");
-        for (uint16_t u16Index = u16Start + 1; u16Index < u16End; u16Index++)
+        for (uint16_t u16Index = u16Start; u16Index < u16End; u16Index++)
         {
             printf("%d ", u8String_data[u16Index]);
             u8SumValueToCalculateAverage += u8String_data[u16Index];
@@ -156,7 +156,7 @@ static uint8_t DHT_u8CaculateAmplitude(uint16_t u16Start, uint16_t u16End, uint8
     else
     {
         printf("-------------");
-        for (uint16_t u16Index = u16Start + 1; u16Index < MAX_NUM_DATA; u16Index++)
+        for (uint16_t u16Index = u16Start; u16Index < MAX_NUM_DATA; u16Index++)
         {
             printf("%d ", u8String_data[u16Index]);
             u8SumValueToCalculateAverage += u8String_data[u16Index];
