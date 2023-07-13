@@ -145,29 +145,22 @@ static uint8_t DHT_u8CaculateAmplitude(uint16_t u16Start, uint16_t u16End, uint8
     uint16_t u8SumValueToCalculateAverage = 0;
     if (u16Start < u16End && u16End < MAX_NUM_DATA)
     {
-        printf("-------------");
         for (uint16_t u16Index = u16Start; u16Index < u16End; u16Index++)
         {
-            printf("%d ", u8String_data[u16Index]);
             u8SumValueToCalculateAverage += u8String_data[u16Index];
         }
-        printf("---------\n");
     }
     else
     {
-        printf("-------------");
         for (uint16_t u16Index = u16Start; u16Index < MAX_NUM_DATA; u16Index++)
         {
-            printf("%d ", u8String_data[u16Index]);
             u8SumValueToCalculateAverage += u8String_data[u16Index];
         }
 
         for (uint16_t u16Index = 1; u16Index < u16End; u16Index++)
         {
-            printf("%d ", u8String_data[u16Index]);
             u8SumValueToCalculateAverage += u8String_data[u16Index];
         }
-        printf("---------\n");
     }
 
     if (u8SumValueToCalculateAverage > (TIMES_CHECK_LEVEL - 1) * u8String_data[u16End])
@@ -217,18 +210,8 @@ static void DHT_vSaveData()
 
         u8String_temperature[u16End_period_data] = u8Temperature;
         u8String_humidity[u16End_period_data] = u8Humidity;
-
-        if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
-        {
-            u8Amplitude_temperature = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_temperature);
-            u8Amplitude_humidity = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_humidity);
-            u8Count_times_dht_data_change = 1;
-        }
-
-        else
-        {
-            u8Count_times_dht_data_change++;
-        }
+        u8Amplitude_temperature = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_temperature);
+        u8Amplitude_humidity = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_humidity);
 
         u16Start_period_data++;
         u16End_period_data++;
@@ -248,24 +231,6 @@ void DHT_vTransferFrameData(uint8_t u8Data, char *chuoi)
 
     chuoi_luu[u8Length_string++] = u8Data;
     chuoi_luu[u8Length_string] = 0;
-    for (uint8_t u8Index = 0; u8Index <= u8Length_string; u8Index++)
-        chuoi[u8Index] = chuoi_luu[u8Length_string - u8Index];
-}
-void DHT_vConvertString(uint8_t u8Data, char *chuoi)
-{
-    uint8_t u8Length_string = 0;
-    char chuoi_luu[5];
-    if (u8Data == 0)
-    {
-        chuoi[u8Length_string++] = '0';
-        chuoi[u8Length_string] = '0';
-        return;
-    }
-    while (u8Data != 0)
-    {
-        chuoi_luu[u8Length_string++] = (char)(u8Data % 10 + 48);
-        u8Data /= 10;
-    }
     for (uint8_t u8Index = 0; u8Index <= u8Length_string; u8Index++)
         chuoi[u8Index] = chuoi_luu[u8Length_string - u8Index];
 }

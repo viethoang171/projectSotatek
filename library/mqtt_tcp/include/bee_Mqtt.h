@@ -31,6 +31,8 @@
 #define OBJECT_TYPE_TEMP "temperature"
 #define OBJECT_TYPE_HUM "humidity"
 
+#define SIZE_QUEUE_TASK_SUB 20
+
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
 

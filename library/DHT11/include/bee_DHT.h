@@ -20,7 +20,7 @@
 #define TIME_FOR_READ_DHT 200
 #define VALUE_MEASURE_DHT_ERROR 255
 
-#define TIMES_CHECK_LEVEL 50
+#define TIMES_CHECK_LEVEL 20
 
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
@@ -49,7 +49,5 @@ void DHT_vTransferFrameData(uint8_t u8Data, char *chuoi);
 void DHT_vCreateCheckSum(char *chuoi);
 
 void dht11_vReadDataDht11_task(void *pvParameters);
-
-void DHT_vConvertString(uint8_t u8Data, char *chuoi);
 
 #endif
