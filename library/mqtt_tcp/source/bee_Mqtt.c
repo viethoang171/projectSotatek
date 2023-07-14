@@ -46,49 +46,12 @@ static struct sWarning_problem
     uint8_t flag_warnned;
 } sWarning_read, sWarning_level_temp, sWarning_amplitude_temp, sWarning_amplitude_hum;
 
-static void mqtt_vCreate_message_json_data(uint8_t u8Flag_temp_hum);
-static void mqtt_vCreate_message_json_keep_alive();
-static void mqtt_check_error_to_publish_warning();
-
 static QueueHandle_t queue;
 static char rxBuffer[500];
 
-void mqtt_vSubscribe_data_task(void *params)
-{
-    queue = xQueueCreate(SIZE_QUEUE_TASK_SUB, sizeof(rxBuffer));
-    for (;;)
-    {
-        if (xQueueReceive(queue, &rxBuffer, (TickType_t)portMAX_DELAY))
-        {
-
-            cJSON *root = cJSON_Parse(rxBuffer);
-            char *device_id = cJSON_GetObjectItemCaseSensitive(root, "think_token")->valuestring;
-            char *cmd_name = cJSON_GetObjectItemCaseSensitive(root, "cmd_name")->valuestring;
-            char *object_type = cJSON_GetObjectItemCaseSensitive(root, "object_type")->valuestring;
-
-            if (strcmp(device_id, mac_address) == 0 && strcmp(cmd_name, "Bee.conf") == 0)
-            {
-                if (strcmp(object_type, OBJECT_TYPE_TEMP) == 0)
-                {
-                    sMessage_Json.data_temperature = cJSON_Print(root);
-                    if (u8Mqtt_status == MQTT_CONNECTED)
-                    {
-                        esp_mqtt_client_publish(client, topic_subscribe, sMessage_Json.data_temperature, 0, 0, 0);
-                    }
-                }
-                else
-                {
-                    sMessage_Json.data_humidity = cJSON_Print(root);
-                    if (u8Mqtt_status == MQTT_CONNECTED)
-                    {
-                        esp_mqtt_client_publish(client, topic_subscribe, sMessage_Json.data_humidity, 0, 0, 0);
-                    }
-                }
-            }
-            cJSON_Delete(root);
-        }
-    }
-}
+static void mqtt_vCreate_message_json_data(uint8_t u8Flag_temp_hum);
+static void mqtt_vCreate_message_json_keep_alive();
+static void mqtt_check_error_to_publish_warning();
 
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
@@ -149,6 +112,47 @@ void mqtt_vApp_start()
     esp_mqtt_client_start(client);
 }
 
+void mqtt_vSubscribe_data_task(void *params)
+{
+    queue = xQueueCreate(SIZE_QUEUE_TASK_SUB, sizeof(rxBuffer));
+    for (;;)
+    {
+        if (xQueueReceive(queue, &rxBuffer, (TickType_t)portMAX_DELAY))
+        {
+
+            cJSON *root = cJSON_Parse(rxBuffer);
+            if (root != NULL)
+            {
+                u8Trans_code++;
+                char *device_id = cJSON_GetObjectItemCaseSensitive(root, "think_token")->valuestring;
+                char *cmd_name = cJSON_GetObjectItemCaseSensitive(root, "cmd_name")->valuestring;
+                char *object_type = cJSON_GetObjectItemCaseSensitive(root, "object_type")->valuestring;
+
+                if (strcmp(device_id, mac_address) == 0 && strcmp(cmd_name, "Bee.conf") == 0)
+                {
+                    if (strcmp(object_type, OBJECT_TYPE_TEMP) == 0)
+                    {
+                        mqtt_vCreate_message_json_data(FLAG_TEMPERATURE);
+                        if (u8Mqtt_status == MQTT_CONNECTED)
+                        {
+                            esp_mqtt_client_publish(client, topic_subscribe, sMessage_Json.data_temperature, 0, 0, 0);
+                        }
+                    }
+                    else
+                    {
+                        mqtt_vCreate_message_json_data(FLAG_HUMIDITY);
+                        if (u8Mqtt_status == MQTT_CONNECTED)
+                        {
+                            esp_mqtt_client_publish(client, topic_subscribe, sMessage_Json.data_humidity, 0, 0, 0);
+                        }
+                    }
+                }
+                cJSON_Delete(root);
+            }
+        }
+    }
+}
+
 void mqtt_vPublish_data_task(void *params)
 {
     last_time_send_keep_alive = xTaskGetTickCount();
@@ -158,10 +162,8 @@ void mqtt_vPublish_data_task(void *params)
     snprintf(topic_subscribe, sizeof(topic_subscribe), "VB/DMP/VBEEON/CUSTOM/SMH/%s/Command", mac_address);
     for (;;)
     {
-
         if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
         {
-
             // Xu ly warning len server
             if (u8Mqtt_status == MQTT_CONNECTED)
             {
@@ -260,6 +262,7 @@ static void mqtt_vCreate_message_json_warning(char *string_value, uint8_t u8Chec
     cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
     message_json_publish = cJSON_Print(root);
     cJSON_Delete(root);
+
     if (u8CheckWarning == FLAG_WARNING && u8Flag_timeout_warning != FLAG_WARNING)
         esp_mqtt_client_publish(client, topic_subscribe, message_json_publish, 0, 0, 0);
     else if (u8CheckWarning == FLAG_NOT_WARNING)

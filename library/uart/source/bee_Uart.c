@@ -32,22 +32,23 @@ extern TaskHandle_t xHandle;
 
 static uint32_t uart_u32GetTimeDelayFromFlag(uint8_t u8Flag)
 {
-    uint32_t u32TimeDelay;
-    if (u8Flag == TIME_DELAY_1S)
+    uint32_t u32TimeDelay = 0;
+    switch (u8Flag)
     {
+    case TIME_DELAY_1S:
         u32TimeDelay = FREQUENCY_1S;
-    }
-    else if (u8Flag == TIME_DELAY_5S)
-    {
+        break;
+    case TIME_DELAY_5S:
         u32TimeDelay = FREQUENCY_5S;
-    }
-    else if (u8Flag == TIME_DELAY_10S)
-    {
+        break;
+    case TIME_DELAY_10S:
         u32TimeDelay = FREQUENCY_10S;
-    }
-    else
-    {
+        break;
+    case TIME_DELAY_15S:
         u32TimeDelay = FREQUENCY_15S;
+        break;
+    default:
+        break;
     }
     return u32TimeDelay;
 }
@@ -97,9 +98,7 @@ void uart_vUpDataHostMain_task(void *pvParameters)
                     uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
                     uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
                 }
-                else
-                {
-                }
+
                 vTaskDelay(TIME_FOR_DELAY_TASK / portTICK_PERIOD_MS);
             }
         }
@@ -109,7 +108,7 @@ void uart_vUpDataHostMain_task(void *pvParameters)
 void uart_vReceiveDataHostMain_task(void *pvParameters)
 {
     uart_event_t event;
-    uint8_t *dtmp = (uint8_t *)malloc(RD_BUF_SIZE);
+    uint8_t *u8Data_from_host_main = (uint8_t *)malloc(RD_BUF_SIZE);
     for (;;)
     {
         // Waiting for UART event.
@@ -118,17 +117,14 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
             switch (event.type)
             {
             // Event of UART receving data
-            /*We'd better handler data event fast, there would be much more data events than
-            other types of events. If we take too much time on data event, the queue might
-            be full.*/
             case UART_DATA:
-                uart_read_bytes(EX_UART_NUM, dtmp, event.size, portMAX_DELAY);
+                uart_read_bytes(EX_UART_NUM, u8Data_from_host_main, event.size, portMAX_DELAY);
                 uint8_t u8Check_sum = 0;
                 for (uint8_t u8Index = 0; u8Index < FRAME_DATA_LENGTH - 1; u8Index++)
-                    u8Check_sum = u8Check_sum + dtmp[u8Index];
-                if (dtmp[2] == COMMAND_HOST_MAIN && u8Check_sum == dtmp[FRAME_DATA_LENGTH - 1])
+                    u8Check_sum = u8Check_sum + u8Data_from_host_main[u8Index];
+                if (u8Data_from_host_main[2] == COMMAND_HOST_MAIN && u8Check_sum == u8Data_from_host_main[FRAME_DATA_LENGTH - 1])
                 {
-                    if (dtmp[4] == COMMAND_A)
+                    if (u8Data_from_host_main[4] == COMMAND_A)
                     {
                         flash_vFlashOpen(&err_flash, &my_handle_flash);
                         u8Flash_data = u8Flash_data % 10 + 10;
@@ -136,7 +132,7 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                         flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
                         vTaskSuspend(xHandle);
                     }
-                    else if (dtmp[4] == COMMAND_B)
+                    else if (u8Data_from_host_main[4] == COMMAND_B)
                     {
                         flash_vFlashOpen(&err_flash, &my_handle_flash);
                         u8Flash_data = u8Flash_data % 10;
@@ -144,9 +140,9 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                         flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
                         vTaskResume(xHandle);
                     }
-                    else if (dtmp[4] == COMMAND_C)
+                    else if (u8Data_from_host_main[4] == COMMAND_C)
                     {
-                        uint8_t u8Time_delay_command = dtmp[7];
+                        uint8_t u8Time_delay_command = u8Data_from_host_main[7];
                         if (u8Time_delay_command != 0x01 && u8Time_delay_command != 0x05 && u8Time_delay_command == 0x0A && u8Time_delay_command == 0X0F)
                         {
                             break;
@@ -174,9 +170,7 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                         flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
                     }
                 }
-                else
-                {
-                }
+
                 break;
             // Others
             default:
@@ -184,7 +178,7 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
             }
         }
     }
-    free(dtmp);
-    dtmp = NULL;
+    free(u8Data_from_host_main);
+    u8Data_from_host_main = NULL;
     vTaskDelete(NULL);
 }

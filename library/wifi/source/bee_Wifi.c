@@ -12,7 +12,7 @@
 #include "bee_Mqtt.h"
 #include "bee_Wifi.h"
 
-static uint8_t u8Retry_connect = 0;
+// static uint8_t u8Retry_connect = 0;
 static const char *TAG = "WIFI";
 
 static esp_err_t wifi_espEvent_handler(void *arg, esp_event_base_t event_base,
@@ -36,18 +36,15 @@ static esp_err_t wifi_espEvent_handler(void *arg, esp_event_base_t event_base,
 
     case WIFI_EVENT_STA_DISCONNECTED:
         ESP_LOGI(TAG, "disconnected: Retrying Wi-Fi\n");
-        if (u8Retry_connect++ < MAX_RETRY)
-        {
-            esp_wifi_connect();
-        }
-        else
-            ESP_LOGI(TAG, "Max Retry Failed: Wi-Fi Connection\n");
+        esp_wifi_connect();
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+        // ESP_LOGI(TAG, "Max Retry Failed: Wi-Fi Connection\n");
         break;
 
     default:
         break;
     }
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+
     return ESP_OK;
 }
 

@@ -11,8 +11,6 @@
 #include "freertos/semphr.h"
 #include "freertos/portmacro.h"
 #include <driver/uart.h>
-#include "string.h"
-#include "esp_log.h"
 #include "sdkconfig.h"
 #include "nvs_flash.h"
 #include "mqtt_client.h"
@@ -64,10 +62,6 @@ void app_main(void)
     wifi_vInit();
 #if (0)
     esp_wifi_get_mac(ESP_IF_WIFI_STA, u8Mac_address);
-    printf("Dia chi mac: ");
-    for (uint8_t i = 0; i < 6; i++)
-        printf("%02x", u8Mac_address[i]);
-    printf("\n");
 #endif
 
     // Back up flash data
@@ -78,7 +72,7 @@ void app_main(void)
     flash_vFlashClose(&my_handle_flash);
 
     xTaskCreate(mqtt_vPublish_data_task, "mqtt_vPublish_data_task", 1024 * 5, NULL, 5, NULL);
-    xTaskCreate(mqtt_vSubscribe_data_task, "mqtt_vSubscribe_data_task", 1024 * 5, NULL, 6, NULL);
+    xTaskCreate(mqtt_vSubscribe_data_task, "mqtt_vSubscribe_data_task", 2048, NULL, 6, NULL);
 
     xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 2048, NULL, 2, NULL);
 

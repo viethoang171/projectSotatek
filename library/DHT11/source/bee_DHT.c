@@ -175,11 +175,22 @@ static uint8_t DHT_u8CaculateAmplitude(uint16_t u16Start, uint16_t u16End, uint8
 }
 static void DHT_vSaveData()
 {
+    if (u16Start_period_data == MAX_NUM_DATA)
+    {
+        u16Start_period_data = 1;
+    }
+
+    if (u16End_period_data == MAX_NUM_DATA)
+    {
+        u16End_period_data = 1;
+    }
+    u8String_temperature[u16End_period_data] = u8Temperature;
+    u8String_humidity[u16End_period_data] = u8Humidity;
+
     // Neu doc lan dau
     if (u8Flag_first_time_read == 0)
     {
-        u8String_temperature[u16End_period_data] = u8Temperature;
-        u8String_humidity[u16End_period_data] = u8Humidity;
+
         if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
         {
             u8Flag_first_time_read = 1;
@@ -194,28 +205,15 @@ static void DHT_vSaveData()
         {
             u8Count_times_dht_data_change++;
         }
-        u16End_period_data++;
     }
     else
     {
-        if (u16Start_period_data == MAX_NUM_DATA)
-        {
-            u16Start_period_data = 1;
-        }
-
-        if (u16End_period_data == MAX_NUM_DATA)
-        {
-            u16End_period_data = 1;
-        }
-
-        u8String_temperature[u16End_period_data] = u8Temperature;
-        u8String_humidity[u16End_period_data] = u8Humidity;
         u8Amplitude_temperature = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_temperature);
         u8Amplitude_humidity = DHT_u8CaculateAmplitude(u16Start_period_data, u16End_period_data, u8String_humidity);
 
         u16Start_period_data++;
-        u16End_period_data++;
     }
+    u16End_period_data++;
 }
 
 void DHT_vTransferFrameData(uint8_t u8Data, char *chuoi)
@@ -263,6 +261,7 @@ void dht11_vReadDataDht11_task(void *pvParameters)
             }
             else
             {
+                printf("\n------------read error----------------\n");
                 u8Temperature = VALUE_MEASURE_DHT_ERROR;
                 u8Humidity = VALUE_MEASURE_DHT_ERROR;
                 u8Count_error_dht_signal++;
