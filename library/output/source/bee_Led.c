@@ -12,7 +12,7 @@
 void output_vCreate(gpio_num_t gpio_num)
 {
     esp_rom_gpio_pad_select_gpio(gpio_num);
-    // Ser the GPIO as a push/pull output
+    // Set the GPIO as a push/pull output
     gpio_set_direction(gpio_num, GPIO_MODE_INPUT_OUTPUT);
 }
 
@@ -53,4 +53,10 @@ void output_vSetWarningLed(uint8_t u8Temperature, uint8_t u8Humidity)
         output_vSetLevel(LED_GREEN, LOW_LEVEL);
         output_vSetLevel(LED_RED, HIGH_LEVEL);
     }
+}
+void output_vSetWarning_not_read()
+{
+    output_vSetLevel(LED_GREEN, LOW_LEVEL);
+    output_vSetLevel(LED_BLUE, LOW_LEVEL);
+    output_vSetLevel(LED_RED, LOW_LEVEL);
 }

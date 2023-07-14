@@ -30,10 +30,7 @@ TaskHandle_t xHandle;
 
 esp_err_t err_flash;
 nvs_handle_t my_handle_flash;
-esp_err_t ret;
-
-uint8_t u8Temperature;
-uint8_t u8Humidity;
+esp_err_t wifi_flash;
 
 uint8_t u8Flash_data;
 uint8_t u8Flag_delay = TIME_DELAY_1S;
@@ -58,7 +55,7 @@ void app_main(void)
 
     DHT11_vInit(DHT_DATA);
 
-    flash_vFlashInit(&ret);
+    flash_vFlashInit(&wifi_flash);
     wifi_vInit();
 #if (0)
     esp_wifi_get_mac(ESP_IF_WIFI_STA, u8Mac_address);

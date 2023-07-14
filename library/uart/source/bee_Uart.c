@@ -124,7 +124,7 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                     u8Check_sum = u8Check_sum + u8Data_from_host_main[u8Index];
                 if (u8Data_from_host_main[2] == COMMAND_HOST_MAIN && u8Check_sum == u8Data_from_host_main[FRAME_DATA_LENGTH - 1])
                 {
-                    if (u8Data_from_host_main[4] == COMMAND_A)
+                    if (u8Data_from_host_main[LOCATE_COMMAND_ID] == COMMAND_A)
                     {
                         flash_vFlashOpen(&err_flash, &my_handle_flash);
                         u8Flash_data = u8Flash_data % 10 + 10;
@@ -132,7 +132,7 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                         flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
                         vTaskSuspend(xHandle);
                     }
-                    else if (u8Data_from_host_main[4] == COMMAND_B)
+                    else if (u8Data_from_host_main[LOCATE_COMMAND_ID] == COMMAND_B)
                     {
                         flash_vFlashOpen(&err_flash, &my_handle_flash);
                         u8Flash_data = u8Flash_data % 10;
@@ -140,9 +140,9 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                         flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
                         vTaskResume(xHandle);
                     }
-                    else if (u8Data_from_host_main[4] == COMMAND_C)
+                    else if (u8Data_from_host_main[LOCATE_COMMAND_ID] == COMMAND_C)
                     {
-                        uint8_t u8Time_delay_command = u8Data_from_host_main[7];
+                        uint8_t u8Time_delay_command = u8Data_from_host_main[LOCATE_TIME_DELAY];
                         if (u8Time_delay_command != 0x01 && u8Time_delay_command != 0x05 && u8Time_delay_command == 0x0A && u8Time_delay_command == 0X0F)
                         {
                             break;

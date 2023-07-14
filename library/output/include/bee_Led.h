@@ -25,4 +25,5 @@ void output_vCreate(gpio_num_t gpio_num);
 void output_vSetLevel(gpio_num_t gpio_num, int level);
 void output_vToggle(gpio_num_t gpio_num);
 void output_vSetWarningLed(uint8_t u8Temperature, uint8_t u8Humidity);
+void output_vSetWarning_not_read();
 #endif

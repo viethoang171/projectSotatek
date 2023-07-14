@@ -22,10 +22,6 @@
 
 #define TIMES_CHECK_LEVEL 20
 
-extern uint8_t u8Temperature;
-extern uint8_t u8Humidity;
-extern uint8_t u8Status;
-
 enum dht11_status
 {
     DHT11_CRC_ERROR = -2,

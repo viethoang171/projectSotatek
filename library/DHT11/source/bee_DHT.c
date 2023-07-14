@@ -23,6 +23,10 @@ static gpio_num_t dht_gpio;
 static int64_t i64Last_read_time = -2000000;
 static struct dht11_reading sLast_read;
 
+uint8_t u8Temperature;
+uint8_t u8Humidity;
+uint8_t u8Status;
+
 uint8_t u8Amplitude_temperature;
 uint8_t u8Amplitude_humidity;
 
@@ -261,10 +265,15 @@ void dht11_vReadDataDht11_task(void *pvParameters)
             }
             else
             {
-                printf("\n------------read error----------------\n");
+                output_vSetWarning_not_read();
                 u8Temperature = VALUE_MEASURE_DHT_ERROR;
                 u8Humidity = VALUE_MEASURE_DHT_ERROR;
-                u8Count_error_dht_signal++;
+
+                // Xử lý lỗi tràn 255 về 1 ---> gây hiểu lầm là hết error
+                if (u8Count_error_dht_signal == 0)
+                    u8Count_error_dht_signal += 2;
+                else
+                    u8Count_error_dht_signal++;
             }
         }
         xSemaphoreGive(xSemaphore);

@@ -10,7 +10,6 @@
 #define UART_RX GPIO_NUM_16
 
 #define EX_UART_NUM UART_NUM_0
-#define PATTERN_CHR_NUM (3) /*!< Set the number of consecutive and identical characters received by receiver which defines a UART pattern*/
 
 #define BUF_SIZE (1024)
 #define RD_BUF_SIZE (BUF_SIZE)
@@ -19,6 +18,9 @@
 #define COMMAND_B 0x0B
 #define COMMAND_C 0x0C
 #define COMMAND_HOST_MAIN 0x03
+
+#define LOCATE_COMMAND_ID 4
+#define LOCATE_TIME_DELAY 7
 
 #define TIME_FOR_DELAY_TASK 10
 
