@@ -339,3 +339,78 @@ void app_main(void)
         xTaskCreate(&openweather_api_http, "openweather_api_http", 8192, NULL, 6, NULL);
     }
 }
+
+// char string_warning_key_value[60];
+
+// if (u8Count_error_dht_signal >= 5 && sWarning_read.warning == FLAG_WARNING)
+// {
+//     sWarning_read.warning = FLAG_NOT_WARNING;
+//     sWarning_read.timeout_warning = FLAG_WARNING;
+//     snprintf(string_warning_key_value, sizeof(string_warning_key_value), "can't read DHT11 signal");
+//     mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_NOT_WARNING, FLAG_NOT_WARNING);
+
+//     sWarning_read.flag_warnned = 1;
+// }
+// if (u8Count_error_dht_signal == 1 && sWarning_read.timeout_warning == FLAG_WARNING)
+// {
+//     sWarning_read.timeout_warning = FLAG_NOT_WARNING;
+//     sWarning_read.warning = FLAG_WARNING;
+//     snprintf(string_warning_key_value, sizeof(string_warning_key_value), "timeout warning can't read DHT11");
+//     mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_WARNING, sWarning_read.flag_warnned);
+// }
+
+// if (u8Temperature > LIMIT_TEMPERATURE && u8Temperature != VALUE_MEASURE_DHT_ERROR && sWarning_level_temp.warning == FLAG_WARNING)
+// {
+//     sWarning_level_temp.warning = FLAG_NOT_WARNING;
+//     sWarning_level_temp.timeout_warning = FLAG_WARNING;
+//     snprintf(string_warning_key_value, sizeof(string_warning_key_value), "%d over 38*C", u8Temperature);
+//     mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_NOT_WARNING, FLAG_NOT_WARNING);
+
+//     sWarning_level_temp.flag_warnned = 1;
+// }
+// if (u8Temperature <= LIMIT_TEMPERATURE && u8Temperature != VALUE_MEASURE_DHT_ERROR && sWarning_level_temp.timeout_warning == FLAG_WARNING)
+// {
+//     sWarning_level_temp.timeout_warning = FLAG_NOT_WARNING;
+//     sWarning_level_temp.warning = FLAG_WARNING;
+//     snprintf(string_warning_key_value, sizeof(string_warning_key_value), "timeout warning over level temp");
+
+//     mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_WARNING, sWarning_level_temp.flag_warnned);
+// }
+
+// if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
+// {
+//     if (u8Amplitude_temperature > TIMES_CHECK_LEVEL && sWarning_amplitude_temp.warning == FLAG_WARNING)
+//     {
+//         sWarning_amplitude_temp.warning = FLAG_NOT_WARNING;
+//         sWarning_amplitude_temp.timeout_warning = FLAG_WARNING;
+//         snprintf(string_warning_key_value, sizeof(string_warning_key_value), "Temperature amplitude %f over 2*C", (float)(u8Amplitude_temperature / 49));
+//         mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_NOT_WARNING, FLAG_NOT_WARNING);
+
+//         sWarning_amplitude_temp.flag_warnned = 1;
+//     }
+//     if (u8Amplitude_temperature <= TIMES_CHECK_LEVEL && sWarning_amplitude_temp.timeout_warning == FLAG_WARNING)
+//     {
+//         sWarning_amplitude_temp.timeout_warning = FLAG_NOT_WARNING;
+//         sWarning_amplitude_temp.warning = FLAG_WARNING;
+//         snprintf(string_warning_key_value, sizeof(string_warning_key_value), "timeout warning amplitude temperature");
+
+//         mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_WARNING, sWarning_amplitude_temp.flag_warnned);
+//     }
+//     if (u8Amplitude_humidity > TIMES_CHECK_LEVEL && sWarning_amplitude_hum.warning == FLAG_WARNING)
+//     {
+//         sWarning_amplitude_hum.warning = FLAG_NOT_WARNING;
+//         sWarning_amplitude_hum.timeout_warning = FLAG_WARNING;
+//         snprintf(string_warning_key_value, sizeof(string_warning_key_value), "Humidity amplitude %f over 2", (float)(u8Amplitude_humidity / 49));
+//         mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_NOT_WARNING, FLAG_NOT_WARNING);
+
+//         sWarning_amplitude_hum.flag_warnned = 1;
+//     }
+//     if (u8Amplitude_humidity <= TIMES_CHECK_LEVEL && sWarning_amplitude_hum.timeout_warning == FLAG_WARNING)
+//     {
+//         sWarning_amplitude_hum.timeout_warning = FLAG_NOT_WARNING;
+//         sWarning_amplitude_hum.warning = FLAG_WARNING;
+//         snprintf(string_warning_key_value, sizeof(string_warning_key_value), "timeout warning amplitude humidity");
+
+//         mqtt_vCreate_message_json_data(string_warning_key_value, FLAG_WARNING, sWarning_amplitude_hum.flag_warnned);
+//     }
+// }

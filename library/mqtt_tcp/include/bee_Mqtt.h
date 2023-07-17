@@ -15,7 +15,8 @@
 #define BEE_USER_NAME "VBeeHome"
 #define BEE_PASS_WORD "123abcA@!"
 
-#define LIMIT_TEMPERATURE 26
+#define LIMIT_TEMPERATURE 27
+#define LIMIT_HUMIDITY 75
 
 #define BEE_TIME_KEEP_ALIVE 15000
 #define MQTT_PERIOD 30000
@@ -32,6 +33,15 @@
 #define OBJECT_TYPE_HUM "humidity"
 
 #define SIZE_QUEUE_TASK_SUB 20
+
+enum value_object_type
+{
+    BIT_LEVEL_TEMPERATURE = 0,
+    BIT_LEVEL_HUMIDITY,
+    BIT_AMPLITUDE_TEMPERATURE,
+    BIT_AMPLITUDE_HUMIDITY,
+    BIT_CANT_READ_DHT11
+};
 
 extern uint8_t u8Temperature;
 extern uint8_t u8Humidity;
