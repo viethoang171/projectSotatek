@@ -150,18 +150,32 @@ void mqtt_vPublish_data_task(void *params)
             if (u8Mqtt_status == MQTT_CONNECTED)
             {
                 uint8_t u8Values_warning = 0;
-                if (u8Count_error_dht_signal >= 5)
-                {
-                    u8Values_warning |= (1 << BIT_CANT_READ_DHT11);
-                }
-                if (u8Temperature > LIMIT_TEMPERATURE && u8Temperature != VALUE_MEASURE_DHT_ERROR)
-                {
-                    u8Values_warning |= (1 << BIT_LEVEL_TEMPERATURE);
-                }
+
                 if (u8Humidity > LIMIT_HUMIDITY && u8Humidity != VALUE_MEASURE_DHT_ERROR)
                 {
                     u8Values_warning |= (1 << BIT_LEVEL_HUMIDITY);
                 }
+                else if (u8Humidity == VALUE_MEASURE_DHT_ERROR)
+                {
+                    // Lưu trạng thái độ ẩm cũ khi đo lỗi 255
+                    u8Values_warning = u8Value_warning_previous;
+                }
+
+                if (u8Temperature > LIMIT_TEMPERATURE && u8Temperature != VALUE_MEASURE_DHT_ERROR)
+                {
+                    u8Values_warning |= (1 << BIT_LEVEL_TEMPERATURE);
+                }
+                else if (u8Temperature == VALUE_MEASURE_DHT_ERROR)
+                {
+                    // Lưu trạng thái nhiệt độ cũ khi đo lỗi 255
+                    u8Values_warning |= u8Value_warning_previous % (1 << (BIT_LEVEL_TEMPERATURE + 1));
+                }
+
+                if (u8Count_error_dht_signal >= 5)
+                {
+                    u8Values_warning |= (1 << BIT_CANT_READ_DHT11);
+                }
+
                 if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
                 {
                     if (u8Amplitude_temperature > TIMES_CHECK_LEVEL)
