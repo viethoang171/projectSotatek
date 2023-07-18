@@ -9,8 +9,10 @@
 
 #define EXAMPLE_ESP_WIFI_SSID "BEE 2.4G"
 // #define EXAMPLE_ESP_WIFI_SSID "Viethoang"
+// #define EXAMPLE_ESP_WIFI_SSID "Bao Ngoc House T3"
 #define EXAMPLE_ESP_WIFI_PASS "0988182139"
 // #define EXAMPLE_ESP_WIFI_PASS "12345678"
+// #define EXAMPLE_ESP_WIFI_PASS "0833138383"
 #define MAX_RETRY 10
 
 void wifi_vInit();
