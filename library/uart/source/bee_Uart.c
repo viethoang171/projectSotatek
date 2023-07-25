@@ -13,11 +13,14 @@
 #include "driver/uart.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
+#include "string.h"
+
 #include "bee_Led.h"
 #include "bee_Button.h"
 #include "bee_DHT.h"
 #include "bee_FLash.h"
 #include "bee_Uart.h"
+#include "bee_cJSON.h"
 
 QueueHandle_t uart0_queue;
 char *TAG = "uart_event";
@@ -25,10 +28,13 @@ char *TAG = "uart_event";
 static TickType_t last_time_up_data_host_main;
 
 extern SemaphoreHandle_t xSemaphore;
+extern QueueHandle_t queue_host_main;
 
 extern esp_err_t err_flash;
 extern nvs_handle_t my_handle_flash;
 extern TaskHandle_t xHandle;
+
+extern char rxBuffer[500];
 
 static uint32_t uart_u32GetTimeDelayFromFlag(uint8_t u8Flag)
 {
@@ -80,6 +86,7 @@ void uart_vUpDataHostMain_task(void *pvParameters)
     last_time_up_data_host_main = xTaskGetTickCount();
     char chuoi_temp[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_TEMP, 0x00, 0x02};
     char chuoi_hum[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_WORD_HUMI, 0x00, 0x02};
+    char string_message_server[FRAME_DATA_LENGTH] = {0x55, 0xaa, 0x00, COMMAND_FROM_SERVER, 0x00, 0x02, 0x00, MESSAGE_FROM_SERVER, CHECK_SUM_MESSAGE_SERVER};
     for (;;)
     {
         if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
@@ -98,9 +105,28 @@ void uart_vUpDataHostMain_task(void *pvParameters)
                     uart_write_bytes(EX_UART_NUM, chuoi_temp, FRAME_DATA_LENGTH);
                     uart_write_bytes(EX_UART_NUM, chuoi_hum, FRAME_DATA_LENGTH);
                 }
-
-                vTaskDelay(TIME_FOR_DELAY_TASK / portTICK_PERIOD_MS);
             }
+
+            if (xQueueReceive(queue_host_main, rxBuffer, (TickType_t)0))
+            {
+                cJSON *root = cJSON_Parse(rxBuffer);
+                if (root != NULL)
+                {
+                    char *device_id;
+                    char *cmd_name;
+
+                    device_id = cJSON_GetObjectItemCaseSensitive(root, "thing_token")->valuestring;
+                    cmd_name = cJSON_GetObjectItemCaseSensitive(root, "cmd_name")->valuestring;
+                    if (device_id != NULL && cmd_name != NULL)
+                    {
+                        if (strcmp(device_id, "SERVER") == 0 && strcmp(cmd_name, "Bee.conf") == 0)
+                        {
+                            uart_write_bytes(EX_UART_NUM, string_message_server, FRAME_DATA_LENGTH);
+                        }
+                    }
+                }
+            }
+            vTaskDelay(TIME_FOR_DELAY_TASK / portTICK_PERIOD_MS);
         }
     }
 }

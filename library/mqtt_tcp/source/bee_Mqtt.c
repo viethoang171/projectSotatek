@@ -19,6 +19,8 @@ extern uint8_t u8Amplitude_temperature;
 extern uint8_t u8Amplitude_humidity;
 extern uint8_t u8Count_times_dht_data_change;
 
+QueueHandle_t queue_host_main;
+
 static uint8_t u8Mac_address[6] = {0xb8, 0xd6, 0x1a, 0x6b, 0x2d, 0xe8};
 static char topic_subscribe[100];
 static char mac_address[20];
@@ -36,7 +38,9 @@ static uint8_t u8Value_warning_previous = 255;
 static char *message_keep_alive_json;
 
 static QueueHandle_t queue;
-static char rxBuffer[500];
+static char rxTopic[500];
+
+char rxBuffer[500];
 
 static void mqtt_vCreate_message_json_keep_alive();
 static void mqtt_check_error_to_publish_warning(uint8_t u8Value_of_warning);
@@ -54,6 +58,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         u8Mqtt_status = MQTT_CONNECTED;
 
         msg_id = esp_mqtt_client_subscribe(client, "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/telemetry", 0);
+        msg_id++;
+        msg_id = esp_mqtt_client_subscribe(client, "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/uart", 0);
         ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
         break;
     case MQTT_EVENT_DISCONNECTED:
@@ -71,10 +77,18 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         ESP_LOGI(TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
         break;
     case MQTT_EVENT_DATA:
-        ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-
-        snprintf(rxBuffer, event->data_len + 1, event->data);
-        xQueueSend(queue, rxBuffer, (TickType_t)0);
+        // ESP_LOGI(TAG, "MQTT_EVENT_DATA");
+        snprintf(rxTopic, 48, event->topic);
+        if (strcmp(rxTopic, "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/telemetry") == 0)
+        {
+            snprintf(rxBuffer, event->data_len + 1, event->data);
+            xQueueSend(queue, rxBuffer, (TickType_t)0);
+        }
+        else
+        {
+            snprintf(rxBuffer, event->data_len + 1, event->data);
+            xQueueSend(queue_host_main, rxBuffer, (TickType_t)0);
+        }
         break;
     case MQTT_EVENT_ERROR:
         ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
@@ -103,6 +117,7 @@ void mqtt_vApp_start()
 void mqtt_vSubscribe_data_task(void *params)
 {
     queue = xQueueCreate(SIZE_QUEUE_TASK_SUB, sizeof(rxBuffer));
+    queue_host_main = xQueueCreate(SIZE_QUEUE_TASK_SUB, sizeof(rxBuffer));
     for (;;)
     {
         if (xQueueReceive(queue, &rxBuffer, (TickType_t)portMAX_DELAY))
@@ -111,24 +126,26 @@ void mqtt_vSubscribe_data_task(void *params)
             if (root != NULL)
             {
                 u8Trans_code++;
-                char *device_id = NULL;
-                char *cmd_name = NULL;
-                char *object_type = NULL;
+                char *device_id;
+                char *cmd_name;
+                char *object_type;
 
                 device_id = cJSON_GetObjectItemCaseSensitive(root, "thing_token")->valuestring;
                 cmd_name = cJSON_GetObjectItemCaseSensitive(root, "cmd_name")->valuestring;
                 object_type = cJSON_GetObjectItemCaseSensitive(root, "object_type")->valuestring;
-
-                if (strcmp(device_id, mac_address) == 0 && strcmp(cmd_name, "Bee.conf") == 0)
+                if (device_id != NULL && cmd_name != NULL && object_type != NULL)
                 {
-                    if (strcmp(object_type, OBJECT_TYPE_TEMP) == 0 && (u8Mqtt_status == MQTT_CONNECTED))
+                    if (strcmp(device_id, mac_address) == 0 && strcmp(cmd_name, "Bee.conf") == 0)
                     {
-                        mqtt_vCreate_message_json_data(FLAG_TEMPERATURE, u8Temperature);
-                    }
-                    else if (strcmp(object_type, OBJECT_TYPE_HUM) == 0 && (u8Mqtt_status == MQTT_CONNECTED))
-                    {
+                        if (strcmp(object_type, OBJECT_TYPE_TEMP) == 0 && (u8Mqtt_status == MQTT_CONNECTED))
+                        {
+                            mqtt_vCreate_message_json_data(FLAG_TEMPERATURE, u8Temperature);
+                        }
+                        else if (strcmp(object_type, OBJECT_TYPE_HUM) == 0 && (u8Mqtt_status == MQTT_CONNECTED))
+                        {
 
-                        mqtt_vCreate_message_json_data(FLAG_HUMIDITY, u8Humidity);
+                            mqtt_vCreate_message_json_data(FLAG_HUMIDITY, u8Humidity);
+                        }
                     }
                 }
                 cJSON_Delete(root);
@@ -197,7 +214,6 @@ void mqtt_vPublish_data_task(void *params)
             // publish message keep alive
             if (xTaskGetTickCount() - last_time_send_keep_alive > pdMS_TO_TICKS(BEE_TIME_KEEP_ALIVE))
             {
-
                 last_time_send_keep_alive = xTaskGetTickCount();
                 u8Trans_code++;
 
@@ -208,7 +224,6 @@ void mqtt_vPublish_data_task(void *params)
             // publish message data temp, hum to server
             if (xTaskGetTickCount() - last_time_send_data_sensor > pdMS_TO_TICKS(MQTT_PERIOD))
             {
-
                 last_time_send_data_sensor = xTaskGetTickCount();
                 if (DHT11_sRead().status == DHT11_OK)
                 {
@@ -233,60 +248,69 @@ void mqtt_vPublish_data_task(void *params)
 
 static void mqtt_vCreate_message_json_keep_alive()
 {
-    cJSON *root = NULL, *values = NULL;
+    cJSON *root, *values;
 
     root = cJSON_CreateObject();
-    cJSON_AddItemToObject(root, "thing_token", cJSON_CreateString(mac_address));
-    cJSON_AddItemToObject(root, "values", values = cJSON_CreateObject());
-    cJSON_AddItemToObject(values, "eventType", cJSON_CreateString("refresh"));
-    cJSON_AddItemToObject(values, "status", cJSON_CreateString("ONLINE"));
-    cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
-    message_keep_alive_json = cJSON_Print(root);
-    cJSON_Delete(root);
+    if (root != NULL)
+    {
+        cJSON_AddItemToObject(root, "thing_token", cJSON_CreateString(mac_address));
+        cJSON_AddItemToObject(root, "values", values = cJSON_CreateObject());
+        cJSON_AddItemToObject(values, "eventType", cJSON_CreateString("refresh"));
+        cJSON_AddItemToObject(values, "status", cJSON_CreateString("ONLINE"));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        message_keep_alive_json = cJSON_Print(root);
+        cJSON_Delete(root);
+    }
 }
 static void mqtt_vCreate_message_json_data(uint8_t u8Flag_temp_humi, uint8_t u8Value)
 {
-    char *message_json_publish = NULL;
+    char *message_json_publish;
     u8Trans_code++;
-
-    cJSON *root = NULL;
+    cJSON *root;
 
     root = cJSON_CreateObject();
-    cJSON_AddItemToObject(root, "thing_token", cJSON_CreateString(mac_address));
-    cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
-
-    if (u8Flag_temp_humi == FLAG_TEMPERATURE)
+    if (root != NULL)
     {
-        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("temperature"));
-    }
-    else
-    {
-        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("humidity"));
-    }
+        cJSON_AddItemToObject(root, "thing_token", cJSON_CreateString(mac_address));
+        cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
 
-    cJSON_AddItemToObject(root, "values", cJSON_CreateNumber(u8Value));
-    cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+        if (u8Flag_temp_humi == FLAG_TEMPERATURE)
+        {
+            cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("temperature"));
+        }
+        else
+        {
+            cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("humidity"));
+        }
+
+        cJSON_AddItemToObject(root, "values", cJSON_CreateNumber(u8Value));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+    }
     message_json_publish = cJSON_Print(root);
     cJSON_Delete(root);
 
-    esp_mqtt_client_publish(client, topic_subscribe, message_json_publish, 0, 0, 0);
+    if (message_json_publish != NULL)
+        esp_mqtt_client_publish(client, topic_subscribe, message_json_publish, 0, 0, 0);
 }
 
 static void mqtt_check_error_to_publish_warning(uint8_t u8Value_of_warning)
 {
-    char *message_json_publish = NULL;
+    char *message_json_publish;
     u8Trans_code++;
 
-    cJSON *root = NULL;
+    cJSON *root;
     root = cJSON_CreateObject();
-    cJSON_AddItemToObject(root, "thing_token", cJSON_CreateString(mac_address));
-    cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
-    cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
-    cJSON_AddItemToObject(root, "values", cJSON_CreateNumber(u8Value_of_warning));
-    cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
-
+    if (root != NULL)
+    {
+        cJSON_AddItemToObject(root, "thing_token", cJSON_CreateString(mac_address));
+        cJSON_AddItemToObject(root, "cmd_name", cJSON_CreateString("Bee.data"));
+        cJSON_AddItemToObject(root, "object_type", cJSON_CreateString("Bee_warning"));
+        cJSON_AddItemToObject(root, "values", cJSON_CreateNumber(u8Value_of_warning));
+        cJSON_AddItemToObject(root, "trans_code", cJSON_CreateNumber(u8Trans_code));
+    }
     message_json_publish = cJSON_Print(root);
 
     cJSON_Delete(root);
-    esp_mqtt_client_publish(client, topic_subscribe, message_json_publish, 0, 0, 0);
+    if (message_json_publish != NULL)
+        esp_mqtt_client_publish(client, topic_subscribe, message_json_publish, 0, 0, 0);
 }

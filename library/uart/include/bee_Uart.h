@@ -22,6 +22,10 @@
 #define LOCATE_COMMAND_ID 4
 #define LOCATE_TIME_DELAY 7
 
+#define COMMAND_FROM_SERVER 0x03
+#define CHECK_SUM_MESSAGE_SERVER 0x03
+#define MESSAGE_FROM_SERVER 0xFE
+
 #define TIME_FOR_DELAY_TASK 10
 
 extern uint8_t u8Temperature;
