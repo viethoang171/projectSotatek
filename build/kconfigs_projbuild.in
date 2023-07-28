@@ -3,3 +3,4 @@ source "D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_app
 source "D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/Kconfig.projbuild"
 source "D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/Kconfig.projbuild"
 source "D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/Kconfig.projbuild"
+source "D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/main/Kconfig.projbuild"

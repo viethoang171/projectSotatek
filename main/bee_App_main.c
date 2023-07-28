@@ -5,7 +5,6 @@
  * @brief module for project read signal DHT11, up data to host main, receive signal from host main
  */
 
-#include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
@@ -14,7 +13,6 @@
 #include "sdkconfig.h"
 #include "nvs_flash.h"
 #include "mqtt_client.h"
-// #include "esp_wifi.h"
 
 #include "bee_Button.h"
 #include "bee_Led.h"
@@ -36,7 +34,7 @@ uint8_t u8Flash_data;
 uint8_t u8Flag_delay = TIME_DELAY_1S;
 uint8_t u8Flag_run = SEND_UP_DATA_STATUS;
 
-void button_vEventCallback(int pin);
+void button_vEventCallback(uint8_t pin);
 
 void app_main(void)
 {
@@ -54,9 +52,9 @@ void app_main(void)
     output_vCreate(LED_RED);
 
     DHT11_vInit(DHT_DATA);
+    uart_vCreate();
 
     flash_vFlashInit(&wifi_flash);
-    wifi_vInit();
 #if (0)
     esp_wifi_get_mac(ESP_IF_WIFI_STA, u8Mac_address);
 #endif
@@ -68,18 +66,17 @@ void app_main(void)
     u8Flag_run /= 10;
     flash_vFlashClose(&my_handle_flash);
 
-    xTaskCreate(mqtt_vPublish_data_task, "mqtt_vPublish_data_task", 1024 * 5, NULL, 5, NULL);
-    xTaskCreate(mqtt_vSubscribe_data_task, "mqtt_vSubscribe_data_task", 2048, NULL, 6, NULL);
+    xTaskCreate(mqtt_vPublish_data_task, "mqtt_vPublish_data_task", 1024 * 2, NULL, 5, NULL);
+    xTaskCreate(mqtt_vSubscribe_data_task, "mqtt_vSubscribe_data_task", 1024 * 2, NULL, 6, NULL);
+    xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 1024, NULL, 2, NULL);
+    xTaskCreate(uart_vUpDataHostMain_task, "uart_vUpDataHostMain_task", 1024, NULL, 4, &xHandle);
+    xTaskCreate(uart_vReceiveDataHostMain_task, "uart_vReceiveDataHostMain_task", 1024 * 2, NULL, 3, NULL);
 
-    xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 2048, NULL, 2, NULL);
-
-    uart_vCreate();
-    xTaskCreate(uart_vUpDataHostMain_task, "uart_vUpDataHostMain_task", 2048, NULL, 4, &xHandle);
-
-    xTaskCreate(uart_vReceiveDataHostMain_task, "uart_vReceiveDataHostMain_task", 2048, NULL, 3, NULL);
+    smart_config();
+    mqtt_vApp_start();
 }
 
-void button_vEventCallback(int pin)
+void button_vEventCallback(uint8_t pin)
 {
     if (pin == BUTTON_1)
     {

@@ -4,8 +4,6 @@
  * @date 25 June 2023
  * @brief module for output with GPIO, API "create", "set level", "toggle" for others functions
  */
-#include <stdio.h>
-#include <esp_log.h>
 #include <driver/gpio.h>
 #include "bee_Led.h"
 

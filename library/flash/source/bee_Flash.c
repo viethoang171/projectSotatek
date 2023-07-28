@@ -4,12 +4,9 @@
  * @date 25 June 2023
  * @brief module for process with flash memory, API "init", "open", "close", "read", "write" for others functions
  */
-#include <stdio.h>
-#include "esp_system.h"
 #include "nvs_flash.h"
-#include "nvs.h"
-#include "esp_err.h"
 #include "bee_FLash.h"
+
 void flash_vFlashInit(esp_err_t *pErr)
 {
     (*pErr) = nvs_flash_init();

@@ -4,8 +4,6 @@
  * @date 25 June 2023
  * @brief module for input button with GPIO, API "create", "call back" for others functions
  */
-#include <stdio.h>
-#include <esp_log.h>
 #include <driver/gpio.h>
 #include "esp_attr.h"
 #include "bee_Button.h"

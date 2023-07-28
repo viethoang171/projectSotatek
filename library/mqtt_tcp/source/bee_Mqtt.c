@@ -4,11 +4,10 @@
  * @date 05 July 2023
  * @brief module wifi, API for config and init wifi to connect
  */
-#include "esp_log.h"
-#include "esp_system.h"
 #include "mqtt_client.h"
 #include "freertos/semphr.h"
 #include "freertos/portmacro.h"
+
 #include "bee_cJSON.h"
 #include "bee_DHT.h"
 #include "bee_Mqtt.h"
@@ -20,12 +19,11 @@ extern uint8_t u8Amplitude_humidity;
 extern uint8_t u8Count_times_dht_data_change;
 
 QueueHandle_t queue_host_main;
+static QueueHandle_t queue;
 
-static uint8_t u8Mac_address[6] = {0xb8, 0xd6, 0x1a, 0x6b, 0x2d, 0xe8};
 static char topic_subscribe[100];
 static char mac_address[20];
 
-static const char *TAG = "MQTT_EXAMPLE";
 static esp_mqtt_client_handle_t client = NULL;
 static uint32_t u8Mqtt_status = MQTT_DISCONNECTED;
 
@@ -37,9 +35,6 @@ static uint8_t u8Value_warning_previous = 255;
 
 static char *message_keep_alive_json;
 
-static QueueHandle_t queue;
-static char rxTopic[500];
-
 char rxBuffer[500];
 
 static void mqtt_vCreate_message_json_keep_alive();
@@ -48,36 +43,30 @@ static void mqtt_vCreate_message_json_data(uint8_t u8Flag_temp_humi, uint8_t u8V
 
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
+    char rxTopic[100] = {};
     esp_mqtt_event_handle_t event = event_data;
     esp_mqtt_client_handle_t client = event->client;
     int msg_id;
     switch ((esp_mqtt_event_id_t)event_id)
     {
     case MQTT_EVENT_CONNECTED:
-        ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
         u8Mqtt_status = MQTT_CONNECTED;
 
         msg_id = esp_mqtt_client_subscribe(client, "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/telemetry", 0);
         msg_id++;
         msg_id = esp_mqtt_client_subscribe(client, "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/uart", 0);
-        ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
         break;
     case MQTT_EVENT_DISCONNECTED:
-        ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
         u8Mqtt_status = MQTT_DISCONNECTED;
         break;
 
     case MQTT_EVENT_SUBSCRIBED:
-        ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
         break;
     case MQTT_EVENT_UNSUBSCRIBED:
-        ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
         break;
     case MQTT_EVENT_PUBLISHED:
-        ESP_LOGI(TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
         break;
     case MQTT_EVENT_DATA:
-        // ESP_LOGI(TAG, "MQTT_EVENT_DATA");
         snprintf(rxTopic, 48, event->topic);
         if (strcmp(rxTopic, "VB/DMP/VBEEON/CUSTOM/SMH/b8d61a6b2de8/telemetry") == 0)
         {
@@ -91,17 +80,14 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         }
         break;
     case MQTT_EVENT_ERROR:
-        ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
         break;
     default:
-        ESP_LOGI(TAG, "Other event id:%d", event->event_id);
         break;
     }
 }
 
 void mqtt_vApp_start()
 {
-    ESP_LOGI(TAG, "STARTING MQTT");
     esp_mqtt_client_config_t mqttConfig = {
         .broker.address.uri = BEE_MQTT_BROKER,
         .broker.address.port = BEE_PORT,
@@ -156,6 +142,7 @@ void mqtt_vSubscribe_data_task(void *params)
 
 void mqtt_vPublish_data_task(void *params)
 {
+    uint8_t u8Mac_address[6] = {0xb8, 0xd6, 0x1a, 0x6b, 0x2d, 0xe8};
     last_time_send_keep_alive = xTaskGetTickCount();
     last_time_send_data_sensor = last_time_send_keep_alive;
 

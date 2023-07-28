@@ -356,6 +356,7 @@ D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sampl
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/esp_wifi/CMakeFiles/install.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/esp_wifi/CMakeFiles/install/local.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/esp_wifi/CMakeFiles/install/strip.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/bt/CMakeFiles/__idf_bt.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/bt/CMakeFiles/edit_cache.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/bt/CMakeFiles/rebuild_cache.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/bt/CMakeFiles/list_install_components.dir
@@ -587,6 +588,13 @@ D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sampl
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi_provisioning/CMakeFiles/install.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi_provisioning/CMakeFiles/install/local.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi_provisioning/CMakeFiles/install/strip.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/espressif__qrcode/CMakeFiles/__idf_espressif__qrcode.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/espressif__qrcode/CMakeFiles/edit_cache.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/espressif__qrcode/CMakeFiles/rebuild_cache.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/espressif__qrcode/CMakeFiles/list_install_components.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/espressif__qrcode/CMakeFiles/install.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/espressif__qrcode/CMakeFiles/install/local.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/espressif__qrcode/CMakeFiles/install/strip.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/main/CMakeFiles/__idf_main.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/main/CMakeFiles/edit_cache.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/main/CMakeFiles/rebuild_cache.dir

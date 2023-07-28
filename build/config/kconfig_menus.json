@@ -4025,6 +4025,165 @@
                 "children": [
                     {
                         "children": [],
+                        "depends_on": "!IDF_TARGET_ESP32S2 && <choice EXAMPLE_PROV_TRANSPORT>",
+                        "help": null,
+                        "id": "EXAMPLE_PROV_TRANSPORT_BLE",
+                        "name": "EXAMPLE_PROV_TRANSPORT_BLE",
+                        "range": null,
+                        "title": "BLE",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_PROV_TRANSPORT>",
+                        "help": null,
+                        "id": "EXAMPLE_PROV_TRANSPORT_SOFTAP",
+                        "name": "EXAMPLE_PROV_TRANSPORT_SOFTAP",
+                        "range": null,
+                        "title": "Soft AP",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": "Wi-Fi provisioning component offers both, SoftAP and BLE transports. Choose any one.",
+                "id": "example-configuration-provisioning-transport",
+                "name": "EXAMPLE_PROV_TRANSPORT",
+                "title": "Provisioning Transport",
+                "type": "choice"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_PROV_SECURITY_VERSION>",
+                        "help": null,
+                        "id": "EXAMPLE_PROV_SECURITY_VERSION_1",
+                        "name": "EXAMPLE_PROV_SECURITY_VERSION_1",
+                        "range": null,
+                        "title": "Security version 1",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_PROV_SECURITY_VERSION>",
+                        "help": null,
+                        "id": "EXAMPLE_PROV_SECURITY_VERSION_2",
+                        "name": "EXAMPLE_PROV_SECURITY_VERSION_2",
+                        "range": null,
+                        "title": "Security version 2",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": "Wi-Fi provisioning component offers 3 security versions.\nThe example offers a choice between security version 1 and 2.",
+                "id": "example-configuration-protocomm-security-version",
+                "name": "EXAMPLE_PROV_SECURITY_VERSION",
+                "title": "Protocomm security version",
+                "type": "choice"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_PROV_SECURITY_VERSION_2 && <choice EXAMPLE_PROV_MODE>",
+                        "help": "This enables the development mode for\nsecurity version 2.\nPlease note that this mode is NOT recommended for production purpose.",
+                        "id": "EXAMPLE_PROV_SEC2_DEV_MODE",
+                        "name": "EXAMPLE_PROV_SEC2_DEV_MODE",
+                        "range": null,
+                        "title": "Security version 2 development mode",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_PROV_SECURITY_VERSION_2 && <choice EXAMPLE_PROV_MODE>",
+                        "help": "This enables the production mode for\nsecurity version 2.",
+                        "id": "EXAMPLE_PROV_SEC2_PROD_MODE",
+                        "name": "EXAMPLE_PROV_SEC2_PROD_MODE",
+                        "range": null,
+                        "title": "Security version 2 production mode",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": "EXAMPLE_PROV_SECURITY_VERSION_2",
+                "help": null,
+                "id": "example-configuration-security-version-2-mode",
+                "name": "EXAMPLE_PROV_MODE",
+                "title": "Security version 2 mode",
+                "type": "choice"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "EXAMPLE_PROV_TRANSPORT",
+                "name": "EXAMPLE_PROV_TRANSPORT",
+                "range": null,
+                "title": null,
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "This erases the NVS to reset provisioned status of the device on every reboot.\nProvisioned status is determined by the Wi-Fi STA configuration, saved on the NVS.",
+                "id": "EXAMPLE_RESET_PROVISIONED",
+                "name": "EXAMPLE_RESET_PROVISIONED",
+                "range": null,
+                "title": "Reset provisioned status of the device",
+                "type": "bool"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_RESET_PROV_MGR_ON_FAILURE",
+                        "help": "Set the Maximum retry to avoid reconnecting to an inexistent AP or if credentials\nare misconfigured. Provisioned credentials are erased and internal state machine\nis reset after this threshold is reached.",
+                        "id": "EXAMPLE_PROV_MGR_MAX_RETRY_CNT",
+                        "name": "EXAMPLE_PROV_MGR_MAX_RETRY_CNT",
+                        "range": null,
+                        "title": "Max retries before reseting provisioning state machine",
+                        "type": "int"
+                    }
+                ],
+                "depends_on": null,
+                "help": "Enable reseting provisioned credentials and state machine after session failure.\nThis will restart the provisioning service after retries are exhausted.",
+                "id": "EXAMPLE_RESET_PROV_MGR_ON_FAILURE",
+                "name": "EXAMPLE_RESET_PROV_MGR_ON_FAILURE",
+                "range": null,
+                "title": "Reset provisioned credentials and state machine after session failure",
+                "type": "bool"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": "Show the QR code for provisioning.",
+                "id": "EXAMPLE_PROV_SHOW_QR",
+                "name": "EXAMPLE_PROV_SHOW_QR",
+                "range": null,
+                "title": "Show provisioning QR code",
+                "type": "bool"
+            },
+            {
+                "children": [],
+                "depends_on": "BT_BLUEDROID_ENABLED && (IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32S3)",
+                "help": "This enables BLE 4.2 features for Bluedroid.",
+                "id": "EXAMPLE_PROV_USING_BLUEDROID",
+                "name": "EXAMPLE_PROV_USING_BLUEDROID",
+                "range": null,
+                "title": null,
+                "type": "bool"
+            }
+        ],
+        "depends_on": null,
+        "id": "example-configuration",
+        "title": "Example Configuration",
+        "type": "menu"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": [],
                         "depends_on": "<choice COMPILER_OPTIMIZATION>",
                         "help": null,
                         "id": "COMPILER_OPTIMIZATION_DEFAULT",
@@ -7506,7 +7665,10 @@
                                 "help": "Defines maximum number of concurrent BLE connections. For ESP32, user\nis expected to configure BTDM_CTRL_BLE_MAX_CONN from controller menu\nalong with this option. Similarly for ESP32-C3 or ESP32-S3, user is expected to\nconfigure BT_CTRL_BLE_MAX_ACT from controller menu.\nFor ESP32C2, ESP32C6 and ESP32H2, each connection will take about 1k DRAM.",
                                 "id": "BT_NIMBLE_MAX_CONNECTIONS",
                                 "name": "BT_NIMBLE_MAX_CONNECTIONS",
-                                "range": null,
+                                "range": [
+                                    1,
+                                    9
+                                ],
                                 "title": "Maximum number of concurrent connections",
                                 "type": "int"
                             },
@@ -7536,7 +7698,10 @@
                                 "help": "Defines maximum number of BLE Connection Oriented Channels. When set to (0), BLE COC is not compiled in",
                                 "id": "BT_NIMBLE_L2CAP_COC_MAX_NUM",
                                 "name": "BT_NIMBLE_L2CAP_COC_MAX_NUM",
-                                "range": null,
+                                "range": [
+                                    0,
+                                    9
+                                ],
                                 "title": "Maximum number of connection oriented channels",
                                 "type": "int"
                             },
@@ -7898,7 +8063,10 @@
                                 "help": "Time interval between RPA address change. This is applicable in case of\nHost based RPA",
                                 "id": "BT_NIMBLE_RPA_TIMEOUT",
                                 "name": "BT_NIMBLE_RPA_TIMEOUT",
-                                "range": null,
+                                "range": [
+                                    1,
+                                    41400
+                                ],
                                 "title": "RPA timeout in seconds",
                                 "type": "int"
                             },
@@ -8270,7 +8438,10 @@
                                 "help": "BLE list size",
                                 "id": "BT_NIMBLE_WHITELIST_SIZE",
                                 "name": "BT_NIMBLE_WHITELIST_SIZE",
-                                "range": null,
+                                "range": [
+                                    1,
+                                    15
+                                ],
                                 "title": "BLE white list size",
                                 "type": "int"
                             },
@@ -8368,7 +8539,10 @@
                                 "help": "BLE maximum connections of bluetooth controller.\nEach connection uses 1KB static DRAM whenever the BT controller is enabled.",
                                 "id": "BTDM_CTRL_BLE_MAX_CONN",
                                 "name": "BTDM_CTRL_BLE_MAX_CONN",
-                                "range": null,
+                                "range": [
+                                    1,
+                                    9
+                                ],
                                 "title": "BLE Max Connections",
                                 "type": "int"
                             },
@@ -8869,7 +9043,10 @@
                                         "help": "Maximum number of devices which can be recorded in scan duplicate filter.\nWhen the maximum amount of device in the filter is reached, the cache will be refreshed.",
                                         "id": "BTDM_SCAN_DUPL_CACHE_SIZE",
                                         "name": "BTDM_SCAN_DUPL_CACHE_SIZE",
-                                        "range": null,
+                                        "range": [
+                                            10,
+                                            1000
+                                        ],
                                         "title": "Maximum number of devices in scan duplicate filter",
                                         "type": "int"
                                     },
@@ -8879,7 +9056,10 @@
                                         "help": "If the period value is non-zero, the controller will periodically clear the device information\nstored in the scan duuplicate filter. If it is 0, the scan duuplicate filter will not be cleared\nuntil the scanning is disabled. Duplicate advertisements for this period should not be sent to the\nHost in advertising report events.\nThere are two scenarios where the ADV packet will be repeatedly reported:\n1. The duplicate scan cache is full, the controller will delete the oldest device information and\nadd new device information.\n2. When the refresh period is up, the controller will clear all device information and start filtering\nagain.",
                                         "id": "BTDM_SCAN_DUPL_CACHE_REFRESH_PERIOD",
                                         "name": "BTDM_SCAN_DUPL_CACHE_REFRESH_PERIOD",
-                                        "range": null,
+                                        "range": [
+                                            0,
+                                            1000
+                                        ],
                                         "title": "Duplicate scan list refresh period (seconds)",
                                         "type": "int"
                                     },
@@ -8931,7 +9111,10 @@
                                         "help": "The number of unprocessed advertising report that Bluedroid can save.If you set\n`BTDM_BLE_ADV_REPORT_FLOW_CTRL_NUM` to a small value, this may cause adv packets lost.\nIf you set `BTDM_BLE_ADV_REPORT_FLOW_CTRL_NUM` to a large value, Bluedroid may cache a\nlot of adv packets and this may cause system memory run out. For example, if you set\nit to 50, the maximum memory consumed by host is 35 * 50 bytes. Please set\n`BTDM_BLE_ADV_REPORT_FLOW_CTRL_NUM` according to your system free memory and handle adv\npackets as fast as possible, otherwise it will cause adv packets lost.",
                                         "id": "BTDM_BLE_ADV_REPORT_FLOW_CTRL_NUM",
                                         "name": "BTDM_BLE_ADV_REPORT_FLOW_CTRL_NUM",
-                                        "range": null,
+                                        "range": [
+                                            50,
+                                            1000
+                                        ],
                                         "title": "BLE adv report flow control number",
                                         "type": "int"
                                     },
@@ -8941,7 +9124,10 @@
                                         "help": "When adv report flow control is enabled, The ADV lost event will be generated when the number\nof ADV packets lost in the controller reaches this threshold. It is better to set a larger value.\nIf you set `BTDM_BLE_ADV_REPORT_DISCARD_THRSHOLD` to a small value or printf every adv lost event, it\nmay cause adv packets lost more.",
                                         "id": "BTDM_BLE_ADV_REPORT_DISCARD_THRSHOLD",
                                         "name": "BTDM_BLE_ADV_REPORT_DISCARD_THRSHOLD",
-                                        "range": null,
+                                        "range": [
+                                            1,
+                                            1000
+                                        ],
                                         "title": "BLE adv lost event threshold value",
                                         "type": "int"
                                     }

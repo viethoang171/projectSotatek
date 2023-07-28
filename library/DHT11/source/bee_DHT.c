@@ -12,11 +12,11 @@
 #include "freertos/semphr.h"
 #include "freertos/task.h"
 #include "freertos/portmacro.h"
+
 #include "bee_Led.h"
 #include "bee_DHT.h"
 
 extern SemaphoreHandle_t xSemaphore;
-static TickType_t last_time_read_dht;
 static uint8_t u8Flag_first_time_read = 0;
 
 static gpio_num_t dht_gpio;
@@ -32,10 +32,11 @@ uint8_t u8Amplitude_humidity;
 
 uint8_t u8Count_error_dht_signal = 0;
 uint8_t u8Count_times_dht_data_change = 0;
-uint8_t u8String_temperature[MAX_NUM_DATA] = {0};
-uint8_t u8String_humidity[MAX_NUM_DATA] = {0};
-uint16_t u16Start_period_data = 1;
-uint16_t u16End_period_data = 1;
+
+static uint8_t u8String_temperature[MAX_NUM_DATA] = {0};
+static uint8_t u8String_humidity[MAX_NUM_DATA] = {0};
+static uint16_t u16Start_period_data = 1;
+static uint16_t u16End_period_data = 1;
 
 static uint32_t DHT_u32WaitOrTimeOut(uint16_t u16MicroSeconds, uint8_t u8Level)
 {
@@ -194,7 +195,6 @@ static void DHT_vSaveData()
     // Neu doc lan dau
     if (u8Flag_first_time_read == 0)
     {
-
         if (u8Count_times_dht_data_change == TIMES_CHECK_LEVEL)
         {
             u8Flag_first_time_read = 1;
@@ -247,6 +247,7 @@ void DHT_vCreateCheckSum(char *chuoi)
 
 void dht11_vReadDataDht11_task(void *pvParameters)
 {
+    TickType_t last_time_read_dht;
     last_time_read_dht = xTaskGetTickCount();
     for (;;)
     {
