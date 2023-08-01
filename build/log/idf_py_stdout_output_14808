@@ -1,0 +1,72 @@
+[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/tools/idf_size.py --archives D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.map"
+Total sizes:
+Used static DRAM:   14708 bytes ( 109872 remain, 11.8% used)
+      .data size:    9836 bytes
+      .bss  size:    4872 bytes
+Used static IRAM:   53402 bytes (  77670 remain, 40.7% used)
+      .text size:   52375 bytes
+   .vectors size:    1027 bytes
+Used Flash size :  200075 bytes
+      .text     :  156231 bytes
+      .rodata   :   43588 bytes
+Total image size:  263313 bytes (.bin may be padded larger)
+Per-archive contributions to ELF file:
+            Archive File DRAM .data & 0.bss .rtc_noinit IRAM0 .text & 0.vectors ram_st_total Flash .text & .rodata & .appdesc flash_total
+                  libc.a          4       0           0           0           0            4       82411      4813          0       87228
+           libfreertos.a       1560     688           0       13496         424        16168         107      3708          0       19295
+             libdriver.a         96      13           0         686           0          795       12501      3013          0       16296
+     libesp_hw_support.a        413      68          16        5759           0         6256        6454      1474          0       14116
+          libnvs_flash.a          0      24           0           0           0           24       13074       592          0       13666
+         libesp_system.a        197     138           0        2710           0         3045        6165      4572          0       13644
+          libspi_flash.a       1454     282           0        8950           0        10686         522      1624          0       12550
+               libheap.a          4       8           0        5128           0         5140        2787      4523          0       12442
+         libesp_common.a          0       0           0           0           0            0          51      7552          0        7603
+                libvfs.a        308      60           0           0           0          368        6425       662          0        7395
+                libhal.a        105       0           0        3949           0         4054        2805       147          0        7006
+        libesp_ringbuf.a          0       0           0        4429           0         4429           0      2329          0        6758
+               libjson.a         12       8           0           0           0           20        5194        54          0        5260
+                 libbt.a       4444       0           0         336           0         4780           0         0          0        4780
+          libesp_timer.a         32      24           0        1500           0         1556        1288       940          0        3760
+             libstdc++.a          8      36           0           0           0           44        2091      1468          0        3567
+               libmqtt.a          4       0           0           0           0            4        2189      1087          0        3280
+             libnewlib.a        239     440           0        1388           0         2067         996       340          0        2963
+ libbootloader_support.a          0       0           0        1858           0         1858          25       167          0        2050
+      libesp_partition.a          0       8           0           0           0            8        1489       477          0        1966
+            libpthread.a         16      12           0         223           0          251         876       468          0        1583
+           libmqtt_tcp.a          1     649           0           0           0          650        1271       216          0        1488
+                libsoc.a         40       0           0          10           0           50           0      1400          0        1450
+              libDHT11.a         12    2025           0           0           0         2037        1252        29          0        1293
+                liblog.a          8     272           0         268           0          548         792       144          0        1212
+               libuart.a          0       8           0           0           0            8         844        40          0         884
+            libcoexist.a        194      32           0           0           0          226         359       262          0         815
+               libmain.a          0      23           0           0           0           23         614       139          0         753
+             libxtensa.a        512       0           0          77           0          589         114        35          0         738
+          libesp_event.a          0       0           0           0           0            0         634        88          0         722
+                  libm.a          0       0           0           0           0            0         622         0          0         622
+           libesp_wifi.a         92       0           0         166           0          258         221        39          0         518
+     libesp_app_format.a          1       8           0         190           0          199          27         4        256         478
+             libxt_hal.a          0       0           0         443           0          443           0        32          0         475
+              libflash.a          0       0           0           0           0            0         220       135          0         355
+         libapp_update.a          0       4           0           0           0            4         147       125          0         272
+             liboutput.a          0       0           0           0           0            0         235         0          0         235
+            libesp_phy.a          0       0           0           0           0            0         167        35          0         202
+            libesp_rom.a          0       0           0         187           0          187           0         0          0         187
+                libgcc.a          0       0           0           0           0            0           0       160          0         160
+      libtcp_transport.a          0       0           0           0           0            0         114         0          0         114
+             libbutton.a          0       4           0          19           0           23          68         0          0          87
+            libesp-tls.a          0       0           0           0           0            0          69         0          0          69
+                libcxx.a          0       0           0           0           0            0          35         0          0          35
+                   (exe)          0       0           0           0           3            3           3        12          0          18
+              libefuse.a          0       0           0           0           0            0          17         0          0          17
+               libcore.a          0       0           0           0           0            0           0         0          0           0
+        libhttp_parser.a          0       0           0           0           0            0           0         0          0           0
+               liblwip.a          0       0           0           0           0            0           0         0          0           0
+         libmbedcrypto.a          0       0           0           0           0            0           0         0          0           0
+            libmbedtls.a          0       0           0           0           0            0           0         0          0           0
+           libmbedx509.a          0       0           0           0           0            0           0         0          0           0
+               libmesh.a          0       0           0           0           0            0           0         0          0           0
+           libnet80211.a          0       0           0           0           0            0           0         0          0           0
+                libphy.a          0       0           0           0           0            0           0         0          0           0
+                 libpp.a          0       0           0           0           0            0           0         0          0           0
+                librtc.a          0       0           0           0           0            0           0         0          0           0
+     libwpa_supplicant.a          0       0           0           0           0            0           0         0          0           0
