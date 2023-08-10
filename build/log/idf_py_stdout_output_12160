@@ -1,0 +1,11 @@
+[0/1] Re-running CMake...
+-- ccache will be used for faster recompilation
+-- Project is not inside a git repository, or git repository has no commits; will not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32
+Processing 2 dependencies:
+[1/2] espressif/qrcode (0.1.0)
+[2/2] idf (5.0.2)
+-- Configuring incomplete, errors occurred!
+See also "D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/CMakeFiles/CMakeOutput.log".
+FAILED: build.ninja 
+D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe --regenerate-during-build -SD:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project -BD:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build

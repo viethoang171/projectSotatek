@@ -1,40 +1,83 @@
-[1/13] Performing build step for 'bootloader'
+[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
+main.bin binary size 0x118bb0 bytes. Smallest app partition is 0x13d620 bytes. 0x24a70 bytes (12%) free.
+[2/5] Performing build step for 'bootloader'
 [1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
 Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
-[2/11] Building C object esp-idf/mqtt_tcp/CMakeFiles/__idf_mqtt_tcp.dir/source/bee_Mqtt.c.obj
-[3/11] Building C object esp-idf/wifi/CMakeFiles/__idf_wifi.dir/source/bee_Wifi.c.obj
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c: In function 'wifi_vInit':
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c:56:62: warning: passing argument 3 of 'esp_event_handler_register' from incompatible pointer type [-Wincompatible-pointer-types]
-   56 |     esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_espEvent_handler, NULL);
-      |                                                              ^~~~~~~~~~~~~~~~~~~~~~
-      |                                                              |
-      |                                                              esp_err_t (*)(void *, const char *, int32_t,  void *) {aka int (*)(void *, const char *, long int,  void *)}
-In file included from D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_wifi/include/esp_wifi.h:56,
-                 from D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c:7:
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_event/include/esp_event.h:141:58: note: expected 'esp_event_handler_t' {aka 'void (*)(void *, const char *, long int,  void *)'} but argument is of type 'esp_err_t (*)(void *, const char *, int32_t,  void *)' {aka 'int (*)(void *, const char *, long int,  void *)'}
-  141 |                                      esp_event_handler_t event_handler,
-      |                                      ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c:57:63: warning: passing argument 3 of 'esp_event_handler_register' from incompatible pointer type [-Wincompatible-pointer-types]
-   57 |     esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_espEvent_handler, NULL);
-      |                                                               ^~~~~~~~~~~~~~~~~~~~~~
-      |                                                               |
-      |                                                               esp_err_t (*)(void *, const char *, int32_t,  void *) {aka int (*)(void *, const char *, long int,  void *)}
-In file included from D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_wifi/include/esp_wifi.h:56,
-                 from D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c:7:
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_event/include/esp_event.h:141:58: note: expected 'esp_event_handler_t' {aka 'void (*)(void *, const char *, long int,  void *)'} but argument is of type 'esp_err_t (*)(void *, const char *, int32_t,  void *)' {aka 'int (*)(void *, const char *, long int,  void *)'}
-  141 |                                      esp_event_handler_t event_handler,
-      |                                      ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-[4/11] Linking C static library esp-idf\mqtt_tcp\libmqtt_tcp.a
-[5/11] Linking C static library esp-idf\wifi\libwifi.a
-[6/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/bee_App_main.c.obj
-[7/11] Linking C static library esp-idf\main\libmain.a
-[8/11] Generating ld/sections.ld
-[9/11] Linking CXX executable main.elf
-FAILED: main.elf 
-cmd.exe /C "cd . && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-g++.exe -mlongcalls -Wno-frame-address  @CMakeFiles\main.elf.rsp -o main.elf  && cd ."
-d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/11.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/mqtt_tcp/libmqtt_tcp.a(bee_Mqtt.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:25: multiple definition of `topic_subscribe'; esp-idf/main/libmain.a(bee_App_main.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:25: first defined here
-d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/11.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/mqtt_tcp/libmqtt_tcp.a(bee_Mqtt.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: multiple definition of `string_mac_address'; esp-idf/main/libmain.a(bee_App_main.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: first defined here
-d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/11.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/wifi/libwifi.a(bee_Wifi.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:25: multiple definition of `topic_subscribe'; esp-idf/main/libmain.a(bee_App_main.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:25: first defined here
-d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/11.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/wifi/libwifi.a(bee_Wifi.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: multiple definition of `string_mac_address'; esp-idf/main/libmain.a(bee_App_main.c.obj):D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include/bee_Mqtt.h:24: first defined here
-collect2.exe: error: ld returned 1 exit status
-ninja: build stopped: subcommand failed.
+[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
+esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.5.1
+Serial port COM7
+Connecting..........
+Chip is ESP32-D0WD-V3 (revision v3.0)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: b8:d6:1a:6b:2d:e8
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x00128fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26384 bytes to 16459...
+Writing at 0x00001000... (50 %)
+Writing at 0x000076ae... (100 %)
+Wrote 26384 bytes (16459 compressed) at 0x00001000 in 0.8 seconds (effective 271.8 kbit/s)...
+Hash of data verified.
+Compressed 1149872 bytes to 722390...
+Writing at 0x00010000... (2 %)
+Writing at 0x0001cdf1... (4 %)
+Writing at 0x00029b2c... (6 %)
+Writing at 0x0002f8c8... (8 %)
+Writing at 0x00035c53... (11 %)
+Writing at 0x00042c4d... (13 %)
+Writing at 0x00049fc2... (15 %)
+Writing at 0x0004f54c... (17 %)
+Writing at 0x000550fd... (20 %)
+Writing at 0x0005a85a... (22 %)
+Writing at 0x0006044f... (24 %)
+Writing at 0x00066893... (26 %)
+Writing at 0x0006c36c... (28 %)
+Writing at 0x00072373... (31 %)
+Writing at 0x00078205... (33 %)
+Writing at 0x0007e4c3... (35 %)
+Writing at 0x0008441d... (37 %)
+Writing at 0x0008a113... (40 %)
+Writing at 0x0009041a... (42 %)
+Writing at 0x00096024... (44 %)
+Writing at 0x0009bdf7... (46 %)
+Writing at 0x000a14c1... (48 %)
+Writing at 0x000a7aa6... (51 %)
+Writing at 0x000ad6cf... (53 %)
+Writing at 0x000b32ce... (55 %)
+Writing at 0x000b8765... (57 %)
+Writing at 0x000bdaf5... (60 %)
+Writing at 0x000c2d44... (62 %)
+Writing at 0x000c83ed... (64 %)
+Writing at 0x000cdb76... (66 %)
+Writing at 0x000d3261... (68 %)
+Writing at 0x000d9021... (71 %)
+Writing at 0x000de54a... (73 %)
+Writing at 0x000e3eb6... (75 %)
+Writing at 0x000e9732... (77 %)
+Writing at 0x000eef4b... (80 %)
+Writing at 0x000f485b... (82 %)
+Writing at 0x000f9fb4... (84 %)
+Writing at 0x00103421... (86 %)
+Writing at 0x00109d9a... (88 %)
+Writing at 0x001116a0... (91 %)
+Writing at 0x0011680c... (93 %)
+Writing at 0x0011c8bf... (95 %)
+Writing at 0x001222e8... (97 %)
+Writing at 0x001280a7... (100 %)
+Wrote 1149872 bytes (722390 compressed) at 0x00010000 in 17.0 seconds (effective 541.4 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 107...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (107 compressed) at 0x00008000 in 0.1 seconds (effective 378.8 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

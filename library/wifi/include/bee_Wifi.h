@@ -6,5 +6,14 @@
  */
 #ifndef SMART_CONFIG_H
 #define SMART_CONFIG_H
-void smart_config(void);
+
+#define MAX_PROV_RETRY 5
+#define TIME_OUT_CONFIG 60000
+
+#define PROV_QR_VERSION "v1"
+#define PROV_TRANSPORT_BLE "ble"
+#define QRCODE_BASE_URL "https://espressif.github.io/esp-jumpstart/qrcode.html"
+
+void wifi_vRetrySmartConfig();
+
 #endif

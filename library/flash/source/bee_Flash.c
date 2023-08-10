@@ -5,7 +5,23 @@
  * @brief module for process with flash memory, API "init", "open", "close", "read", "write" for others functions
  */
 #include "nvs_flash.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include "bee_FLash.h"
+
+uint8_t u8Flash_data;
+uint8_t u8Flag_delay = TIME_DELAY_1S;
+uint8_t u8Flag_run = SEND_UP_DATA_STATUS;
+
+void flash_vFlashSaveStatus(esp_err_t *err_flash, nvs_handle_t *my_handle_flash)
+{
+    flash_vFlashOpen(err_flash, my_handle_flash);
+    u8Flag_run = flash_u8FlashReadU8(err_flash, my_handle_flash, &u8Flash_data);
+    u8Flag_delay = u8Flag_run % 10;
+    u8Flag_run /= 10;
+    flash_vFlashClose(my_handle_flash);
+}
 
 void flash_vFlashInit(esp_err_t *pErr)
 {
@@ -51,4 +67,47 @@ uint8_t flash_u8FlashWriteU8(esp_err_t *pErr, nvs_handle_t *p_myHandle, uint8_t 
     *pErr = nvs_commit(*p_myHandle);
     nvs_close(&p_myHandle);
     return u8GiaTri;
+}
+void flash_vSaveDataButtonPause(esp_err_t *err_flash, nvs_handle_t *my_handle_flash, TaskHandle_t *xHandle)
+{
+    // Get flag run/pause value
+    flash_vFlashOpen(err_flash, my_handle_flash);
+    while (*err_flash != ESP_OK)
+        flash_vFlashOpen(err_flash, my_handle_flash);
+    uint8_t u8Flag = flash_u8FlashReadU8(err_flash, my_handle_flash, &u8Flash_data);
+    flash_vFlashClose(my_handle_flash);
+    u8Flag /= 10;
+
+    // kiem tra flag run/pause
+    if (u8Flag == SEND_UP_DATA_STATUS)
+    {
+        vTaskSuspend(*xHandle);
+    }
+    else if (u8Flag == PAUSE_UP_DATA_STATUS)
+    {
+        vTaskResume(*xHandle);
+    }
+
+    // Write flash cho flag luu run/pause up data status value
+    flash_vFlashOpen(err_flash, my_handle_flash);
+    while (*err_flash != ESP_OK)
+        flash_vFlashOpen(err_flash, my_handle_flash);
+
+    u8Flag_run = 1 - u8Flag_run;
+    u8Flash_data = u8Flash_data % 10 + 10 * u8Flag_run;
+
+    flash_u8FlashWriteU8(err_flash, my_handle_flash, &u8Flash_data);
+}
+
+void flash_vSaveDataButtonFrequency(esp_err_t *err_flash, nvs_handle_t *my_handle_flash)
+{
+    // Write flash cho flag luu time_delay up value for data status
+    flash_vFlashOpen(err_flash, my_handle_flash);
+    while ((*err_flash != ESP_OK))
+        flash_vFlashOpen(err_flash, my_handle_flash);
+
+    u8Flag_delay = (u8Flash_data % 10 + 1) % 4;
+    u8Flash_data = (u8Flash_data / 10) * 10 + u8Flag_delay;
+
+    flash_u8FlashWriteU8(err_flash, my_handle_flash, &u8Flash_data);
 }

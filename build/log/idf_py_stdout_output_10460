@@ -1,103 +1,96 @@
-[1/9] Performing build step for 'bootloader'
+[1/10] Performing build step for 'bootloader'
 [1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
 Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
-[2/7] Building C object esp-idf/mqtt_tcp/CMakeFiles/__idf_mqtt_tcp.dir/source/bee_Mqtt.c.obj
-FAILED: esp-idf/mqtt_tcp/CMakeFiles/__idf_mqtt_tcp.dir/source/bee_Mqtt.c.obj 
-ccache D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe -DMBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\" -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/config -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/newlib/platform_include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/FreeRTOS-Kernel/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/esp_additions/include/freertos -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/esp_additions/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/include/soc -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/include/soc/esp32 -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/port/esp32/. -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/port/esp32/private_include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/heap/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc/esp32/. -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/hal/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/hal/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/hal/platform_port/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/include/esp32 -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/esp32 -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_common/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system/port/soc -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system/port/include/private -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/xtensa/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/xtensa/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/include/apps -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/include/apps/sntp -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/lwip/src/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/port/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/port/esp32/include/arch -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/mqtt/esp-mqtt/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_event/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/tcp_transport/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp-tls -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp-tls/esp-tls-crypto -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/mbedtls/port/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/mbedtls/mbedtls/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/mbedtls/mbedtls/library -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/mbedtls/esp_crt_bundle/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/DHT11/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_timer/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/cJson/include -mlongcalls -Wno-frame-address  -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=deprecated-declarations -Wextra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fmacro-prefix-map=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project=. -fmacro-prefix-map=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2=/IDF -fstrict-volatile-bitfields -Wno-error=unused-but-set-variable -fno-jump-tables -fno-tree-switch-conversion -DconfigENABLE_FREERTOS_DEBUG_OCDAWARE=1 -std=gnu17 -Wno-old-style-declaration -D_GNU_SOURCE -DIDF_VER=\"HEAD-HASH-NOTFOUND\" -DESP_PLATFORM -D_POSIX_READER_WRITER_LOCKS -MD -MT esp-idf/mqtt_tcp/CMakeFiles/__idf_mqtt_tcp.dir/source/bee_Mqtt.c.obj -MF esp-idf\mqtt_tcp\CMakeFiles\__idf_mqtt_tcp.dir\source\bee_Mqtt.c.obj.d -o esp-idf/mqtt_tcp/CMakeFiles/__idf_mqtt_tcp.dir/source/bee_Mqtt.c.obj -c D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c
-In file included from D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:7:
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c: In function 'mqtt_event_handler':
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:265:27: error: format '%d' expects argument of type 'int', but argument 7 has type 'int32_t' {aka 'long int'} [-Werror=format=]
-  265 | #define LOG_COLOR(COLOR)  "\033[0;" COLOR "m"
-      |                           ^~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:268:27: note: in expansion of macro 'LOG_COLOR'
-  268 | #define LOG_COLOR_E       LOG_COLOR(LOG_COLOR_RED)
-      |                           ^~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:282:37: note: in expansion of macro 'LOG_COLOR_E'
-  282 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
-      |                                     ^~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:410:86: note: in expansion of macro 'LOG_FORMAT'
-  410 |         if (level==ESP_LOG_ERROR )          { esp_log_write(ESP_LOG_ERROR,      tag, LOG_FORMAT(E, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
-      |                                                                                      ^~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:432:41: note: in expansion of macro 'ESP_LOG_LEVEL'
-  432 |         if ( LOG_LOCAL_LEVEL >= level ) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
-      |                                         ^~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:342:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
-  342 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
-      |                                      ^~~~~~~~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:47:5: note: in expansion of macro 'ESP_LOGI'
-   47 |     ESP_LOGI(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-      |     ^~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:265:27: error: format '%d' expects argument of type 'int', but argument 7 has type 'int32_t' {aka 'long int'} [-Werror=format=]
-  265 | #define LOG_COLOR(COLOR)  "\033[0;" COLOR "m"
-      |                           ^~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:269:27: note: in expansion of macro 'LOG_COLOR'
-  269 | #define LOG_COLOR_W       LOG_COLOR(LOG_COLOR_BROWN)
-      |                           ^~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:282:37: note: in expansion of macro 'LOG_COLOR_W'
-  282 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
-      |                                     ^~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:411:86: note: in expansion of macro 'LOG_FORMAT'
-  411 |         else if (level==ESP_LOG_WARN )      { esp_log_write(ESP_LOG_WARN,       tag, LOG_FORMAT(W, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
-      |                                                                                      ^~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:432:41: note: in expansion of macro 'ESP_LOG_LEVEL'
-  432 |         if ( LOG_LOCAL_LEVEL >= level ) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
-      |                                         ^~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:342:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
-  342 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
-      |                                      ^~~~~~~~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:47:5: note: in expansion of macro 'ESP_LOGI'
-   47 |     ESP_LOGI(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-      |     ^~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:47:1: error: format '%d' expects argument of type 'int', but argument 7 has type 'int32_t' {aka 'long int'} [-Werror=format=]
-   47 |     ESP_LOGI(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-      | ^   ~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:282:59: note: in definition of macro 'LOG_FORMAT'
-  282 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
-      |                                                           ^~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:432:41: note: in expansion of macro 'ESP_LOG_LEVEL'
-  432 |         if ( LOG_LOCAL_LEVEL >= level ) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
-      |                                         ^~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:342:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
-  342 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
-      |                                      ^~~~~~~~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:47:5: note: in expansion of macro 'ESP_LOGI'
-   47 |     ESP_LOGI(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-      |     ^~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:47:1: error: format '%d' expects argument of type 'int', but argument 7 has type 'int32_t' {aka 'long int'} [-Werror=format=]
-   47 |     ESP_LOGI(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-      | ^   ~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:282:59: note: in definition of macro 'LOG_FORMAT'
-  282 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
-      |                                                           ^~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:432:41: note: in expansion of macro 'ESP_LOG_LEVEL'
-  432 |         if ( LOG_LOCAL_LEVEL >= level ) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
-      |                                         ^~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:342:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
-  342 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
-      |                                      ^~~~~~~~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:47:5: note: in expansion of macro 'ESP_LOGI'
-   47 |     ESP_LOGI(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-      |     ^~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:265:27: error: format '%d' expects argument of type 'int', but argument 7 has type 'int32_t' {aka 'long int'} [-Werror=format=]
-  265 | #define LOG_COLOR(COLOR)  "\033[0;" COLOR "m"
-      |                           ^~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:270:27: note: in expansion of macro 'LOG_COLOR'
-  270 | #define LOG_COLOR_I       LOG_COLOR(LOG_COLOR_GREEN)
-      |                           ^~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:282:37: note: in expansion of macro 'LOG_COLOR_I'
-  282 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
-      |                                     ^~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:414:86: note: in expansion of macro 'LOG_FORMAT'
-  414 |         else                                { esp_log_write(ESP_LOG_INFO,       tag, LOG_FORMAT(I, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
-      |                                                                                      ^~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:432:41: note: in expansion of macro 'ESP_LOG_LEVEL'
-  432 |         if ( LOG_LOCAL_LEVEL >= level ) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
-      |                                         ^~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include/esp_log.h:342:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
-  342 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
-      |                                      ^~~~~~~~~~~~~~~~~~~
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/source/bee_Mqtt.c:47:5: note: in expansion of macro 'ESP_LOGI'
-   47 |     ESP_LOGI(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-      |     ^~~~~~~~
-cc1.exe: some warnings being treated as errors
-ninja: build stopped: subcommand failed.
+[2/8] Building C object esp-idf/wifi/CMakeFiles/__idf_wifi.dir/source/bee_Wifi.c.obj
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c:112:13: warning: 'wifi_init_sta' defined but not used [-Wunused-function]
+  112 | static void wifi_init_sta(void)
+      |             ^~~~~~~~~~~~~
+[3/8] Linking C static library esp-idf\wifi\libwifi.a
+[4/8] Generating ld/sections.ld
+[5/8] Linking CXX executable main.elf
+[6/8] Generating binary image from built executable
+esptool.py v4.5.1
+Creating esp32 image...
+Merged 25 ELF sections
+Successfully created esp32 image.
+Generated D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin
+[7/8] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
+main.bin binary size 0x118ba0 bytes. Smallest app partition is 0x13d620 bytes. 0x24a80 bytes (12%) free.
+[7/8] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
+esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.5.1
+Serial port COM7
+Connecting....
+Chip is ESP32-D0WD-V3 (revision v3.0)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: b8:d6:1a:6b:2d:e8
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x00128fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26384 bytes to 16459...
+Writing at 0x00001000... (50 %)
+Writing at 0x000076ae... (100 %)
+Wrote 26384 bytes (16459 compressed) at 0x00001000 in 0.8 seconds (effective 269.7 kbit/s)...
+Hash of data verified.
+Compressed 1149856 bytes to 722345...
+Writing at 0x00010000... (2 %)
+Writing at 0x0001cdf7... (4 %)
+Writing at 0x00029b30... (6 %)
+Writing at 0x0002f8c8... (8 %)
+Writing at 0x00035c50... (11 %)
+Writing at 0x00042c3e... (13 %)
+Writing at 0x00049fbc... (15 %)
+Writing at 0x0004f54d... (17 %)
+Writing at 0x0005510a... (20 %)
+Writing at 0x0005a870... (22 %)
+Writing at 0x00060481... (24 %)
+Writing at 0x000668cb... (26 %)
+Writing at 0x0006c392... (28 %)
+Writing at 0x000723ab... (31 %)
+Writing at 0x0007822d... (33 %)
+Writing at 0x0007e4ef... (35 %)
+Writing at 0x00084453... (37 %)
+Writing at 0x0008a187... (40 %)
+Writing at 0x0009044d... (42 %)
+Writing at 0x00096052... (44 %)
+Writing at 0x0009be1e... (46 %)
+Writing at 0x000a14f8... (48 %)
+Writing at 0x000a7af1... (51 %)
+Writing at 0x000ad70b... (53 %)
+Writing at 0x000b32fc... (55 %)
+Writing at 0x000b879a... (57 %)
+Writing at 0x000bdb24... (60 %)
+Writing at 0x000c2d80... (62 %)
+Writing at 0x000c8425... (64 %)
+Writing at 0x000cdbb1... (66 %)
+Writing at 0x000d32b9... (68 %)
+Writing at 0x000d9054... (71 %)
+Writing at 0x000de579... (73 %)
+Writing at 0x000e3ee4... (75 %)
+Writing at 0x000e9764... (77 %)
+Writing at 0x000eef8f... (80 %)
+Writing at 0x000f4896... (82 %)
+Writing at 0x000f9ffa... (84 %)
+Writing at 0x00103450... (86 %)
+Writing at 0x00109e19... (88 %)
+Writing at 0x001116dd... (91 %)
+Writing at 0x00116849... (93 %)
+Writing at 0x0011c903... (95 %)
+Writing at 0x00122322... (97 %)
+Writing at 0x001280e4... (100 %)
+Wrote 1149856 bytes (722345 compressed) at 0x00010000 in 17.0 seconds (effective 539.9 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 107...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (107 compressed) at 0x00008000 in 0.1 seconds (effective 374.4 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

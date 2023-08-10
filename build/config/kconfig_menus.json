@@ -9043,7 +9043,10 @@
                                         "help": "Maximum number of devices which can be recorded in scan duplicate filter.\nWhen the maximum amount of device in the filter is reached, the cache will be refreshed.",
                                         "id": "BTDM_SCAN_DUPL_CACHE_SIZE",
                                         "name": "BTDM_SCAN_DUPL_CACHE_SIZE",
-                                        "range": null,
+                                        "range": [
+                                            10,
+                                            1000
+                                        ],
                                         "title": "Maximum number of devices in scan duplicate filter",
                                         "type": "int"
                                     },
@@ -9053,7 +9056,10 @@
                                         "help": "If the period value is non-zero, the controller will periodically clear the device information\nstored in the scan duuplicate filter. If it is 0, the scan duuplicate filter will not be cleared\nuntil the scanning is disabled. Duplicate advertisements for this period should not be sent to the\nHost in advertising report events.\nThere are two scenarios where the ADV packet will be repeatedly reported:\n1. The duplicate scan cache is full, the controller will delete the oldest device information and\nadd new device information.\n2. When the refresh period is up, the controller will clear all device information and start filtering\nagain.",
                                         "id": "BTDM_SCAN_DUPL_CACHE_REFRESH_PERIOD",
                                         "name": "BTDM_SCAN_DUPL_CACHE_REFRESH_PERIOD",
-                                        "range": null,
+                                        "range": [
+                                            0,
+                                            1000
+                                        ],
                                         "title": "Duplicate scan list refresh period (seconds)",
                                         "type": "int"
                                     },
@@ -14317,7 +14323,10 @@
                         "help": "This GPIO is used for console UART TX output in the ESP-IDF Bootloader and the app (including\nboot log output and default standard output and standard error of the app).\n\nIf the configuration is different in the Bootloader binary compared to the app binary, UART\nis reconfigured after the bootloader exits and the app starts.",
                         "id": "ESP_CONSOLE_UART_TX_GPIO",
                         "name": "ESP_CONSOLE_UART_TX_GPIO",
-                        "range": null,
+                        "range": [
+                            0,
+                            46
+                        ],
                         "title": "UART TX on GPIO#",
                         "type": "int"
                     },
@@ -14327,7 +14336,10 @@
                         "help": "This GPIO is used for UART RX input in the ESP-IDF Bootloader and the app (including\ndefault default standard input of the app).\n\nNote: The default ESP-IDF Bootloader configures this pin but doesn't read anything from the UART.\n\nIf the configuration is different in the Bootloader binary compared to the app binary, UART\nis reconfigured after the bootloader exits and the app starts.",
                         "id": "ESP_CONSOLE_UART_RX_GPIO",
                         "name": "ESP_CONSOLE_UART_RX_GPIO",
-                        "range": null,
+                        "range": [
+                            0,
+                            46
+                        ],
                         "title": "UART RX on GPIO#",
                         "type": "int"
                     },
@@ -15003,10 +15015,7 @@
                                 "help": "Set the size of WiFi Block Ack TX window. Generally a bigger value means higher throughput but\nmore memory. Most of time we should NOT change the default value unless special reason, e.g.\ntest the maximum UDP TX throughput with iperf etc. For iperf test in shieldbox, the recommended\nvalue is 9~12.",
                                 "id": "ESP32_WIFI_TX_BA_WIN",
                                 "name": "ESP32_WIFI_TX_BA_WIN",
-                                "range": [
-                                    2,
-                                    32
-                                ],
+                                "range": null,
                                 "title": "WiFi AMPDU TX BA window size",
                                 "type": "int"
                             }
@@ -15027,10 +15036,7 @@
                                 "help": "Set the size of WiFi Block Ack RX window. Generally a bigger value means higher throughput and better\ncompatibility but more memory. Most of time we should NOT change the default value unless special\nreason, e.g. test the maximum UDP RX throughput with iperf etc. For iperf test in shieldbox, the\nrecommended value is 9~12. If PSRAM is used and WiFi memory is prefered to allocat in PSRAM first,\nthe default and minimum value should be 16 to achieve better throughput and compatibility with both\nstations and APs.",
                                 "id": "ESP32_WIFI_RX_BA_WIN",
                                 "name": "ESP32_WIFI_RX_BA_WIN",
-                                "range": [
-                                    2,
-                                    32
-                                ],
+                                "range": null,
                                 "title": "WiFi AMPDU RX BA window size",
                                 "type": "int"
                             }

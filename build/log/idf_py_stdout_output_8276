@@ -1,74 +1,10 @@
-[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
-main.bin binary size 0xdcbf0 bytes. Smallest app partition is 0x100000 bytes. 0x23410 bytes (14%) free.
-[2/5] Performing build step for 'bootloader'
+[1/10] Performing build step for 'bootloader'
 [1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
-Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
-[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
-esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 4MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
-esptool.py v4.5.1
-Serial port COM7
-Connecting....
-Chip is ESP32-D0WD-V3 (revision v3.0)
-Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
-Crystal is 40MHz
-MAC: b8:d6:1a:6b:2d:e8
-Uploading stub...
-Running stub...
-Stub running...
-Changing baud rate to 460800
-Changed.
-Configuring flash size...
-Flash will be erased from 0x00001000 to 0x00007fff...
-Flash will be erased from 0x00010000 to 0x000ecfff...
-Flash will be erased from 0x00008000 to 0x00008fff...
-Compressed 26384 bytes to 16458...
-Writing at 0x00001000... (50 %)
-Writing at 0x000076ac... (100 %)
-Wrote 26384 bytes (16458 compressed) at 0x00001000 in 0.8 seconds (effective 277.4 kbit/s)...
-Hash of data verified.
-Compressed 904176 bytes to 577820...
-Writing at 0x00010000... (2 %)
-Writing at 0x0001c8b8... (5 %)
-Writing at 0x000239ea... (8 %)
-Writing at 0x0002963d... (11 %)
-Writing at 0x00034e7f... (13 %)
-Writing at 0x0003d44f... (16 %)
-Writing at 0x00042ea4... (19 %)
-Writing at 0x000489d4... (22 %)
-Writing at 0x0004e50b... (25 %)
-Writing at 0x00053fa3... (27 %)
-Writing at 0x00059aa6... (30 %)
-Writing at 0x0005f346... (33 %)
-Writing at 0x00064f5c... (36 %)
-Writing at 0x0006b2fa... (38 %)
-Writing at 0x000710c0... (41 %)
-Writing at 0x000768c8... (44 %)
-Writing at 0x0007bab5... (47 %)
-Writing at 0x0008107c... (50 %)
-Writing at 0x000861d2... (52 %)
-Writing at 0x0008b91e... (55 %)
-Writing at 0x00091065... (58 %)
-Writing at 0x000967dd... (61 %)
-Writing at 0x0009c5ec... (63 %)
-Writing at 0x000a1b49... (66 %)
-Writing at 0x000a75ed... (69 %)
-Writing at 0x000acd93... (72 %)
-Writing at 0x000b252c... (75 %)
-Writing at 0x000b7ef8... (77 %)
-Writing at 0x000bd998... (80 %)
-Writing at 0x000c31d5... (83 %)
-Writing at 0x000ca036... (86 %)
-Writing at 0x000d2976... (88 %)
-Writing at 0x000da71a... (91 %)
-Writing at 0x000e03dd... (94 %)
-Writing at 0x000e5f5a... (97 %)
-Writing at 0x000eb162... (100 %)
-Wrote 904176 bytes (577820 compressed) at 0x00010000 in 13.5 seconds (effective 533.9 kbit/s)...
-Hash of data verified.
-Compressed 3072 bytes to 103...
-Writing at 0x00008000... (100 %)
-Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.1 seconds (effective 367.7 kbit/s)...
-Hash of data verified.
-
-Leaving...
-Hard resetting via RTS pin...
+Bootloader binary size 0x6720 bytes. 0x8e0 bytes (8%) free.
+[2/8] Building C object esp-idf/wifi/CMakeFiles/__idf_wifi.dir/source/bee_Wifi.c.obj
+FAILED: esp-idf/wifi/CMakeFiles/__idf_wifi.dir/source/bee_Wifi.c.obj 
+ccache D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-2022r1-11.2.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/config -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/newlib/platform_include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/FreeRTOS-Kernel/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/esp_additions/include/freertos -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos/esp_additions/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/include/soc -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/include/soc/esp32 -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/port/esp32/. -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support/port/esp32/private_include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/heap/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc/esp32/. -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/hal/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/hal/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/hal/platform_port/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/include/esp32 -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/esp32 -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_common/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system/port/soc -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system/port/include/private -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/xtensa/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/xtensa/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/include/apps -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/include/apps/sntp -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/lwip/src/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/port/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/lwip/port/esp32/include/arch -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_wifi/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_event/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_phy/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_phy/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_netif/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/mqtt_tcp/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/flash/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/wifi_provisioning/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/protocomm/include/common -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/protocomm/include/security -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/protocomm/include/transports -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/include/esp32/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/common/osi/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/common/api/include/api -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/common/btc/profile/esp/blufi/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/common/btc/profile/esp/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/ans/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/bas/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/dis/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/gap/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/gatt/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/ias/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/ipss/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/lls/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/services/tps/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/util/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/store/ram/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/host/store/config/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/porting/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/porting/nimble/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/port/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/porting/npl/freertos/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/nimble/nimble/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bt/host/nimble/esp-hci/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_timer/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/nvs_flash/include -ID:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_partition/include -mlongcalls -Wno-frame-address  -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=deprecated-declarations -Wextra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fmacro-prefix-map=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project=. -fmacro-prefix-map=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2=/IDF -fstrict-volatile-bitfields -Wno-error=unused-but-set-variable -fno-jump-tables -fno-tree-switch-conversion -DconfigENABLE_FREERTOS_DEBUG_OCDAWARE=1 -std=gnu17 -Wno-old-style-declaration -D_GNU_SOURCE -DIDF_VER=\"HEAD-HASH-NOTFOUND\" -DESP_PLATFORM -D_POSIX_READER_WRITER_LOCKS -MD -MT esp-idf/wifi/CMakeFiles/__idf_wifi.dir/source/bee_Wifi.c.obj -MF esp-idf\wifi\CMakeFiles\__idf_wifi.dir\source\bee_Wifi.c.obj.d -o esp-idf/wifi/CMakeFiles/__idf_wifi.dir/source/bee_Wifi.c.obj -c D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/library/wifi/source/bee_Wifi.c:47:44: error: initializer element is not constant
+   47 | wifi_prov_security1_params_t *sec_params = pop;
+      |                                            ^~~
+ninja: build stopped: subcommand failed.

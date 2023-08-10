@@ -6,8 +6,9 @@
  */
 #ifndef BEE_BUTTON_H
 #define BEE_BUTTON_H
-#define BUTTON_2 GPIO_NUM_0
-#define BUTTON_1 GPIO_NUM_13
+#define BUTTON_FREQUENCY GPIO_NUM_0
+#define BUTTON_PAUSE_SEND GPIO_NUM_13
+#define BUTTON_TIMEOUT GPIO_NUM_5
 #include "esp_err.h"
 #include "hal/gpio_types.h"
 

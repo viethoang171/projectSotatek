@@ -1,36 +1,11 @@
--- Found Git: D:/Sotatek/espDev/Espressif/tools/idf-git/2.39.2/cmd/git.exe (found version "2.39.2.windows.1") 
+[0/1] Re-running CMake...
 -- ccache will be used for faster recompilation
--- The C compiler identification is GNU 11.2.0
--- The CXX compiler identification is GNU 11.2.0
--- The ASM compiler identification is GNU
--- Found assembler: D:/Sotatek/espDev/Espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: D:/Sotatek/espDev/Espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: D:/Sotatek/espDev/Espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++.exe - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
 -- Project is not inside a git repository, or git repository has no commits; will not use 'git describe' to determine PROJECT_VER.
 -- Building ESP-IDF components for target esp32
 Processing 2 dependencies:
 [1/2] espressif/qrcode (0.1.0)
 [2/2] idf (5.0.2)
 -- Project sdkconfig file D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/sdkconfig
--- Looking for sys/types.h
--- Looking for sys/types.h - found
--- Looking for stdint.h
--- Looking for stdint.h - found
--- Looking for stddef.h
--- Looking for stddef.h - found
--- Check size of time_t
--- Check size of time_t - done
--- Found Python3: D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe (found version "3.11.2") found components: Interpreter 
--- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
--- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS - Success
 -- App "main" version: 1
 -- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/esp_system/ld/memory.ld
 -- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system/ld/esp32/sections.ld.in
@@ -46,3 +21,119 @@ Processing 2 dependencies:
 -- Configuring done
 -- Generating done
 -- Build files have been written to: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build
+[1/8] Performing build step for 'bootloader'
+[0/1] Re-running CMake...
+fatal: detected dubious ownership in repository at 'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2'
+'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2' is owned by:
+	'S-1-5-32-544'
+but the current user is:
+	'S-1-5-21-2535044572-3325105256-3315916765-1001'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2
+-- Project is not inside a git repository, or git repository has no commits; will not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32
+-- Project sdkconfig file D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/sdkconfig
+-- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc/esp32/ld/esp32.peripherals.ld
+-- App "bootloader" version: 1
+-- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/esp32/ld/esp32.rom.ld
+-- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/esp32/ld/esp32.rom.api.ld
+-- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/esp32/ld/esp32.rom.libgcc.ld
+-- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom/esp32/ld/esp32.rom.newlib-funcs.ld
+-- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bootloader/subproject/main/ld/esp32/bootloader.ld
+-- Adding linker script D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bootloader/subproject/main/ld/esp32/bootloader.rom.ld
+-- Components: bootloader bootloader_support efuse esp_app_format esp_common esp_hw_support esp_rom esp_system esptool_py freertos hal log main micro-ecc newlib partition_table soc spi_flash xtensa
+-- Component paths: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bootloader D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bootloader_support D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/efuse D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_app_format D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_common D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_hw_support D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_rom D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esp_system D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/freertos D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/hal D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/log D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bootloader/subproject/main D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/bootloader/subproject/components/micro-ecc D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/newlib D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/soc D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/spi_flash D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/xtensa
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader
+[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
+Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
+[2/6] Generating ld/sections.ld
+[3/6] Linking CXX executable main.elf
+[4/6] Generating binary image from built executable
+esptool.py v4.5.1
+Creating esp32 image...
+Merged 25 ELF sections
+Successfully created esp32 image.
+Generated D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin
+[5/6] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
+main.bin binary size 0x118ad0 bytes. Smallest app partition is 0x13d620 bytes. 0x24b50 bytes (12%) free.
+[5/6] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
+esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.5.1
+Serial port COM7
+Connecting....
+Chip is ESP32-D0WD-V3 (revision v3.0)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: b8:d6:1a:6b:2d:e8
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x00128fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26384 bytes to 16459...
+Writing at 0x00001000... (50 %)
+Writing at 0x000076ae... (100 %)
+Wrote 26384 bytes (16459 compressed) at 0x00001000 in 0.8 seconds (effective 274.9 kbit/s)...
+Hash of data verified.
+Compressed 1149648 bytes to 722216...
+Writing at 0x00010000... (2 %)
+Writing at 0x0001cd9e... (4 %)
+Writing at 0x00029af0... (6 %)
+Writing at 0x0002f8ac... (8 %)
+Writing at 0x00035c23... (11 %)
+Writing at 0x00042c48... (13 %)
+Writing at 0x00049fb5... (15 %)
+Writing at 0x0004f53a... (17 %)
+Writing at 0x000550fa... (20 %)
+Writing at 0x0005a85c... (22 %)
+Writing at 0x0006044e... (24 %)
+Writing at 0x000668ae... (26 %)
+Writing at 0x0006c364... (28 %)
+Writing at 0x00072361... (31 %)
+Writing at 0x0007821a... (33 %)
+Writing at 0x0007e4a9... (35 %)
+Writing at 0x00084415... (37 %)
+Writing at 0x0008a172... (40 %)
+Writing at 0x00090417... (42 %)
+Writing at 0x00095ff8... (44 %)
+Writing at 0x0009bdf7... (46 %)
+Writing at 0x000a14bf... (48 %)
+Writing at 0x000a7ad1... (51 %)
+Writing at 0x000ad73b... (53 %)
+Writing at 0x000b32b9... (55 %)
+Writing at 0x000b8767... (57 %)
+Writing at 0x000bdaea... (60 %)
+Writing at 0x000c2d5c... (62 %)
+Writing at 0x000c83f7... (64 %)
+Writing at 0x000cdb6e... (66 %)
+Writing at 0x000d32c7... (68 %)
+Writing at 0x000d901f... (71 %)
+Writing at 0x000de546... (73 %)
+Writing at 0x000e3ec6... (75 %)
+Writing at 0x000e973c... (77 %)
+Writing at 0x000eef7f... (80 %)
+Writing at 0x000f4866... (82 %)
+Writing at 0x000f9fe2... (84 %)
+Writing at 0x0010341c... (86 %)
+Writing at 0x0010a251... (88 %)
+Writing at 0x001116c6... (91 %)
+Writing at 0x00116840... (93 %)
+Writing at 0x0011c8e2... (95 %)
+Writing at 0x0012230d... (97 %)
+Writing at 0x00128129... (100 %)
+Wrote 1149648 bytes (722216 compressed) at 0x00010000 in 16.9 seconds (effective 544.6 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 107...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (107 compressed) at 0x00008000 in 0.1 seconds (effective 371.6 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...
