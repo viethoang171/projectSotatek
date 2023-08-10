@@ -644,13 +644,6 @@ D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sampl
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/mqtt_tcp/CMakeFiles/install.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/mqtt_tcp/CMakeFiles/install/local.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/mqtt_tcp/CMakeFiles/install/strip.dir
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/__idf_wifi.dir
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/edit_cache.dir
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/rebuild_cache.dir
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/list_install_components.dir
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/install.dir
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/install/local.dir
-D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/install/strip.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/uart/CMakeFiles/__idf_uart.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/uart/CMakeFiles/edit_cache.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/uart/CMakeFiles/rebuild_cache.dir
@@ -658,3 +651,10 @@ D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sampl
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/uart/CMakeFiles/install.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/uart/CMakeFiles/install/local.dir
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/uart/CMakeFiles/install/strip.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/__idf_wifi.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/edit_cache.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/rebuild_cache.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/list_install_components.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/install.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/install/local.dir
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/esp-idf/wifi/CMakeFiles/install/strip.dir

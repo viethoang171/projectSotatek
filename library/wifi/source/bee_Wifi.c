@@ -27,16 +27,14 @@
 #include "bee_QrCode.h"
 #include "bee_Mqtt.h"
 #include "bee_Wifi.h"
+#include "bee_Led.h"
 
 extern SemaphoreHandle_t xSemaphore;
 
 static const char *TAG = "app";
 static TickType_t last_time_time_out_config;
 static int retries = 0;
-
-/* Signal Wi-Fi events on this event-group */
-const int WIFI_CONNECTED_EVENT = BIT0;
-static EventGroupHandle_t wifi_event_group;
+static TaskHandle_t xHandle;
 
 bool provisioned = false;
 
@@ -112,6 +110,7 @@ static void event_handler(void *arg, esp_event_base_t event_base,
         case WIFI_PROV_CRED_SUCCESS:
         {
             ESP_LOGI(TAG, "Provisioning successful");
+            mqtt_vApp_start();
             // retries = 0;
             break;
         }
@@ -134,7 +133,7 @@ static void event_handler(void *arg, esp_event_base_t event_base,
         ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
         ESP_LOGI(TAG, "Connected with IP Address:" IPSTR, IP2STR(&event->ip_info.ip));
         /* Signal main application to continue execution */
-        xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_EVENT);
+        // xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_EVENT);
     }
     else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
     {
@@ -227,82 +226,86 @@ static void vCaculate_time_out_config_task()
 
 static void vRetry_smart_config_task()
 {
-    if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
+    /* Initialize NVS partition */
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
-        if (retries == 1)
+        /* NVS partition was truncated
+         * and needs to be erased */
+        ESP_ERROR_CHECK(nvs_flash_erase());
+
+        /* Retry nvs_flash_init */
+        ESP_ERROR_CHECK(nvs_flash_init());
+    }
+
+    /* Initialize TCP/IP */
+    ESP_ERROR_CHECK(esp_netif_init());
+
+    /* Initialize the event loop */
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    // wifi_event_group = xEventGroupCreate();
+
+    /* Register our event handler for Wi-Fi, IP and Provisioning related events */
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, NULL));
+
+    /* Initialize Wi-Fi including netif with default config */
+    esp_netif_create_default_wifi_sta();
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+    for (;;)
+    {
+        if (xSemaphoreTake(xSemaphore, portMAX_DELAY))
         {
-            /* Initialize NVS partition */
-            esp_err_t ret = nvs_flash_init();
-            if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
+            /* Configuration for the provisioning manager */
+            wifi_prov_mgr_config_t config = {
+                .scheme = wifi_prov_scheme_ble,
+                .scheme_event_handler = WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BLE};
+
+            ESP_ERROR_CHECK(wifi_prov_mgr_init(config));
+
+            /* Let's find out if the device is provisioned */
+            ESP_ERROR_CHECK(wifi_prov_mgr_is_provisioned(&provisioned));
+            if (!provisioned)
             {
-                /* NVS partition was truncated
-                 * and needs to be erased */
-                ESP_ERROR_CHECK(nvs_flash_erase());
+                ESP_LOGI(TAG, "Starting provisioning");
 
-                /* Retry nvs_flash_init */
-                ESP_ERROR_CHECK(nvs_flash_init());
+                get_device_service_name(service_name, sizeof(service_name));
+
+                wifi_prov_scheme_ble_set_service_uuid(custom_service_uuid);
+
+                wifi_prov_mgr_endpoint_create("custom-data");
+
+                ESP_ERROR_CHECK(wifi_prov_mgr_start_provisioning(security, (const void *)sec_params, service_name, service_key));
+
+                wifi_prov_mgr_endpoint_register("custom-data", custom_prov_data_handler, NULL);
+                if (xTaskGetHandle("caculate") == NULL)
+                {
+                    ESP_LOGI(TAG, "Create task time out");
+                    xTaskCreate(vCaculate_time_out_config_task, "caculate", 4096, NULL, 1, NULL);
+
+                    wifi_prov_print_qr(service_name, username, pop, PROV_TRANSPORT_BLE);
+                }
+                else
+                {
+                    wifi_prov_mgr_deinit();
+                    wifi_init_sta();
+                }
+                /* Wait for Wi-Fi connection */
+                ESP_LOGI(TAG, "End turn");
+                vTaskSuspend(NULL);
             }
-
-            /* Initialize TCP/IP */
-            ESP_ERROR_CHECK(esp_netif_init());
-
-            /* Initialize the event loop */
-            ESP_ERROR_CHECK(esp_event_loop_create_default());
-            wifi_event_group = xEventGroupCreate();
-
-            /* Register our event handler for Wi-Fi, IP and Provisioning related events */
-            ESP_ERROR_CHECK(esp_event_handler_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL));
-            ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL));
-            ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, NULL));
-
-            /* Initialize Wi-Fi including netif with default config */
-            esp_netif_create_default_wifi_sta();
-            wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-            ESP_ERROR_CHECK(esp_wifi_init(&cfg));
         }
-
-        /* Configuration for the provisioning manager */
-        wifi_prov_mgr_config_t config = {
-            .scheme = wifi_prov_scheme_ble,
-            .scheme_event_handler = WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BLE};
-
-        ESP_ERROR_CHECK(wifi_prov_mgr_init(config));
-
-        /* Let's find out if the device is provisioned */
-        ESP_ERROR_CHECK(wifi_prov_mgr_is_provisioned(&provisioned));
-        if (!provisioned)
-        {
-            provisioned = true;
-            ESP_LOGI(TAG, "Starting provisioning");
-
-            get_device_service_name(service_name, sizeof(service_name));
-
-            wifi_prov_scheme_ble_set_service_uuid(custom_service_uuid);
-
-            wifi_prov_mgr_endpoint_create("custom-data");
-
-            ESP_ERROR_CHECK(wifi_prov_mgr_start_provisioning(security, (const void *)sec_params, service_name, service_key));
-
-            wifi_prov_mgr_endpoint_register("custom-data", custom_prov_data_handler, NULL);
-
-            xTaskCreate(vCaculate_time_out_config_task, "vCaculate_time_out_config_task", 4096, NULL, 1, NULL);
-
-            wifi_prov_print_qr(service_name, username, pop, PROV_TRANSPORT_BLE);
-        }
-        else
-        {
-            wifi_prov_mgr_deinit();
-            wifi_init_sta();
-        }
-        /* Wait for Wi-Fi connection */
-        xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED_EVENT, false, true, portMAX_DELAY);
-        mqtt_vApp_start();
-        vTaskDelete(NULL);
     }
 }
 
 void wifi_vRetrySmartConfig()
 {
+    output_vToggle(2);
     retries++;
-    xTaskCreate(vRetry_smart_config_task, "vRetry_smart_config_task", 4096, NULL, 8, NULL);
+    if (retries == 1)
+        xTaskCreate(vRetry_smart_config_task, "vRetry_smart_config_task", 4096, NULL, 8, &xHandle);
+    else
+        vTaskResume(xHandle);
 }

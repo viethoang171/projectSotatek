@@ -20,7 +20,6 @@
 #include "bee_FLash.h"
 #include "bee_Uart.h"
 #include "bee_cJSON.h"
-#include "bee_Wifi.h"
 
 QueueHandle_t uart0_queue;
 
@@ -153,7 +152,6 @@ void uart_vReceiveDataHostMain_task(void *pvParameters)
                         u8Flag_run = 1;
                         flash_u8FlashWriteU8(&err_flash, &my_handle_flash, &u8Flash_data);
                         vTaskSuspend(xHandle);
-                        wifi_vRetrySmartConfig();
                     }
                     else if (u8Data_from_host_main[LOCATE_COMMAND_ID] == COMMAND_B)
                     {
