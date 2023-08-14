@@ -57,7 +57,6 @@ void app_main(void)
     output_vCreate(LED_BLUE);
     output_vCreate(LED_GREEN);
     output_vCreate(LED_RED);
-    output_vCreate(2);
 
     DHT11_vInit(DHT_DATA);
     uart_vCreate();

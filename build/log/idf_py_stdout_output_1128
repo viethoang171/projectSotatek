@@ -1,15 +1,82 @@
-[1/9] Performing build step for 'bootloader'
-[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
-Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
-[2/7] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/bee_App_main.c.obj
-[3/7] Linking C static library esp-idf\main\libmain.a
-[4/7] Generating ld/sections.ld
-[5/7] Linking CXX executable main.elf
-[6/7] Generating binary image from built executable
-esptool.py v4.5.1
-Creating esp32 image...
-Merged 25 ELF sections
-Successfully created esp32 image.
-Generated D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin
-[7/7] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
-main.bin binary size 0x118bb0 bytes. Smallest app partition is 0x13d620 bytes. 0x24a70 bytes (12%) free.
+[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\examples\provisioning\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.1_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/main.bin"
+main.bin binary size 0x1167b0 bytes. Smallest app partition is 0x13d620 bytes. 0x26e70 bytes (12%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\examples\provisioning\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.1_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/bootloader/bootloader.bin"
+Bootloader binary size 0x66e0 bytes. 0x920 bytes (8%) free.
+[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.1_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/run_serial_tool.cmake"
+esptool.py --chip esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.7.dev1
+Serial port COM7
+Connecting.....
+Chip is ESP32-D0WD-V3 (revision v3.0)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: c8:f0:9e:f2:5c:f8
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x00126fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 26336 bytes to 16579...
+Writing at 0x00001000... (50 %)
+Writing at 0x000075d5... (100 %)
+Wrote 26336 bytes (16579 compressed) at 0x00001000 in 0.9 seconds (effective 242.4 kbit/s)...
+Hash of data verified.
+Compressed 1140656 bytes to 718410...
+Writing at 0x00010000... (2 %)
+Writing at 0x0001d709... (4 %)
+Writing at 0x00029ce4... (6 %)
+Writing at 0x0002f59c... (9 %)
+Writing at 0x000361b0... (11 %)
+Writing at 0x000412a2... (13 %)
+Writing at 0x00046ac4... (15 %)
+Writing at 0x0004c3d3... (18 %)
+Writing at 0x00052754... (20 %)
+Writing at 0x00058417... (22 %)
+Writing at 0x0005e216... (25 %)
+Writing at 0x000640b1... (27 %)
+Writing at 0x0006a182... (29 %)
+Writing at 0x000702bc... (31 %)
+Writing at 0x00075dae... (34 %)
+Writing at 0x0007c170... (36 %)
+Writing at 0x00081ee9... (38 %)
+Writing at 0x00087ec5... (40 %)
+Writing at 0x0008d6b2... (43 %)
+Writing at 0x000931f7... (45 %)
+Writing at 0x00098f42... (47 %)
+Writing at 0x0009ebdc... (50 %)
+Writing at 0x000a444c... (52 %)
+Writing at 0x000a98eb... (54 %)
+Writing at 0x000aee84... (56 %)
+Writing at 0x000b4134... (59 %)
+Writing at 0x000b9709... (61 %)
+Writing at 0x000bede3... (63 %)
+Writing at 0x000c4c33... (65 %)
+Writing at 0x000ca3c7... (68 %)
+Writing at 0x000cfa0c... (70 %)
+Writing at 0x000d508c... (72 %)
+Writing at 0x000daabf... (75 %)
+Writing at 0x000e029d... (77 %)
+Writing at 0x000e5b7c... (79 %)
+Writing at 0x000ebf19... (81 %)
+Writing at 0x000f434f... (84 %)
+Writing at 0x000fcd95... (86 %)
+Writing at 0x00102465... (88 %)
+Writing at 0x00107b5b... (90 %)
+Writing at 0x001104b3... (93 %)
+Writing at 0x00115ae6... (95 %)
+Writing at 0x0011bab6... (97 %)
+Writing at 0x00121625... (100 %)
+Wrote 1140656 bytes (718410 compressed) at 0x00010000 in 17.5 seconds (effective 520.5 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 107...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (107 compressed) at 0x00008000 in 0.1 seconds (effective 287.1 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

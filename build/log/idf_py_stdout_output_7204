@@ -1,17 +1,17 @@
-[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
-main.bin binary size 0x118d00 bytes. Smallest app partition is 0x13d620 bytes. 0x24920 bytes (12%) free.
+[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\examples\provisioning\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.1_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/main.bin"
+main.bin binary size 0x11a330 bytes. Smallest app partition is 0x13d620 bytes. 0x232f0 bytes (11%) free.
 [2/5] Performing build step for 'bootloader'
-[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
-Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
-[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
-esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
-esptool.py v4.5.1
+[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\examples\provisioning\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.1_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/bootloader/bootloader.bin"
+Bootloader binary size 0x6810 bytes. 0x7f0 bytes (7%) free.
+[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.1_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/run_serial_tool.cmake"
+esptool.py --chip esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.7.dev1
 Serial port COM7
-Connecting.....
+Connecting.........
 Chip is ESP32-D0WD-V3 (revision v3.0)
 Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
 Crystal is 40MHz
-MAC: b8:d6:1a:6b:2d:e8
+MAC: c8:f0:9e:f2:5c:f8
 Uploading stub...
 Running stub...
 Stub running...
@@ -19,64 +19,64 @@ Changing baud rate to 460800
 Changed.
 Configuring flash size...
 Flash will be erased from 0x00001000 to 0x00007fff...
-Flash will be erased from 0x00010000 to 0x00128fff...
+Flash will be erased from 0x00010000 to 0x0012afff...
 Flash will be erased from 0x00008000 to 0x00008fff...
-Compressed 26384 bytes to 16459...
+Compressed 26640 bytes to 16676...
 Writing at 0x00001000... (50 %)
-Writing at 0x000076ae... (100 %)
-Wrote 26384 bytes (16459 compressed) at 0x00001000 in 0.8 seconds (effective 264.6 kbit/s)...
+Writing at 0x0000769b... (100 %)
+Wrote 26640 bytes (16676 compressed) at 0x00001000 in 0.9 seconds (effective 242.6 kbit/s)...
 Hash of data verified.
-Compressed 1150208 bytes to 722617...
+Compressed 1155888 bytes to 725216...
 Writing at 0x00010000... (2 %)
-Writing at 0x0001ce16... (4 %)
-Writing at 0x00029b68... (6 %)
-Writing at 0x0002f92d... (8 %)
-Writing at 0x00035c82... (11 %)
-Writing at 0x00042aac... (13 %)
-Writing at 0x0004a028... (15 %)
-Writing at 0x0004f58c... (17 %)
-Writing at 0x00055125... (20 %)
-Writing at 0x0005a866... (22 %)
-Writing at 0x0006044e... (24 %)
-Writing at 0x0006688d... (26 %)
-Writing at 0x0006c3ac... (28 %)
-Writing at 0x000723a5... (31 %)
-Writing at 0x0007822f... (33 %)
-Writing at 0x0007e4d7... (35 %)
-Writing at 0x0008441c... (37 %)
-Writing at 0x0008a118... (40 %)
-Writing at 0x00090489... (42 %)
-Writing at 0x0009604a... (44 %)
-Writing at 0x0009be07... (46 %)
-Writing at 0x000a14f7... (48 %)
-Writing at 0x000a7a83... (51 %)
-Writing at 0x000ad6f6... (53 %)
-Writing at 0x000b32df... (55 %)
-Writing at 0x000b878f... (57 %)
-Writing at 0x000bdb05... (60 %)
-Writing at 0x000c2d58... (62 %)
-Writing at 0x000c840a... (64 %)
-Writing at 0x000cdb79... (66 %)
-Writing at 0x000d322d... (68 %)
-Writing at 0x000d901a... (71 %)
-Writing at 0x000de56d... (73 %)
-Writing at 0x000e3eac... (75 %)
-Writing at 0x000e9735... (77 %)
-Writing at 0x000eef64... (80 %)
-Writing at 0x000f486c... (82 %)
-Writing at 0x000f9f99... (84 %)
-Writing at 0x00103448... (86 %)
-Writing at 0x00109d01... (88 %)
-Writing at 0x001116ba... (91 %)
-Writing at 0x001167ec... (93 %)
-Writing at 0x0011c8fe... (95 %)
-Writing at 0x00122300... (97 %)
-Writing at 0x001280d0... (100 %)
-Wrote 1150208 bytes (722617 compressed) at 0x00010000 in 16.8 seconds (effective 546.8 kbit/s)...
+Writing at 0x0001d7bd... (4 %)
+Writing at 0x0002a3ec... (6 %)
+Writing at 0x000301a1... (8 %)
+Writing at 0x0003653d... (11 %)
+Writing at 0x000433dc... (13 %)
+Writing at 0x0004ae19... (15 %)
+Writing at 0x0005031b... (17 %)
+Writing at 0x00055c85... (20 %)
+Writing at 0x0005b532... (22 %)
+Writing at 0x000615af... (24 %)
+Writing at 0x00067782... (26 %)
+Writing at 0x0006d333... (28 %)
+Writing at 0x000733c8... (31 %)
+Writing at 0x0007909d... (33 %)
+Writing at 0x0007f328... (35 %)
+Writing at 0x00085155... (37 %)
+Writing at 0x0008b4cc... (40 %)
+Writing at 0x000912fd... (42 %)
+Writing at 0x0009702a... (44 %)
+Writing at 0x0009cb24... (46 %)
+Writing at 0x000a24a4... (48 %)
+Writing at 0x000a84ed... (51 %)
+Writing at 0x000adf3c... (53 %)
+Writing at 0x000b3787... (55 %)
+Writing at 0x000b8e8b... (57 %)
+Writing at 0x000be45c... (60 %)
+Writing at 0x000c355a... (62 %)
+Writing at 0x000c8c1c... (64 %)
+Writing at 0x000ce353... (66 %)
+Writing at 0x000d3e39... (68 %)
+Writing at 0x000d989c... (71 %)
+Writing at 0x000dedd3... (73 %)
+Writing at 0x000e45ca... (75 %)
+Writing at 0x000e9e64... (77 %)
+Writing at 0x000ef712... (80 %)
+Writing at 0x000f50e6... (82 %)
+Writing at 0x000fa74d... (84 %)
+Writing at 0x001035f1... (86 %)
+Writing at 0x0010b96c... (88 %)
+Writing at 0x001119e4... (91 %)
+Writing at 0x00116d74... (93 %)
+Writing at 0x0011d0cc... (95 %)
+Writing at 0x00122bd8... (97 %)
+Writing at 0x001287c8... (100 %)
+Wrote 1155888 bytes (725216 compressed) at 0x00010000 in 17.7 seconds (effective 522.3 kbit/s)...
 Hash of data verified.
 Compressed 3072 bytes to 107...
 Writing at 0x00008000... (100 %)
-Wrote 3072 bytes (107 compressed) at 0x00008000 in 0.1 seconds (effective 390.0 kbit/s)...
+Wrote 3072 bytes (107 compressed) at 0x00008000 in 0.1 seconds (effective 290.8 kbit/s)...
 Hash of data verified.
 
 Leaving...

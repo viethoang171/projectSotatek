@@ -42,7 +42,7 @@
 
  * Automatically generated file. DO NOT EDIT.
 
- * Espressif IoT Development Framework (ESP-IDF) Configuration Header
+ * Espressif IoT Development Framework (ESP-IDF) 5.1.0 Configuration Header
 
  */
        
@@ -72,7 +72,7 @@ MEMORY
 
   are connected to the data port of the CPU and eg allow bytewise access. */
   /* IRAM for PRO cpu. Not sure if happy with this, this is MMU area... */
-  iram0_0_seg (RX) : org = 0x40080000, len = 0x20000
+  iram0_0_seg (RX) : org = 0x40080000, len = 0x20000 + 0x0
   /* Even though the segment name is iram, it is actually mapped to flash
 
   */
@@ -130,9 +130,10 @@ MEMORY
   extern_ram_seg(RWX) : org = 0x3F800000,
                                      len = 0x400000
 }
-_static_data_end = _bss_end;
-/* Heap ends at top of dram0_0_seg */
-_heap_end = 0x40000000 - 0x0;
+_heap_start = _heap_low_start;
+_sram1_iram_start = 0x400A0000;
+_sram1_iram_len = ( _iram_end > _sram1_iram_start) ? (_iram_end - _sram1_iram_start) : 0;
+_heap_end = ALIGN(0x40000000 - _sram1_iram_len - 3, 4);
 _data_seg_org = ORIGIN(rtc_data_seg);
 /* The lines below define location alias for .rtc.data section based on Kconfig option.
 

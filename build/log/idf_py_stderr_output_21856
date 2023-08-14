@@ -1,0 +1,270 @@
+[0;33m--- WARNING: GDB cannot open serial ports accessed as COMx[0m
+[0;33m--- Using \\.\COM7 instead...[0m
+[0;33m--- idf_monitor on \\.\COM7 115200 ---[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x4008321f: lock_acquire_generic at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:130
+[0m
+[0;33m0x40081c92: panic_abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/panic.c:452
+[0m
+[0;33m0x40093399: esp_system_abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/esp_system_chip.c:84
+[0m
+[0;33m0x4009903e: abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/abort.c:38
+[0m
+[0;33m0x4008321f: lock_acquire_generic at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:130
+[0m
+[0;33m0x4008335d: _lock_acquire_recursive at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:158
+[0m
+[0;33m0x400833d6: __retarget_lock_acquire_recursive at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:314
+[0m
+[0;33m0x4017f0d6: _vfprintf_r at /builds/idf/crosstool-NG/.build/HOST-x86_64-w64-mingw32/xtensa-esp32-elf/src/newlib/newlib/libc/stdio/vfprintf.c:849 (discriminator 2)
+[0m
+[0;33m0x40182245: vprintf at /builds/idf/crosstool-NG/.build/HOST-x86_64-w64-mingw32/xtensa-esp32-elf/src/newlib/newlib/libc/stdio/vprintf.c:34 (discriminator 5)
+[0m
+[0;33m0x401980a1: esp_log_writev at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/log/log.c:200
+[0m
+[0;33m0x40098ec9: esp_log_write at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/log/log.c:210
+[0m
+[0;33m0x400dad3d: wifi_prov_mgr_reset_sm_state_for_reprovision at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/wifi_provisioning/src/manager.c:1744 (discriminator 3)
+[0m
+[0;33m0x400d8c78: wifi_vRetrySmartConfig at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/wifi/source/bee_Wifi.c:365
+[0m
+[0;33m0x400d769f: button_vEventCallback at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/main/bee_App_main.c:41
+[0m
+[0;33m0x40083d2a: button_vHandler at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/button/source/bee_Button.c:16
+[0m
+[0;33m0x4008c306: gpio_isr_loop at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:462
+[0m
+[0;33m0x4008c396: gpio_intr_service at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:484
+[0m
+[0;33m0x40083011: _xt_lowint1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x40091513: xt_utils_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/xtensa/include/xt_utils.h:81
+ (inlined by) esp_cpu_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_hw_support/cpu.c:111
+[0m
+[0;33m0x400d36c3: esp_vApplicationIdleHook at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/freertos_hooks.c:59
+[0m
+[0;33m0x40094631: prvIdleTask at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/tasks.c:4327 (discriminator 1)
+[0m
+[0;33m0x40095f61: vPortTaskWrapper at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x40096b52: vListInsert at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/list.c:171 (discriminator 1)
+[0m
+[0;33m0x400d38bf: uart_hal_write_txfifo at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/hal/uart_hal_iram.c:35
+[0m
+[0;33m0x40096b4f: vListInsert at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/list.c:171 (discriminator 1)
+[0m
+[0;33m0x40094ca5: vTaskPlaceOnEventList at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/tasks.c:3799
+[0m
+[0;33m0x40093da0: xQueueSemaphoreTake at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/queue.c:1772
+[0m
+[0;33m0x400dad48: wifi_prov_mgr_reset_sm_state_for_reprovision at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/wifi_provisioning/src/manager.c:1748
+[0m
+[0;33m0x400d8c78: wifi_vRetrySmartConfig at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/wifi/source/bee_Wifi.c:365
+[0m
+[0;33m0x400d769f: button_vEventCallback at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/main/bee_App_main.c:41
+[0m
+[0;33m0x40083d2a: button_vHandler at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/button/source/bee_Button.c:16
+[0m
+[0;33m0x4008c306: gpio_isr_loop at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:462
+[0m
+[0;33m0x4008c396: gpio_intr_service at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:484
+[0m
+[0;33m0x40083011: _xt_lowint1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x40091513: xt_utils_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/xtensa/include/xt_utils.h:81
+ (inlined by) esp_cpu_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_hw_support/cpu.c:111
+[0m
+[0;33m0x400d36c3: esp_vApplicationIdleHook at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/freertos_hooks.c:59
+[0m
+[0;33m0x40094631: prvIdleTask at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/tasks.c:4327 (discriminator 1)
+[0m
+[0;33m0x40095f61: vPortTaskWrapper at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x400960f0: spinlock_acquire at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_hw_support/include/spinlock.h:112
+ (inlined by) xPortEnterCriticalTimeout at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:501
+[0m
+[0;33m0x400041a4: rom_i2c_writeReg in ROM
+[0m
+[0;33m0x400029ac: __divdf3 in ROM
+[0m
+[0;33m0x400029cb: __divdf3 in ROM
+[0m
+[0;33m0x400960ed: spinlock_acquire at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_hw_support/include/spinlock.h:117
+ (inlined by) xPortEnterCriticalTimeout at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:501
+[0m
+[0;33m0x40094afd: vPortEnterCritical at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos/portmacro.h:575
+ (inlined by) xTaskIncrementTickOtherCores at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/tasks.c:3408
+[0m
+[0;33m0x40096571: xPortSysTickHandler at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/port_systick.c:191
+[0m
+[0;33m0x400963b1: _frxt_timer_int at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:343
+[0m
+[0;33m0x4008301a: _xt_lowint1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x4000bfed: _xtos_set_intlevel in ROM
+[0m
+[0;33m0x40096247: vPortClearInterruptMaskFromISR at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos/portmacro.h:568
+ (inlined by) vPortExitCritical at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:532
+[0m
+[0;33m0x4008dfbb: phy_exit_critical at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_phy/src/phy_init.c:178
+[0m
+[0;33m0x4008f6fc: ram_chip_i2c_readReg at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7_ana.c:79
+[0m
+[0;33m0x4000415d: rom_i2c_readReg in ROM
+[0m
+[0;33m0x400041da: rom_i2c_readReg_Mask in ROM
+[0m
+[0;33m0x40170810: ram_wait_rfpll_cal_end at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7_ana.c:411
+[0m
+[0;33m0x40170a6a: get_rf_freq_cap at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7_ana.c:1097
+[0m
+[0;33m0x40170cf6: get_rf_freq_init at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7_ana.c:1246
+[0m
+[0;33m0x40171a58: get_rf_freq_init at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7_ana.c:1227
+ (inlined by) set_chan_freq_hw_init at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7_ana.c:2031
+[0m
+[0;33m0x40171b6b: rf_init at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7_ana.c:1085
+[0m
+[0;33m0x40174b6b: register_chipv7_phy at /home/cff/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7.c:3779
+[0m
+[0;33m0x40112b17: esp_phy_load_cal_and_init at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_phy/src/phy_init.c:796 (discriminator 2)
+[0m
+[0;33m0x40112bc1: esp_phy_enable at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_phy/src/phy_init.c:248
+[0m
+[0;33m0x4013af06: wifi_hw_start at ??:?
+[0m
+[0;33m0x4013b75e: wifi_start_process at ??:?
+[0m
+[0;33m0x4013a2d2: ieee80211_ioctl_process at ??:?
+[0m
+[0;33m0x40191b65: ppTask at ??:?
+[0m
+[0;33m0x40095f61: vPortTaskWrapper at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x4008321f: lock_acquire_generic at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:130
+[0m
+[0;33m0x40081c92: panic_abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/panic.c:452
+[0m
+[0;33m0x40093399: esp_system_abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/esp_system_chip.c:84
+[0m
+[0;33m0x4009903e: abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/abort.c:38
+[0m
+[0;33m0x4008321f: lock_acquire_generic at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:130
+[0m
+[0;33m0x4008335d: _lock_acquire_recursive at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:158
+[0m
+[0;33m0x400833d6: __retarget_lock_acquire_recursive at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:314
+[0m
+[0;33m0x4017f0d6: _vfprintf_r at /builds/idf/crosstool-NG/.build/HOST-x86_64-w64-mingw32/xtensa-esp32-elf/src/newlib/newlib/libc/stdio/vfprintf.c:849 (discriminator 2)
+[0m
+[0;33m0x40182245: vprintf at /builds/idf/crosstool-NG/.build/HOST-x86_64-w64-mingw32/xtensa-esp32-elf/src/newlib/newlib/libc/stdio/vprintf.c:34 (discriminator 5)
+[0m
+[0;33m0x401980a1: esp_log_writev at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/log/log.c:200
+[0m
+[0;33m0x40098ec9: esp_log_write at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/log/log.c:210
+[0m
+[0;33m0x400dad3d: wifi_prov_mgr_reset_sm_state_for_reprovision at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/wifi_provisioning/src/manager.c:1744 (discriminator 3)
+[0m
+[0;33m0x400d8c78: wifi_vRetrySmartConfig at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/wifi/source/bee_Wifi.c:365
+[0m
+[0;33m0x400d769f: button_vEventCallback at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/main/bee_App_main.c:41
+[0m
+[0;33m0x40083d2a: button_vHandler at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/button/source/bee_Button.c:16
+[0m
+[0;33m0x4008c306: gpio_isr_loop at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:462
+[0m
+[0;33m0x4008c396: gpio_intr_service at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:484
+[0m
+[0;33m0x40083011: _xt_lowint1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x40091513: xt_utils_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/xtensa/include/xt_utils.h:81
+ (inlined by) esp_cpu_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_hw_support/cpu.c:111
+[0m
+[0;33m0x400d36c3: esp_vApplicationIdleHook at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/freertos_hooks.c:59
+[0m
+[0;33m0x40094631: prvIdleTask at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/tasks.c:4327 (discriminator 1)
+[0m
+[0;33m0x40095f61: vPortTaskWrapper at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x4008321f: lock_acquire_generic at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:130
+[0m
+[0;33m0x40081c92: panic_abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/panic.c:452
+[0m
+[0;33m0x40093399: esp_system_abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/esp_system_chip.c:84
+[0m
+[0;33m0x4009903e: abort at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/abort.c:38
+[0m
+[0;33m0x4008321f: lock_acquire_generic at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:130
+[0m
+[0;33m0x4008335d: _lock_acquire_recursive at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:158
+[0m
+[0;33m0x400833d6: __retarget_lock_acquire_recursive at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/newlib/locks.c:314
+[0m
+[0;33m0x4017f0d6: _vfprintf_r at /builds/idf/crosstool-NG/.build/HOST-x86_64-w64-mingw32/xtensa-esp32-elf/src/newlib/newlib/libc/stdio/vfprintf.c:849 (discriminator 2)
+[0m
+[0;33m0x40182245: vprintf at /builds/idf/crosstool-NG/.build/HOST-x86_64-w64-mingw32/xtensa-esp32-elf/src/newlib/newlib/libc/stdio/vprintf.c:34 (discriminator 5)
+[0m
+[0;33m0x401980a1: esp_log_writev at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/log/log.c:200
+[0m
+[0;33m0x40098ec9: esp_log_write at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/log/log.c:210
+[0m
+[0;33m0x400dad3d: wifi_prov_mgr_reset_sm_state_for_reprovision at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/wifi_provisioning/src/manager.c:1744 (discriminator 3)
+[0m
+[0;33m0x400d8c78: wifi_vRetrySmartConfig at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/wifi/source/bee_Wifi.c:365
+[0m
+[0;33m0x400d769f: button_vEventCallback at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/main/bee_App_main.c:41
+[0m
+[0;33m0x40083d2a: button_vHandler at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/button/source/bee_Button.c:16
+[0m
+[0;33m0x4008c306: gpio_isr_loop at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:462
+[0m
+[0;33m0x4008c396: gpio_intr_service at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/driver/gpio/gpio.c:484
+[0m
+[0;33m0x40083011: _xt_lowint1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x40091513: xt_utils_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/xtensa/include/xt_utils.h:81
+ (inlined by) esp_cpu_wait_for_intr at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_hw_support/cpu.c:111
+[0m
+[0;33m0x400d36c3: esp_vApplicationIdleHook at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/freertos_hooks.c:59
+[0m
+[0;33m0x40094631: prvIdleTask at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/tasks.c:4327 (discriminator 1)
+[0m
+[0;33m0x40095f61: vPortTaskWrapper at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[0;33m0x400815f8: call_start_cpu1 at D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0m

@@ -111,3 +111,33 @@ void flash_vSaveDataButtonFrequency(esp_err_t *err_flash, nvs_handle_t *my_handl
 
     flash_u8FlashWriteU8(err_flash, my_handle_flash, &u8Flash_data);
 }
+
+void flash_vSave_credential_wifi(const char *ssis, const char *password)
+{
+    nvs_handle_t nvs_handle;
+    esp_err_t err;
+
+    err = nvs_open("wifi_credential", NVS_READWRITE, &nvs_handle);
+
+    err = nvs_set_str(nvs_handle, "ssid_wifi", ssis);
+
+    err = nvs_set_str(nvs_handle, "password_wifi", password);
+
+    nvs_close(nvs_handle);
+}
+
+void flash_vGet_correct_wifi_credential(char *ssid, char *password)
+{
+    nvs_handle_t nvs_handle;
+    esp_err_t err;
+
+    err = nvs_open("wifi_credential", NVS_READONLY, &nvs_handle);
+
+    size_t ssid_len = SSID_LENGTH;
+    err = nvs_get_str(nvs_handle, "ssid_wifi", ssid, &ssid_len);
+
+    size_t password_len = PASS_WORD_LENGTH;
+    err = nvs_get_str(nvs_handle, "password_wifi", password, &password_len);
+
+    nvs_close(nvs_handle);
+}
