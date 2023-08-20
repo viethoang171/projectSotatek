@@ -68,5 +68,6 @@ $<TARGET_FILE:__idf_button>
 $<TARGET_FILE:__idf_cJson>
 $<TARGET_FILE:__idf_flash>
 $<TARGET_FILE:__idf_mqtt_tcp>
+$<TARGET_FILE:__idf_sht3x_sensor_>
 $<TARGET_FILE:__idf_uart>
 $<TARGET_FILE:__idf_wifi>

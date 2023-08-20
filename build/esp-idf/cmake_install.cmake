@@ -444,6 +444,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/sht3x_sensor_/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/uart/cmake_install.cmake")
 endif()
 

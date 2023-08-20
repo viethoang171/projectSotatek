@@ -1,83 +1,16 @@
-[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
-main.bin binary size 0x118bd0 bytes. Smallest app partition is 0x13d620 bytes. 0x24a50 bytes (12%) free.
+[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\examples\provisioning\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.1_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/main.bin"
+main.bin binary size 0x1167b0 bytes. Smallest app partition is 0x13d620 bytes. 0x26e70 bytes (12%) free.
 [2/5] Performing build step for 'bootloader'
-[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
-Bootloader binary size 0x6720 bytes. 0x8e0 bytes (8%) free.
-[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
-esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
-esptool.py v4.5.1
+[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\examples\provisioning\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.1_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/bootloader/bootloader.bin"
+Bootloader binary size 0x66e0 bytes. 0x920 bytes (8%) free.
+[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.1_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/run_serial_tool.cmake"
+esptool.py --chip esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.7.dev1
 Serial port COM7
-Connecting.......
-Chip is ESP32-D0WD-V3 (revision v3.0)
-Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
-Crystal is 40MHz
-MAC: b8:d6:1a:6b:2d:e8
-Uploading stub...
-Running stub...
-Stub running...
-Changing baud rate to 460800
-Changed.
-Configuring flash size...
-Flash will be erased from 0x00001000 to 0x00007fff...
-Flash will be erased from 0x00010000 to 0x00128fff...
-Flash will be erased from 0x00008000 to 0x00008fff...
-Compressed 26400 bytes to 16471...
-Writing at 0x00001000... (50 %)
-Writing at 0x000076ad... (100 %)
-Wrote 26400 bytes (16471 compressed) at 0x00001000 in 0.8 seconds (effective 268.6 kbit/s)...
-Hash of data verified.
-Compressed 1149904 bytes to 722339...
-Writing at 0x00010000... (2 %)
-Writing at 0x0001ce73... (4 %)
-Writing at 0x00029b30... (6 %)
-Writing at 0x0002f8d9... (8 %)
-Writing at 0x00035c9c... (11 %)
-Writing at 0x00042c6c... (13 %)
-Writing at 0x00049fe0... (15 %)
-Writing at 0x0004f588... (17 %)
-Writing at 0x00055114... (20 %)
-Writing at 0x0005a876... (22 %)
-Writing at 0x00060481... (24 %)
-Writing at 0x000668c1... (26 %)
-Writing at 0x0006c395... (28 %)
-Writing at 0x000723a8... (31 %)
-Writing at 0x00078236... (33 %)
-Writing at 0x0007e4ed... (35 %)
-Writing at 0x00084441... (37 %)
-Writing at 0x0008a163... (40 %)
-Writing at 0x00090456... (42 %)
-Writing at 0x00096055... (44 %)
-Writing at 0x0009be29... (46 %)
-Writing at 0x000a14f3... (48 %)
-Writing at 0x000a7ade... (51 %)
-Writing at 0x000ad70c... (53 %)
-Writing at 0x000b3304... (55 %)
-Writing at 0x000b879a... (57 %)
-Writing at 0x000bdb2b... (60 %)
-Writing at 0x000c2d89... (62 %)
-Writing at 0x000c8435... (64 %)
-Writing at 0x000cdbc2... (66 %)
-Writing at 0x000d32b4... (68 %)
-Writing at 0x000d9063... (71 %)
-Writing at 0x000de587... (73 %)
-Writing at 0x000e3ef6... (75 %)
-Writing at 0x000e9774... (77 %)
-Writing at 0x000eefa1... (80 %)
-Writing at 0x000f48aa... (82 %)
-Writing at 0x000fa01a... (84 %)
-Writing at 0x00103471... (86 %)
-Writing at 0x00109e47... (88 %)
-Writing at 0x001116fe... (91 %)
-Writing at 0x0011686e... (93 %)
-Writing at 0x0011c929... (95 %)
-Writing at 0x00122353... (97 %)
-Writing at 0x00128114... (100 %)
-Wrote 1149904 bytes (722339 compressed) at 0x00010000 in 17.1 seconds (effective 536.6 kbit/s)...
-Hash of data verified.
-Compressed 3072 bytes to 107...
-Writing at 0x00008000... (100 %)
-Wrote 3072 bytes (107 compressed) at 0x00008000 in 0.1 seconds (effective 398.2 kbit/s)...
-Hash of data verified.
+Connecting......................................
 
-Leaving...
-Hard resetting via RTS pin...
+A fatal error occurred: Failed to connect to ESP32: No serial data received.
+For troubleshooting steps visit: https://docs.espressif.com/projects/esptool/en/latest/troubleshooting.html
+FAILED: CMakeFiles/flash D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/CMakeFiles/flash 
+cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.1_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/esptool_py/run_serial_tool.cmake"
+ninja: build stopped: subcommand failed.

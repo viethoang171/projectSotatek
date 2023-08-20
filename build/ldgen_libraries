@@ -68,5 +68,6 @@ D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/cJson/libcJson.a
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/flash/libflash.a
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/mqtt_tcp/libmqtt_tcp.a
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/sht3x_sensor_/libsht3x_sensor_.a
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/uart/libuart.a
 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/esp-idf/wifi/libwifi.a

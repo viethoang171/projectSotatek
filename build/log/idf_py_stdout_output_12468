@@ -1,73 +1,25 @@
-[1/5] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/partition_table/partition-table.bin D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/main.bin"
-main.bin binary size 0xd4f90 bytes. Smallest app partition is 0x100000 bytes. 0x2b070 bytes (17%) free.
-[2/5] Performing build step for 'bootloader'
-[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\examples\get-started\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build/bootloader/bootloader.bin"
-Bootloader binary size 0x6710 bytes. 0x8f0 bytes (8%) free.
-[2/3] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.0.2\components\esptool_py && D:\Sotatek\espDev\Espressif\tools\cmake\3.24.0\bin\cmake.exe -D IDF_PATH=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2 -D SERIAL_TOOL=D:/Sotatek/espDev/Espressif/python_env/idf5.0_py3.11_env/Scripts/python.exe;;D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/esptool/esptool.py;--chip;esp32 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/examples/get-started/sample_project/build -P D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/esptool_py/run_serial_tool.cmake"
-esptool esp32 -p COM7 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 40m --flash_size 4MB 0x1000 bootloader/bootloader.bin 0x10000 main.bin 0x8000 partition_table/partition-table.bin
-esptool.py v4.5.1
-Serial port COM7
-Connecting....
-Chip is ESP32-D0WD-V3 (revision v3.0)
-Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
-Crystal is 40MHz
-MAC: b8:d6:1a:6b:2d:e8
-Uploading stub...
-Running stub...
-Stub running...
-Changing baud rate to 460800
-Changed.
-Configuring flash size...
-Flash will be erased from 0x00001000 to 0x00007fff...
-Flash will be erased from 0x00010000 to 0x000e4fff...
-Flash will be erased from 0x00008000 to 0x00008fff...
-Compressed 26384 bytes to 16458...
-Writing at 0x00001000... (50 %)
-Writing at 0x000076ac... (100 %)
-Wrote 26384 bytes (16458 compressed) at 0x00001000 in 0.8 seconds (effective 278.8 kbit/s)...
-Hash of data verified.
-Compressed 872336 bytes to 557410...
-Writing at 0x00010000... (2 %)
-Writing at 0x0001c99c... (5 %)
-Writing at 0x0002392a... (8 %)
-Writing at 0x00029656... (11 %)
-Writing at 0x00034d75... (14 %)
-Writing at 0x0003d133... (17 %)
-Writing at 0x00042bcd... (20 %)
-Writing at 0x00048658... (22 %)
-Writing at 0x0004e29e... (25 %)
-Writing at 0x00053b35... (28 %)
-Writing at 0x0005979c... (31 %)
-Writing at 0x0005eef7... (34 %)
-Writing at 0x00064b00... (37 %)
-Writing at 0x0006ae9d... (40 %)
-Writing at 0x00070c6f... (42 %)
-Writing at 0x00076344... (45 %)
-Writing at 0x0007b53c... (48 %)
-Writing at 0x00080a86... (51 %)
-Writing at 0x00085cfb... (54 %)
-Writing at 0x0008b3ff... (57 %)
-Writing at 0x00090b32... (60 %)
-Writing at 0x000967a9... (62 %)
-Writing at 0x0009c121... (65 %)
-Writing at 0x000a16a0... (68 %)
-Writing at 0x000a709c... (71 %)
-Writing at 0x000ac932... (74 %)
-Writing at 0x000b2016... (77 %)
-Writing at 0x000b7973... (80 %)
-Writing at 0x000bd47c... (82 %)
-Writing at 0x000c2eee... (85 %)
-Writing at 0x000cc7e7... (88 %)
-Writing at 0x000d40ba... (91 %)
-Writing at 0x000d9d20... (94 %)
-Writing at 0x000df63b... (97 %)
-Writing at 0x000e4dd6... (100 %)
-Wrote 872336 bytes (557410 compressed) at 0x00010000 in 12.9 seconds (effective 542.0 kbit/s)...
-Hash of data verified.
-Compressed 3072 bytes to 103...
-Writing at 0x00008000... (100 %)
-Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.1 seconds (effective 396.4 kbit/s)...
-Hash of data verified.
-
-Leaving...
-Hard resetting via RTS pin...
+[1/10] Performing build step for 'bootloader'
+[1/1] cmd.exe /C "cd /D D:\Sotatek\espDev\Espressif\frameworks\esp-idf-v5.1\examples\provisioning\sample_project\build\bootloader\esp-idf\esptool_py && D:\Sotatek\espDev\Espressif\python_env\idf5.1_py3.11_env\Scripts\python.exe D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/bootloader/bootloader.bin"
+Bootloader binary size 0x66e0 bytes. 0x920 bytes (8%) free.
+[2/8] Building C object esp-idf/sht3x_sensor_/CMakeFiles/__idf_sht3x_sensor_.dir/sht3x_example.c.obj
+[3/8] Linking C static library esp-idf\sht3x_sensor_\libsht3x_sensor_.a
+[4/8] Generating ld/sections.ld
+[5/8] Linking CXX executable main.elf
+FAILED: main.elf 
+cmd.exe /C "cd . && D:\Sotatek\espDev\Espressif\tools\xtensa-esp32-elf\esp-12.2.0_20230208\xtensa-esp32-elf\bin\xtensa-esp32-elf-g++.exe -mlongcalls -Wno-frame-address -Wl,--cref -Wl,--defsym=IDF_TARGET_ESP32=0 -Wl,--Map=D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/build/main.map -Wl,--no-warn-rwx-segments -fno-rtti -fno-lto -Wl,--gc-sections -Wl,--warn-common -T esp32.peripherals.ld -T esp32.rom.ld -T esp32.rom.api.ld -T esp32.rom.libgcc.ld -T esp32.rom.newlib-data.ld -T esp32.rom.syscalls.ld -T esp32.rom.newlib-funcs.ld -T memory.ld -T sections.ld @CMakeFiles\main.elf.rsp -o main.elf  && cd ."
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj):(.literal.user_task+0x10): undefined reference to `sht3x_start_measurement'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj):(.literal.user_task+0x14): undefined reference to `sht3x_get_measurement_duration'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj):(.literal.user_task+0x18): undefined reference to `sht3x_get_results'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj):(.literal.user_task+0x1c): undefined reference to `sdk_system_get_time'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj):(.literal.sht3x_start+0x10): undefined reference to `i2c_init'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj):(.literal.sht3x_start+0x14): undefined reference to `sht3x_init_sensor'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj): in function `user_task':
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/sht3x_sensor_/sht3x_example.c:117: undefined reference to `sht3x_start_measurement'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/sht3x_sensor_/sht3x_example.c:121: undefined reference to `sht3x_get_measurement_duration'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/sht3x_sensor_/sht3x_example.c:128: undefined reference to `sht3x_get_results'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/sht3x_sensor_/sht3x_example.c:128: undefined reference to `sdk_system_get_time'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: esp-idf/sht3x_sensor_/libsht3x_sensor_.a(sht3x_example.c.obj): in function `sht3x_start':
+D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/sht3x_sensor_/sht3x_example.c:145: undefined reference to `i2c_init'
+d:/sotatek/espdev/espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/12.2.0/../../../../xtensa-esp32-elf/bin/ld.exe: D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.1/examples/provisioning/sample_project/library/sht3x_sensor_/sht3x_example.c:148: undefined reference to `sht3x_init_sensor'
+collect2.exe: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.

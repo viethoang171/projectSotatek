@@ -18,6 +18,7 @@
 #include "bee_FLash.h"
 #include "bee_Wifi.h"
 #include "bee_Mqtt.h"
+#include "bee_Sht3x.h"
 
 SemaphoreHandle_t xSemaphore;
 
@@ -66,6 +67,7 @@ void app_main(void)
 
     xTaskCreate(mqtt_vPublish_data_task, "mqtt_vPublish_data_task", 1024 * 4, NULL, 5, NULL);
     xTaskCreate(mqtt_vSubscribe_data_task, "mqtt_vSubscribe_data_task", 1024 * 2, NULL, 6, NULL);
+    sht3x_start();
     xTaskCreate(dht11_vReadDataDht11_task, "dht11_vReadDataDht11_task", 1024, NULL, 2, NULL);
     xTaskCreate(uart_vUpDataHostMain_task, "uart_vUpDataHostMain_task", 1024, NULL, 4, &xHandle);
     xTaskCreate(uart_vReceiveDataHostMain_task, "uart_vReceiveDataHostMain_task", 1024 * 2, NULL, 3, NULL);

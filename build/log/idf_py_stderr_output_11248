@@ -1,24 +1,9 @@
-fatal: detected dubious ownership in repository at 'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2'
-'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2' is owned by:
-	'S-1-5-32-544'
-but the current user is:
-	'S-1-5-21-2535044572-3325105256-3315916765-1001'
-To add an exception for this directory, call:
-
-	git config --global --add safe.directory D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2
-fatal: detected dubious ownership in repository at 'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2'
-'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2' is owned by:
-	'S-1-5-32-544'
-but the current user is:
-	'S-1-5-21-2535044572-3325105256-3315916765-1001'
-To add an exception for this directory, call:
-
-	git config --global --add safe.directory D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2
-fatal: detected dubious ownership in repository at 'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/openthread/openthread'
-'D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/openthread/openthread/.git' is owned by:
-	'S-1-5-32-544'
-but the current user is:
-	'S-1-5-21-2535044572-3325105256-3315916765-1001'
-To add an exception for this directory, call:
-
-	git config --global --add safe.directory D:/Sotatek/espDev/Espressif/frameworks/esp-idf-v5.0.2/components/openthread/openthread
+[0;33m--- WARNING: GDB cannot open serial ports accessed as COMx[0m
+[0;33m--- Using \\.\COM7 instead...[0m
+[0;33m--- idf_monitor on \\.\COM7 115200 ---[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---[0m
+[0;33m0x40080400: _init at ??:?
+[0m
+[1;31mNone[0m
+[0;33mWaiting for the device to reconnect[0m[0;33m[0m
+[0m
